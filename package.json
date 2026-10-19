@@ -1,6 +1,7 @@
 {
   "name": "o1-ide-desktop",
   "version": "0.1.0",
+  "author": "octaboomai <hello@o1ide.dev>",
   "private": true,
   "workspaces": [
     "o1-app",
@@ -20,7 +21,7 @@
     "electron-updater": "^6.3.9",
     "electron": "42.8.1"
   },
-  "main": "o1-app/lib/electron-main/electron-main.js",
+  "main": "o1-app/lib/backend/electron-main.js",
   "overrides": {
     "electron": "42.8.1"
   }

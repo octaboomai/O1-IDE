@@ -2,7 +2,7 @@
   "name": "o1-app",
   "version": "0.1.0",
   "private": true,
-  "main": "lib/electron-main/electron-main.js",
+  "main": "lib/backend/electron-main.js",
   "scripts": {
     "build": "theia build --mode development 2>&1",
     "build:prod": "theia build 2>&1",
