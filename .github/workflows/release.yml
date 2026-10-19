@@ -1,0 +1,184 @@
+name: o1 IDE — Release Build
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (e.g. 0.2.0)'
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # ── Linux (.deb + .AppImage) ────────────────────────────────────────────────
+  build-linux:
+    name: Linux build
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+
+      - name: System deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libx11-dev libxkbfile-dev \
+            libsecret-1-dev rpm fakeroot dpkg imagemagick
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Generate icons from SVG
+        run: bash scripts/generate-icons.sh
+
+      - name: Bundle clangd (Linux x64)
+        run: |
+          mkdir -p resources/clangd
+          curl -fsSL "https://github.com/clangd/clangd/releases/download/18.1.3/clangd-linux-18.1.3.zip" \
+            -o /tmp/clangd.zip
+          unzip -q /tmp/clangd.zip -d /tmp/clangd-bin
+          cp /tmp/clangd-bin/clangd_18.1.3/bin/clangd resources/clangd/
+          chmod +x resources/clangd/clangd
+
+      - name: Bundle pyright (offline npm package)
+        run: |
+          mkdir -p resources/pyright
+          cd resources/pyright && npm init -y && npm install pyright --no-save
+          echo '{"name":"pyright-bundle","version":"1.0.0"}' > package.json
+
+      - name: Bundle vendor JS (offline Three.js + roslibjs)
+        run: |
+          mkdir -p resources/vendor
+          curl -fsSL "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" \
+            -o resources/vendor/three.min.js
+          curl -fsSL "https://cdnjs.cloudflare.com/ajax/libs/roslibjs/1.3.0/roslib.min.js" \
+            -o resources/vendor/roslib.min.js
+
+      - name: Build Theia (production)
+        run: yarn workspace o1-extension build && yarn workspace o1-app build:prod
+
+      - name: Package .deb + .AppImage
+        run: npx electron-builder --linux deb AppImage --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-builds
+          path: dist/*.{deb,AppImage}
+
+  # ── Windows (.exe + .msi) ───────────────────────────────────────────────────
+  build-windows:
+    name: Windows build
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Generate icons (PowerShell)
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path resources
+          if (!(Test-Path "resources/icon.ico")) {
+            Invoke-WebRequest "https://raw.githubusercontent.com/electron/electron/main/default_app/icon.ico" -OutFile resources/icon.ico -UseBasicParsing
+          }
+          if (!(Test-Path "resources/icon.png")) {
+            Invoke-WebRequest "https://raw.githubusercontent.com/electron/electron/main/default_app/icon.png" -OutFile resources/icon.png -UseBasicParsing
+          }
+
+      - name: Bundle clangd (Windows x64)
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path resources/clangd
+          $url = "https://github.com/clangd/clangd/releases/download/18.1.3/clangd-windows-18.1.3.zip"
+          Invoke-WebRequest -Uri $url -OutFile "$env:TEMP/clangd-win.zip" -UseBasicParsing
+          Expand-Archive "$env:TEMP/clangd-win.zip" -DestinationPath "$env:TEMP/clangd-win"
+          Copy-Item "$env:TEMP/clangd-win/clangd_18.1.3/bin/clangd.exe" resources/clangd/
+
+      - name: Bundle pyright
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path resources/pyright
+          cd resources/pyright
+          npm init -y
+          npm install pyright --no-save
+          '{"name":"pyright-bundle","version":"1.0.0"}' | Out-File package.json
+
+      - name: Bundle vendor JS
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path resources/vendor
+          Invoke-WebRequest "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" -OutFile resources/vendor/three.min.js -UseBasicParsing
+          Invoke-WebRequest "https://cdnjs.cloudflare.com/ajax/libs/roslibjs/1.3.0/roslib.min.js" -OutFile resources/vendor/roslib.min.js -UseBasicParsing
+
+      - name: Build Theia (production)
+        run: yarn workspace o1-extension build && yarn workspace o1-app build:prod
+
+      - name: Package .exe + .msi
+        run: npx electron-builder --win nsis msi --publish never
+        env:
+          WIN_SIGN_CERT: ${{ secrets.WIN_SIGN_CERT }}
+          WIN_SIGN_PASS: ${{ secrets.WIN_SIGN_PASS }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-builds
+          path: dist/*.{exe,msi}
+
+  # ── GitHub Release ─────────────────────────────────────────────────────────
+  release:
+    name: Publish Release
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-22.04
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist/
+
+      - name: Prepare release notes
+        run: |
+          if [ ! -f CHANGELOG.md ]; then
+            VERSION=${GITHUB_REF_NAME#v}
+            echo "## o1 IDE ${VERSION}" > release-notes.md
+            echo "" >> release-notes.md
+            echo "### Downloads" >> release-notes.md
+            echo "| Platform | Format | Notes |" >> release-notes.md
+            echo "|---|---|---|" >> release-notes.md
+            echo "| Ubuntu / Debian | \`.deb\` | \`sudo apt install ./o1-ide-*.deb\` |" >> release-notes.md
+            echo "| Any Linux | \`.AppImage\` | \`chmod +x o1-ide-*.AppImage && ./o1-ide-*.AppImage\` |" >> release-notes.md
+            echo "| Windows 10/11 | \`.exe\` | Run installer, follow prompts |" >> release-notes.md
+            echo "| Windows (enterprise) | \`.msi\` | Silent deploy via GPO |" >> release-notes.md
+          else
+            cp CHANGELOG.md release-notes.md
+          fi
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: "o1 IDE ${{ github.ref_name }}"
+          body_path: release-notes.md
+          draft: false
+          prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}
+          files: |
+            dist/linux-builds/*.deb
+            dist/linux-builds/*.AppImage
+            dist/windows-builds/*.exe
+            dist/windows-builds/*.msi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
