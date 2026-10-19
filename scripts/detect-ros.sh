@@ -8,6 +8,7 @@ ROS_DISTROS=("jazzy" "humble" "iron" "rolling" "foxy")
 for distro in "${ROS_DISTROS[@]}"; do
     SETUP="/opt/ros/${distro}/setup.bash"
     if [ -f "$SETUP" ]; then
+        # shellcheck source=/dev/null
         source "$SETUP" 2>/dev/null
         echo "{\"found\":true,\"distro\":\"${distro}\",\"path\":\"/opt/ros/${distro}\",\"via\":\"native\"}"
         exit 0

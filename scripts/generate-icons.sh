@@ -5,7 +5,6 @@ set -e
 
 mkdir -p resources
 
-SVG_SOURCE="o1-app/src/splash.html"
 ICON_OUT="resources/icon.png"
 ICO_OUT="resources/icon.ico"
 
@@ -47,12 +46,14 @@ if command -v convert &>/dev/null; then
     echo "icon.png generated (512×512)"
 
     # PNG → ICO (multi-size: 16,32,48,256)
-    convert "$ICON_OUT" \
+    if convert "$ICON_OUT" \
         \( -clone 0 -resize 256x256 \) \
         \( -clone 0 -resize 48x48 \) \
         \( -clone 0 -resize 32x32 \) \
         \( -clone 0 -resize 16x16 \) \
-        -delete 0 "$ICO_OUT" 2>/dev/null && echo "icon.ico generated" || true
+        -delete 0 "$ICO_OUT" 2>/dev/null; then
+        echo "icon.ico generated"
+    fi
 else
     echo "imagemagick not found — using placeholder icons"
     # Create minimal valid PNG placeholder (1×1 pixel)
