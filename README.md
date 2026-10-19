@@ -4,11 +4,14 @@
 > Zero-setup ROS 2 robotics IDE for Ubuntu and Windows.
 
 [![Release](https://img.shields.io/github/v/release/octaboomai/o1-ide)](https://github.com/octaboomai/o1-ide/releases/latest)
+[![Version](https://img.shields.io/badge/version-0.1.0-0fdfff)](https://github.com/octaboomai/o1-ide/releases/tag/v0.1.0)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 
 ---
 
 ## Download
+
+**Latest release: o1 IDE v0.1.0**
 
 | Platform | Format | Install |
 |---|---|---|
@@ -17,7 +20,7 @@
 | **Windows 10/11** | `.exe` | Run the installer |
 | **Windows (enterprise)** | `.msi` | Silent deploy via GPO |
 
-→ **[Download latest release](https://github.com/octaboomai/o1-ide/releases/latest)**
+→ **[⬇ Download o1 IDE v0.1.0 — latest release](https://github.com/octaboomai/o1-ide/releases/latest)**
 
 ---
 
