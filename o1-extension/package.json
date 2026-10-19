@@ -1,0 +1,33 @@
+{
+  "name": "o1-extension",
+  "version": "0.1.0",
+  "description": "o1 IDE — ROS 2 robotics extension",
+  "keywords": ["theia-extension"],
+  "license": "MIT",
+  "files": ["lib", "src"],
+  "main": "lib/node/index",
+  "browser": "lib/browser/index",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json --watch",
+    "clean": "rm -rf lib"
+  },
+  "dependencies": {
+    "@theia/core": "1.76.0",
+    "@theia/debug": "1.76.0",
+    "@theia/editor": "1.76.0",
+    "@theia/filesystem": "1.76.0",
+    "@theia/messages": "1.76.0",
+    "@theia/monaco": "1.76.0",
+    "@theia/navigator": "1.76.0",
+    "@theia/output": "1.76.0",
+    "@theia/task": "1.76.0",
+    "@theia/terminal": "1.76.0",
+    "@theia/variable-resolver": "1.76.0",
+    "@theia/workspace": "1.76.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^18.0.0"
+  }
+}
