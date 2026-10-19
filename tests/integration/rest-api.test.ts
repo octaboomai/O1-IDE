@@ -88,7 +88,7 @@ function get(server: http.Server, path: string): Promise<{status:number; body:an
 describe('o1 REST API — /o1/health', () => {
     let server: http.Server;
     beforeAll(cb => { server = createTestServer({}).listen(0, '127.0.0.1', cb); });
-    afterAll(cb  => server.close(cb));
+    afterAll(cb  => { server.close(cb); });
 
     it('returns 200 with status:ok', async () => {
         const { status, body } = await get(server, '/o1/health');
@@ -101,7 +101,7 @@ describe('o1 REST API — /o1/health', () => {
 describe('o1 REST API — /o1/check', () => {
     let server: http.Server;
     beforeAll(cb => { server = createTestServer({}).listen(0, '127.0.0.1', cb); });
-    afterAll(cb  => server.close(cb));
+    afterAll(cb  => { server.close(cb); });
 
     it('returns an array of check results', async () => {
         const { status, body } = await get(server, '/o1/check');
@@ -138,7 +138,7 @@ describe('o1 REST API — /o1/check', () => {
 describe('o1 REST API — /o1/check/:id', () => {
     let server: http.Server;
     beforeAll(cb => { server = createTestServer({}).listen(0, '127.0.0.1', cb); });
-    afterAll(cb  => server.close(cb));
+    afterAll(cb  => { server.close(cb); });
 
     it('returns 200 for known tool id', async () => {
         const { status, body } = await get(server, '/o1/check/ros2');
@@ -161,7 +161,7 @@ describe('o1 REST API — /o1/check/:id', () => {
 describe('o1 REST API — /o1/ros/topics', () => {
     let server: http.Server;
     beforeAll(cb => { server = createTestServer({}).listen(0, '127.0.0.1', cb); });
-    afterAll(cb  => server.close(cb));
+    afterAll(cb  => { server.close(cb); });
 
     it('returns topic list', async () => {
         const { status, body } = await get(server, '/o1/ros/topics');

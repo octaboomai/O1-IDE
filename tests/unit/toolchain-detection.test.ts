@@ -34,7 +34,7 @@ async function runCheck(
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 describe('runCheck', () => {
-    const mockExec = jest.fn() as jest.Mock;
+    const mockExec = jest.fn<(bin: string, args: string[], opts: any) => Promise<{ stdout: string; stderr: string }>>();
 
     beforeEach(() => mockExec.mockReset());
 
@@ -78,9 +78,10 @@ describe('runCheck', () => {
 describe('detectToolchain parallelism', () => {
     it('runs all 11 checks concurrently (timing test)', async () => {
         const DELAY = 100;
-        const mockExec = jest.fn().mockImplementation(
-            () => new Promise(r => setTimeout(() => r({ stdout: 'ok', stderr: '' }), DELAY))
-        );
+        const mockExec = jest.fn<(bin: string, args: string[], opts: any) => Promise<{ stdout: string; stderr: string }>>()
+            .mockImplementation(
+                () => new Promise<{ stdout: string; stderr: string }>(r => setTimeout(() => r({ stdout: 'ok', stderr: '' }), DELAY))
+            );
 
         const tools = Array.from({ length: 11 }, (_, i) => ({ id: `t${i}`, label: `Tool ${i}`, cmd: `t${i}` }));
 

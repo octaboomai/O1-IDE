@@ -76,8 +76,8 @@ describe('ROS message grammar tokenizer', () => {
     });
 
     describe('primitive types list', () => {
-        it('contains all 16 ROS 2 primitive types', () => {
-            expect(ROS_PRIMITIVES).toHaveLength(16);
+        it('contains all 17 ROS 2 primitive types', () => {
+            expect(ROS_PRIMITIVES).toHaveLength(17);
         });
         it('includes float32 and float64', () => {
             expect(ROS_PRIMITIVES).toContain('float32');
