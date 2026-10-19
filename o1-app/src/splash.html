@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#07090d;display:flex;flex-direction:column;align-items:center;
+     justify-content:center;height:100vh;font-family:'SF Mono','JetBrains Mono',monospace;color:#0fdfff;
+     -webkit-app-region:drag;user-select:none}
+svg{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.8;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+.name{font-size:32px;font-weight:700;letter-spacing:-.01em;margin-top:20px}
+.tagline{font-size:12px;color:rgba(15,223,255,.5);margin-top:8px}
+.loading{margin-top:32px;display:flex;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(15,223,255,.3);
+     animation:blink 1.2s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{background:rgba(15,223,255,.2)}50%{background:#0fdfff}}
+</style>
+</head>
+<body>
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+  <rect width="80" height="80" rx="18" fill="#07090d"/>
+  <rect x="1.5" y="1.5" width="77" height="77" rx="17" stroke="#0fdfff" stroke-width="1" stroke-opacity=".25"/>
+  <circle cx="40" cy="40" r="22" stroke="#0fdfff" stroke-width="2"/>
+  <circle cx="40" cy="40" r="11" stroke="#0fdfff" stroke-width="1" stroke-opacity=".3"/>
+  <ellipse cx="40" cy="40" rx="32" ry="12" stroke="#0fdfff" stroke-width="1.2" stroke-dasharray="4 3" stroke-opacity=".4" transform="rotate(-28 40 40)"/>
+  <circle cx="65" cy="26" r="5" fill="#0fdfff"/>
+  <line x1="40" y1="14" x2="40" y2="23" stroke="#0fdfff" stroke-width="1.2" stroke-opacity=".4"/>
+  <line x1="40" y1="57" x2="40" y2="66" stroke="#0fdfff" stroke-width="1.2" stroke-opacity=".4"/>
+  <line x1="14" y1="40" x2="23" y2="40" stroke="#0fdfff" stroke-width="1.2" stroke-opacity=".4"/>
+  <line x1="57" y1="40" x2="66" y2="40" stroke="#0fdfff" stroke-width="1.2" stroke-opacity=".4"/>
+  <circle cx="40" cy="40" r="4" fill="#0fdfff" stroke-opacity=".7"/>
+</svg>
+<div class="name">o1 IDE</div>
+<div class="tagline">The IDE that reads your drone's mind</div>
+<div class="loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+</body>
+</html>

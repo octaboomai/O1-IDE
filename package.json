@@ -1,0 +1,27 @@
+{
+  "name": "o1-ide-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "o1-app",
+    "o1-extension"
+  ],
+  "scripts": {
+    "build": "yarn workspace o1-extension build && yarn workspace o1-app build",
+    "build:prod": "yarn workspace o1-extension build && yarn workspace o1-app build:prod",
+    "dist:linux": "yarn build:prod && electron-builder --linux deb AppImage",
+    "dist:windows": "yarn build:prod && electron-builder --win nsis msi",
+    "start": "yarn workspace o1-app start",
+    "clean": "yarn workspace o1-extension clean && yarn workspace o1-app clean"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.13.3",
+    "typescript": "^5.3.3",
+    "electron-updater": "^6.3.9",
+    "electron": "42.8.1"
+  },
+  "main": "o1-app/lib/electron-main/electron-main.js",
+  "overrides": {
+    "electron": "42.8.1"
+  }
+}

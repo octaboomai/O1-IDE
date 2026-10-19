@@ -1,0 +1,63 @@
+{
+  "name": "o1-app",
+  "version": "0.1.0",
+  "private": true,
+  "main": "lib/electron-main/electron-main.js",
+  "scripts": {
+    "build": "theia build --mode development 2>&1",
+    "build:prod": "theia build 2>&1",
+    "start": "electron .",
+    "clean": "theia clean"
+  },
+  "dependencies": {
+    "@theia/core": "1.76.0",
+    "@theia/debug": "1.76.0",
+    "@theia/editor": "1.76.0",
+    "@theia/editor-preview": "1.76.0",
+    "@theia/electron": "1.76.0",
+    "@theia/file-search": "1.76.0",
+    "@theia/filesystem": "1.76.0",
+    "@theia/getting-started": "1.76.0",
+    "@theia/keymaps": "1.76.0",
+    "@theia/markers": "1.76.0",
+    "@theia/messages": "1.76.0",
+    "@theia/monaco": "1.76.0",
+    "@theia/navigator": "1.76.0",
+    "@theia/outline-view": "1.76.0",
+    "@theia/output": "1.76.0",
+    "@theia/plugin-ext": "1.76.0",
+    "@theia/plugin-ext-vscode": "1.76.0",
+    "@theia/preferences": "1.76.0",
+    "@theia/process": "1.76.0",
+    "@theia/scm": "1.76.0",
+    "@theia/search-in-workspace": "1.76.0",
+    "@theia/task": "1.76.0",
+    "@theia/terminal": "1.76.0",
+    "@theia/variable-resolver": "1.76.0",
+    "@theia/vsx-registry": "1.76.0",
+    "@theia/workspace": "1.76.0",
+    "o1-extension": "0.1.0"
+  },
+  "devDependencies": {
+    "@theia/cli": "1.76.0",
+    "electron": "42.8.1",
+    "electron-updater": "^6.3.9"
+  },
+  "theia": {
+    "target": "electron",
+    "frontend": {
+      "config": {
+        "applicationName": "o1 IDE",
+        "reloadOnReconnect": true,
+        "preferences": {
+          "workbench.colorTheme": "Dark+ (default dark)"
+        }
+      }
+    },
+    "backend": {
+      "config": {
+        "startupTimeout": -1
+      }
+    }
+  }
+}
