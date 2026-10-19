@@ -1,0 +1,43 @@
+{
+  "name": "o1-ide-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test":             "jest --coverage --coverageReporters=text,lcov",
+    "test:unit":        "jest unit --coverage",
+    "test:integration": "jest integration --coverage",
+    "test:watch":       "jest --watch"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>"],
+    "testMatch": ["**/*.test.ts"],
+    "collectCoverageFrom": [
+      "../o1-app/src/**/*.ts",
+      "../o1-extension/src/**/*.ts",
+      "!**/*.d.ts",
+      "!**/node_modules/**"
+    ],
+    "coverageThreshold": {
+      "global": { "branches": 70, "functions": 80, "lines": 80, "statements": 80 }
+    },
+    "moduleNameMapper": {
+      "@theia/(.*)": "<rootDir>/__mocks__/theia.ts"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "<rootDir>/tsconfig.json"
+      }
+    }
+  },
+  "devDependencies": {
+    "jest":             "^29.7.0",
+    "ts-jest":          "^29.2.3",
+    "typescript":       "^5.3.3",
+    "@types/jest":      "^29.5.12",
+    "@types/node":      "^18.19.0",
+    "@types/express":   "^4.17.21",
+    "express":          "^4.19.2"
+  }
+}
