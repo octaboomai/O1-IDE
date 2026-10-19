@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test":             "jest --coverage --coverageReporters=text,lcov",
+    "test":             "jest --coverage --coverageReporters=text --coverageReporters=lcov",
     "test:unit":        "jest unit --coverage",
     "test:integration": "jest integration --coverage",
     "test:watch":       "jest --watch"

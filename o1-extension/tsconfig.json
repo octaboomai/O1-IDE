@@ -21,7 +21,7 @@
     "paths": {"*": ["node_modules/*"]}
   },
   "files": [
-    "node_modules/@theia/monaco-editor-core/monaco.d.ts"
+    "../node_modules/@theia/monaco-editor-core/monaco.d.ts"
   ],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "lib"]
