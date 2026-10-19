@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+*.log
+resources/clangd/
+resources/pyright/
+resources/vendor/
+resources/icon.png
+resources/icon.ico
+o1-app/lib/
+o1-extension/lib/
+.DS_Store
+Thumbs.db
+setup-complete.json
+window-bounds.json
