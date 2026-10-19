@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>o1 IDE — ROS 2 Robotics IDE for Ubuntu and Windows</title>
+<meta name="description" content="Download o1 IDE — the robotics IDE that reads your drone's mind. Native installer for Ubuntu Linux and Windows."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090d;--s1:#0d1620;--s2:#152030;
+  --cyan:#0fdfff;--cs:rgba(15,223,255,.1);--cb:rgba(15,223,255,.2);
+  --green:#10c980;--warn:#ff7b44;--purple:#b794f4;
+  --fg:#d4e4f0;--fg2:#7a94a4;--bd:rgba(255,255,255,.06);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:100;background:rgba(7,9,13,.92);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--bd);padding:0 40px;display:flex;align-items:center;
+    gap:32px;height:56px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--cyan);
+          font-family:'JetBrains Mono',monospace;text-decoration:none}
+.nav-links{display:flex;gap:24px;margin-left:auto}
+.nav-links a{font-size:13.5px;color:var(--fg2);font-weight:500}
+.nav-links a:hover{color:var(--fg);text-decoration:none}
+.nav-cta{background:var(--cyan);color:#07090d;padding:7px 18px;border-radius:6px;
+         font-weight:700;font-size:13px;white-space:nowrap}
+.nav-cta:hover{background:#20f0ff;text-decoration:none}
+
+/* Hero */
+.hero{text-align:center;padding:96px 40px 72px;max-width:860px;margin:0 auto}
+.hero-eyebrow{font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--cyan);
+              letter-spacing:.05em;margin-bottom:20px;opacity:.8}
+.hero-title{font-size:58px;font-weight:700;color:#fff;letter-spacing:-.025em;line-height:1.08;margin-bottom:18px}
+.hero-title span{color:var(--cyan)}
+.hero-sub{font-size:18px;color:var(--fg2);line-height:1.6;max-width:52ch;margin:0 auto 40px}
+.hero-dl{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.dl-btn{display:flex;align-items:center;gap:10px;padding:13px 24px;border-radius:8px;
+        font-size:14px;font-weight:600;transition:all .15s;text-decoration:none}
+.dl-linux{background:var(--cyan);color:#07090d}
+.dl-linux:hover{background:#20f0ff;text-decoration:none;transform:translateY(-1px)}
+.dl-windows{background:var(--s1);color:var(--fg);border:1px solid var(--bd)}
+.dl-windows:hover{background:var(--s2);text-decoration:none;border-color:rgba(255,255,255,.12)}
+.dl-note{font-size:12px;color:var(--fg2);font-family:'JetBrains Mono',monospace}
+
+/* Stats bar */
+.stats{display:flex;justify-content:center;gap:48px;padding:28px 40px;
+       border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);
+       background:var(--s1)}
+.stat-val{font-size:28px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace}
+.stat-lbl{font-size:12px;color:var(--fg2);margin-top:2px}
+
+/* Features */
+.features{padding:80px 40px;max-width:1080px;margin:0 auto}
+.section-label{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--cyan);margin-bottom:10px}
+.section-title{font-size:34px;font-weight:600;color:#fff;margin-bottom:14px}
+.section-sub{font-size:16px;color:var(--fg2);max-width:52ch;margin-bottom:48px}
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.feat{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px}
+.feat-num{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--cyan);margin-bottom:8px}
+.feat-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:6px}
+.feat-desc{font-size:12.5px;color:var(--fg2);line-height:1.55}
+
+/* Download section */
+.download{padding:80px 40px;background:var(--s1);text-align:center}
+.dl-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:760px;margin:40px auto 0}
+.dl-card{background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:28px 24px;text-align:left}
+.dl-card-os{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
+.dl-card-sub{font-size:12.5px;color:var(--fg2);margin-bottom:18px}
+.dl-formats{display:flex;flex-direction:column;gap:10px}
+.dl-format{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;
+           background:var(--s1);border-radius:6px;text-decoration:none;
+           border:1px solid var(--bd);transition:border-color .12s}
+.dl-format:hover{border-color:var(--cb);text-decoration:none}
+.dl-format-name{font-size:13px;font-weight:600;color:var(--fg);font-family:'JetBrains Mono',monospace}
+.dl-format-desc{font-size:11px;color:var(--fg2)}
+.dl-format-size{font-size:11px;color:var(--fg2);font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.dl-arrow{color:var(--cyan);font-size:14px}
+
+/* How it works */
+.how{padding:80px 40px;max-width:900px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:22px}
+.step-n{font-size:28px;font-weight:700;color:var(--cyan);font-family:'JetBrains Mono',monospace;
+        margin-bottom:10px;opacity:.6}
+.step-title{font-size:15px;font-weight:600;color:#fff;margin-bottom:6px}
+.step-desc{font-size:13px;color:var(--fg2);line-height:1.55}
+
+/* Footer */
+footer{background:var(--s1);border-top:1px solid var(--bd);padding:32px 40px;
+       display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12.5px;color:var(--fg2)}
+.footer-links a:hover{color:var(--fg)}
+.footer-copy{font-size:12px;color:var(--fg2);font-family:'JetBrains Mono',monospace}
+
+@media(max-width:700px){
+  .hero-title{font-size:36px}
+  .feature-grid,.dl-cards,.steps{grid-template-columns:1fr}
+  .stats{flex-wrap:wrap;gap:24px}
+  nav{padding:0 16px;gap:16px}
+  .hero,.features,.download,.how{padding-left:20px;padding-right:20px}
+}
+</style>
+<script>
+// Fetch latest release version from GitHub API
+fetch('https://api.github.com/repos/octaboomai/o1-ide/releases/latest')
+  .then(r => r.json())
+  .then(d => {
+    const v = d.tag_name || 'v0.1.0';
+    document.querySelectorAll('.version-badge').forEach(el => el.textContent = v);
+    // Point download links to actual release assets
+    const base = `https://github.com/octaboomai/o1-ide/releases/download/${v}`;
+    const assets = {
+      'dl-linux-deb': `${base}/o1-ide-${v.replace('v','')}-linux-x64.deb`,
+      'dl-linux-app': `${base}/o1-ide-${v.replace('v','')}-linux-x64.AppImage`,
+      'dl-win-exe':   `${base}/o1-ide-${v.replace('v','')}-windows-x64.exe`,
+      'dl-win-msi':   `${base}/o1-ide-${v.replace('v','')}-windows-x64.msi`,
+    };
+    Object.entries(assets).forEach(([id, url]) => {
+      const el = document.getElementById(id);
+      if (el) el.href = url;
+    });
+  })
+  .catch(() => {});
+</script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect width="28" height="28" rx="7" fill="#07090d"/>
+      <circle cx="14" cy="14" r="9" stroke="#0fdfff" stroke-width="1.3"/>
+      <circle cx="14" cy="14" r="4.5" stroke="#0fdfff" stroke-width=".7" stroke-opacity=".3"/>
+      <ellipse cx="14" cy="14" rx="13" ry="5" stroke="#0fdfff" stroke-width=".8" stroke-dasharray="2.5 2" stroke-opacity=".4" transform="rotate(-28 14 14)"/>
+      <circle cx="23" cy="8" r="2.5" fill="#0fdfff"/>
+      <circle cx="14" cy="14" r="2" fill="#0fdfff" stroke-opacity=".7"/>
+    </svg>
+    o1 IDE
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="https://github.com/octaboomai/o1-ide" target="_blank">GitHub</a>
+    <a href="/terms">Terms</a>
+    <a href="/privacy">Privacy</a>
+  </div>
+  <a href="#download" class="nav-cta">Download free</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Open-source · ROS 2 native · Ubuntu &amp; Windows</div>
+  <h1 class="hero-title">The IDE that reads<br/><span>your drone's mind</span></h1>
+  <p class="hero-sub">A downloadable robotics IDE with live telemetry, URDF 3D preview, ROS 2 IntelliSense, and one-click colcon builds. Works natively on Ubuntu and Windows.</p>
+  <div class="hero-dl">
+    <a class="dl-btn dl-linux" href="#download">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      Download for Ubuntu
+    </a>
+    <a class="dl-btn dl-windows" href="#download">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+      Download for Windows
+    </a>
+  </div>
+  <div class="dl-note">Free forever · No account required · Auto-updates</div>
+</section>
+
+<div class="stats">
+  <div><div class="stat-val">8</div><div class="stat-lbl">ROS 2 features built-in</div></div>
+  <div><div class="stat-val">0</div><div class="stat-lbl">Configuration needed</div></div>
+  <div><div class="stat-val">2</div><div class="stat-lbl">Platforms supported</div></div>
+  <div><div class="stat-val">∞</div><div class="stat-lbl">Free, forever</div></div>
+</div>
+
+<section class="features" id="features">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Everything a robotics engineer needs</h2>
+  <p class="section-sub">Built on Eclipse Theia. All 8 features work out of the box — no plugins to install, no configuration files to write.</p>
+  <div class="feature-grid">
+    <div class="feat"><div class="feat-num">01</div><div class="feat-title">C++ + Python LSP</div><div class="feat-desc">clangd bundled in the app. pyright included. IntelliSense, go-to-definition, and diagnostics work on first open.</div></div>
+    <div class="feat"><div class="feat-num">02</div><div class="feat-title">Attach-to-node debug</div><div class="feat-desc">launch.json auto-written in every workspace. Attach to running ROS nodes via GDB (C++) or debugpy (Python).</div></div>
+    <div class="feat"><div class="feat-num">03</div><div class="feat-title">URDF / Xacro 3D preview</div><div class="feat-desc">Opens split-right when you open a .urdf or .xacro file. Three.js renderer with orbit camera, wireframe, and axes.</div></div>
+    <div class="feat"><div class="feat-num">04</div><div class="feat-title">.msg .srv .action syntax</div><div class="feat-desc">TextMate grammar + autocomplete for all ROS primitive types. The editor understands your interface files.</div></div>
+    <div class="feat"><div class="feat-num">05</div><div class="feat-title">colcon + CMake tasks</div><div class="feat-desc">13 pre-built tasks: colcon build, colcon test, rosdep install, cmake configure, ros2 doctor, and more.</div></div>
+    <div class="feat"><div class="feat-num">06</div><div class="feat-title">One-click toolchain</div><div class="feat-desc">ROS 2 detection on startup. Missing tools shown with install buttons. Runs apt on Ubuntu, winget on Windows.</div></div>
+    <div class="feat"><div class="feat-num">07</div><div class="feat-title">ROS topic viewer</div><div class="feat-desc">Live topic list via rosbridge. Subscribe and see message data in real-time. Works with any ROS 2 distro.</div></div>
+    <div class="feat"><div class="feat-num">08</div><div class="feat-title">Project templates</div><div class="feat-desc">5 ready-to-fly starters: PX4 Quadcopter, ArduPilot Fixed-Wing, ROS 2 Ground Robot, Jetson Vision, RPi Bridge.</div></div>
+  </div>
+</section>
+
+<section class="download" id="download">
+  <div class="section-label" style="text-align:center">Download</div>
+  <h2 class="section-title" style="text-align:center">Download o1 IDE</h2>
+  <p class="section-sub" style="text-align:center;margin:0 auto 0">Free for personal and commercial use. No account needed.</p>
+  <div class="dl-cards">
+    <div class="dl-card">
+      <div class="dl-card-os">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#f59e0b"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="#07090d"/></svg>
+        Ubuntu Linux
+      </div>
+      <div class="dl-card-sub">Ubuntu 20.04+ · x64 and ARM64</div>
+      <div class="dl-formats">
+        <a class="dl-format" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-latest-amd64.deb">
+          <div><div class="dl-format-name">.deb package</div><div class="dl-format-desc">Recommended · installs via dpkg</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">~140 MB</span><span class="dl-arrow">↓</span></div>
+        </a>
+        <a class="dl-format" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-latest.AppImage">
+          <div><div class="dl-format-name">.AppImage</div><div class="dl-format-desc">Portable · any Linux distro · no install</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">~145 MB</span><span class="dl-arrow">↓</span></div>
+        </a>
+      </div>
+    </div>
+    <div class="dl-card">
+      <div class="dl-card-os">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#3b82f6"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+        Windows
+      </div>
+      <div class="dl-card-sub">Windows 10+ · x64 · ROS 2 via WSL2</div>
+      <div class="dl-formats">
+        <a class="dl-format" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-latest-windows-x64.exe">
+          <div><div class="dl-format-name">.exe installer</div><div class="dl-format-desc">Recommended · standard setup wizard</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">~150 MB</span><span class="dl-arrow">↓</span></div>
+        </a>
+        <a class="dl-format" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-latest-windows-x64.msi">
+          <div><div class="dl-format-name">.msi package</div><div class="dl-format-desc">Enterprise · Group Policy / SCCM deploy</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">~150 MB</span><span class="dl-arrow">↓</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--fg2);margin-top:20px">
+    All releases on <a href="https://github.com/octaboomai/o1-ide/releases">GitHub Releases</a> ·
+    <a href="https://github.com/octaboomai/o1-ide">View source</a> · EPL-2.0 licensed
+  </p>
+</section>
+
+<section class="how">
+  <div class="section-label">Getting started</div>
+  <h2 class="section-title" style="margin-bottom:32px">Up and running in 3 steps</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">01</div>
+      <div class="step-title">Download and install</div>
+      <div class="step-desc">Pick your platform above. On Ubuntu, double-click the .deb or run <code style="font-family:monospace;font-size:11px;color:var(--cyan)">dpkg -i o1-ide.deb</code>. On Windows, run the .exe installer.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">02</div>
+      <div class="step-title">Open your workspace</div>
+      <div class="step-desc">Launch o1 IDE and open your ROS 2 workspace folder. The IDE detects ROS 2, clangd, and pyright automatically and shows what's missing.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">03</div>
+      <div class="step-title">Start building</div>
+      <div class="step-desc">Open a .urdf file to see 3D preview. Run colcon build from the task runner. Connect to your drone's rosbridge to see live topics.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="/" class="nav-logo" style="font-size:15px">
+    <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+      <rect width="28" height="28" rx="7" fill="#07090d"/>
+      <circle cx="14" cy="14" r="9" stroke="#0fdfff" stroke-width="1.3"/>
+      <circle cx="14" cy="14" r="2" fill="#0fdfff"/>
+    </svg>
+    o1 IDE
+  </a>
+  <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#download">Download</a>
+    <a href="/docs">Docs</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="https://github.com/octaboomai/o1-ide" target="_blank">GitHub</a>
+  </div>
+  <div class="footer-copy">© 2026 o1 IDE · EPL-2.0</div>
+</footer>
+
+</body>
+</html>

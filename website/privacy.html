@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Privacy Policy — o1 IDE</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07090d;--s1:#0d1620;--cyan:#0fdfff;--fg:#d4e4f0;--fg2:#7a94a4;--bd:rgba(255,255,255,.06);--green:#10c980;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;font-size:15px;line-height:1.75}
+nav{position:sticky;top:0;background:rgba(7,9,13,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 40px;display:flex;align-items:center;height:54px}
+.nav-logo{font-weight:700;font-size:17px;color:var(--cyan);text-decoration:none}
+.page{max-width:740px;margin:0 auto;padding:56px 32px 96px}
+.meta{font-size:12px;color:var(--fg2);margin-bottom:40px}
+h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:8px}
+h2{font-size:18px;font-weight:600;color:#fff;margin:36px 0 10px;border-left:2px solid var(--cyan);padding-left:12px}
+h3{font-size:15px;font-weight:600;color:var(--fg);margin:20px 0 6px}
+p,li{color:var(--fg2);margin-bottom:10px;font-size:14.5px}
+ul{padding-left:20px;margin-bottom:12px}
+li{margin-bottom:6px}
+strong{color:var(--fg);font-weight:600}
+a{color:var(--cyan)}
+.highlight{background:rgba(16,201,128,.08);border:1px solid rgba(16,201,128,.2);border-radius:8px;padding:16px 20px;margin:20px 0;color:var(--fg2)}
+.highlight strong{color:var(--green)}
+.data-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}
+.data-table th{text-align:left;padding:8px 12px;font-size:11px;color:var(--fg2);border-bottom:1px solid var(--bd)}
+.data-table td{padding:10px 12px;border-bottom:1px solid var(--bd);color:var(--fg2);vertical-align:top}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td:first-child{color:var(--fg);font-weight:500}
+footer{border-top:1px solid var(--bd);padding:20px 40px;font-size:12px;color:var(--fg2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer a{color:var(--fg2)}
+</style>
+</head>
+<body>
+<nav><a href="/" class="nav-logo">← o1 IDE</a></nav>
+
+<div class="page">
+<h1>Privacy Policy</h1>
+<div class="meta">Last updated: October 2026 · GDPR + DPDPA (India) compliant</div>
+
+<div class="highlight">
+<strong>Short version:</strong> We collect nothing by default. Your workspace stays on your machine. If you opt in to telemetry, it's anonymous and minimal. We will never sell your data.
+</div>
+
+<h2>1. Who we are</h2>
+<p>o1 IDE is developed and maintained as an open-source project. For privacy matters, contact us at <a href="mailto:privacy@o1ide.dev">privacy@o1ide.dev</a>. Our registered address is in Patna, Bihar, India.</p>
+
+<h2>2. Data we collect — by default: nothing</h2>
+<p>o1 IDE is a local desktop application. By default, it collects and transmits <strong>no personal data whatsoever</strong>. Your workspace files, code, robot configurations, telemetry data, and flight logs never leave your machine.</p>
+
+<h3>What runs locally (never sent anywhere)</h3>
+<ul>
+<li>Your workspace files and source code</li>
+<li>ROS 2 topic data and telemetry streams</li>
+<li>URDF and robot configuration files</li>
+<li>Flight logs and mission data</li>
+<li>IDE settings and preferences</li>
+<li>Language server diagnostics (clangd, pyright)</li>
+<li>Project templates and generated files</li>
+</ul>
+
+<h2>3. Network requests made by o1 IDE</h2>
+<table class="data-table">
+<thead><tr><th>Request</th><th>Destination</th><th>What's sent</th><th>When</th></tr></thead>
+<tbody>
+<tr><td>Update check</td><td>GitHub Releases API (public)</td><td>Nothing — reads public releases page</td><td>On startup + every 4 hours</td></tr>
+<tr><td>Extension install</td><td>open-vsx.org</td><td>Extension name and version</td><td>When you install an extension</td></tr>
+<tr><td>Three.js CDN</td><td>cdnjs.cloudflare.com</td><td>Nothing — cached after first load</td><td>First URDF preview; then offline</td></tr>
+<tr><td>rosbridge connection</td><td>localhost (your robot)</td><td>ROS 2 messages — stays on your network</td><td>When ROS Topics panel is open</td></tr>
+</tbody>
+</table>
+
+<h2>4. Optional telemetry (opt-in only)</h2>
+<p>You may opt in to one or both of the following from <strong>Settings → Privacy</strong>. Both are disabled by default and require an explicit action to enable.</p>
+
+<h3>4a. Anonymous crash reports</h3>
+<p>If enabled: when o1 IDE crashes, a crash report is sent. It contains the stack trace, OS version, o1 IDE version, and the action that triggered the crash. It does <strong>not</strong> contain your workspace files, code, or any identifying information.</p>
+
+<h3>4b. Anonymous usage statistics</h3>
+<p>If enabled: we collect counts of which features are used (e.g., "URDF viewer opened 3 times today"), session duration, and error rates. No file names, code content, or robot data is ever included.</p>
+
+<h3>4c. Telemetry flywheel (opt-in, labeled explicitly)</h3>
+<p>If enabled: when our AI diagnostic engine identifies an anomaly in your telemetry data and you confirm or correct its diagnosis, an anonymised pair (anomaly summary + your feedback) is sent. GPS coordinates and all identifiers are stripped before transmission. This data improves the diagnostic engine for all users.</p>
+
+<h2>5. Data retention</h2>
+<p>If you opt in to telemetry, we retain crash reports for 90 days and usage statistics in aggregate form indefinitely. Telemetry flywheel pairs are retained until you withdraw consent or delete your account. All retained data is pseudonymised — we cannot link it back to you personally.</p>
+
+<h2>6. Your rights</h2>
+<p>Under GDPR (if you are in the EU/UK) and DPDPA 2023 (if you are in India), you have the right to:</p>
+<ul>
+<li><strong>Access:</strong> request a copy of any data we hold about you</li>
+<li><strong>Correction:</strong> request correction of inaccurate data</li>
+<li><strong>Erasure:</strong> request deletion of your data at any time</li>
+<li><strong>Portability:</strong> receive your data in a machine-readable format</li>
+<li><strong>Withdraw consent:</strong> disable telemetry at any time in Settings → Privacy</li>
+<li><strong>Object:</strong> object to processing for legitimate interests</li>
+</ul>
+<p>To exercise any of these rights: <a href="mailto:privacy@o1ide.dev">privacy@o1ide.dev</a>. We will respond within 30 days.</p>
+
+<h2>7. Children's privacy</h2>
+<p>o1 IDE is not directed at children under 13. We do not knowingly collect data from children under 13. If you believe a child has submitted data to us, contact us immediately.</p>
+
+<h2>8. Third-party services</h2>
+<ul>
+<li><strong>GitHub:</strong> used for hosting releases, source code, and issue tracking. Subject to <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">GitHub's Privacy Statement</a>.</li>
+<li><strong>Open VSX:</strong> extension marketplace operated by the Eclipse Foundation. Subject to their <a href="https://www.eclipse.org/legal/privacy.php" target="_blank">privacy policy</a>.</li>
+<li><strong>cdnjs (Cloudflare):</strong> used to load Three.js for URDF preview. Cloudflare may log the request IP. The library is cached locally after the first load.</li>
+</ul>
+<p>We do not use Google Analytics, Facebook Pixel, or any advertising or tracking SDK.</p>
+
+<h2>9. Security</h2>
+<p>Because we store minimal data by design, our attack surface is small. Any telemetry data we receive is transmitted over HTTPS and stored encrypted at rest. We conduct periodic security reviews. If you discover a vulnerability, report it to <a href="mailto:security@o1ide.dev">security@o1ide.dev</a>.</p>
+
+<h2>10. Changes to this policy</h2>
+<p>We may update this Privacy Policy. Material changes will be communicated in the application and on this website. For minor changes, the "Last updated" date at the top of this page will change. Continued use after an update constitutes acceptance.</p>
+
+<h2>11. Contact</h2>
+<p>Privacy Officer: <a href="mailto:privacy@o1ide.dev">privacy@o1ide.dev</a><br/>
+Postal: o1 IDE, Patna, Bihar, 800001, India</p>
+
+</div>
+
+<footer>
+  <div>© 2026 o1 IDE</div>
+  <div style="display:flex;gap:16px">
+    <a href="/">Home</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="https://github.com/your-org/o1-ide" target="_blank">GitHub</a>
+  </div>
+</footer>
+</body>
+</html>
