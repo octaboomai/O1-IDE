@@ -69,7 +69,7 @@ module.exports = {
         ],
         icon:         "resources/icon.ico",
         artifactName: "o1-ide-${version}-windows-${arch}.${ext}",
-        sign:          process.env["WIN_SIGN_CERT"] ? "./scripts/sign-win.js" : undefined,
+        // Code signing is performed by SignPath as a post-build CI step, not by electron-builder.
         signingHashAlgorithms: ["sha256"],
     },
 
