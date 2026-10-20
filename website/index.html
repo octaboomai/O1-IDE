@@ -109,24 +109,24 @@ footer{background:var(--s1);border-top:1px solid var(--bd);padding:32px 40px;
 }
 </style>
 <script>
-// Fetch latest release version from GitHub API
+// Resolve the download buttons from the ACTUAL assets of the latest release (asset names vary per platform)
 fetch('https://api.github.com/repos/octaboomai/o1-ide/releases/latest')
   .then(r => r.json())
   .then(d => {
     const v = d.tag_name || 'v0.1.0';
     document.querySelectorAll('.version-badge').forEach(el => el.textContent = v);
-    // Point download links to actual release assets
-    const base = `https://github.com/octaboomai/o1-ide/releases/download/${v}`;
-    const assets = {
-      'dl-linux-deb': `${base}/o1-ide-${v.replace('v','')}-linux-x64.deb`,
-      'dl-linux-app': `${base}/o1-ide-${v.replace('v','')}-linux-x64.AppImage`,
-      'dl-win-exe':   `${base}/o1-ide-${v.replace('v','')}-windows-x64.exe`,
-      'dl-win-msi':   `${base}/o1-ide-${v.replace('v','')}-windows-x64.msi`,
-    };
-    Object.entries(assets).forEach(([id, url]) => {
+    const assets = d.assets || [];
+    const byExt = ext => assets.find(a => a.name.toLowerCase().endsWith(ext));
+    const wire = (id, asset) => {
       const el = document.getElementById(id);
-      if (el) el.href = url;
-    });
+      if (!el || !asset) return;
+      el.href = asset.browser_download_url;
+      const sizeEl = el.querySelector('.dl-format-size');
+      if (sizeEl) sizeEl.textContent = Math.round(asset.size / 1048576) + ' MB';
+    };
+    wire('dl-linux-deb', byExt('.deb'));
+    wire('dl-linux-app', byExt('.appimage'));
+    wire('dl-win-exe',   byExt('.exe'));
   })
   .catch(() => {});
 </script>
@@ -208,13 +208,13 @@ fetch('https://api.github.com/repos/octaboomai/o1-ide/releases/latest')
       </div>
       <div class="dl-card-sub">Ubuntu 20.04+ · x64 and ARM64</div>
       <div class="dl-formats">
-        <a class="dl-format" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-latest-amd64.deb">
+        <a class="dl-format" id="dl-linux-deb" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-desktop_0.1.0_amd64.deb">
           <div><div class="dl-format-name">.deb package</div><div class="dl-format-desc">Recommended · installs via dpkg</div></div>
-          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">~140 MB</span><span class="dl-arrow">↓</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">165 MB</span><span class="dl-arrow">↓</span></div>
         </a>
-        <a class="dl-format" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-latest.AppImage">
+        <a class="dl-format" id="dl-linux-app" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1.IDE-0.1.0.AppImage">
           <div><div class="dl-format-name">.AppImage</div><div class="dl-format-desc">Portable · any Linux distro · no install</div></div>
-          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">~145 MB</span><span class="dl-arrow">↓</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">228 MB</span><span class="dl-arrow">↓</span></div>
         </a>
       </div>
     </div>
@@ -225,13 +225,9 @@ fetch('https://api.github.com/repos/octaboomai/o1-ide/releases/latest')
       </div>
       <div class="dl-card-sub">Windows 10+ · x64 · ROS 2 via WSL2</div>
       <div class="dl-formats">
-        <a class="dl-format" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-latest-windows-x64.exe">
+        <a class="dl-format" id="dl-win-exe" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-0.1.0-windows-x64.exe">
           <div><div class="dl-format-name">.exe installer</div><div class="dl-format-desc">Recommended · standard setup wizard</div></div>
-          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">~150 MB</span><span class="dl-arrow">↓</span></div>
-        </a>
-        <a class="dl-format" href="https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-latest-windows-x64.msi">
-          <div><div class="dl-format-name">.msi package</div><div class="dl-format-desc">Enterprise · Group Policy / SCCM deploy</div></div>
-          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">~150 MB</span><span class="dl-arrow">↓</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span class="dl-format-size">141 MB</span><span class="dl-arrow">↓</span></div>
         </a>
       </div>
     </div>
