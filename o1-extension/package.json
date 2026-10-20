@@ -7,6 +7,12 @@
   "files": ["lib", "src"],
   "main": "lib/node/index",
   "browser": "lib/browser/index",
+  "theiaExtensions": [
+    {
+      "frontend": "lib/browser/o1-frontend-module",
+      "backend": "lib/node/o1-backend-module"
+    }
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -p tsconfig.json --watch",
