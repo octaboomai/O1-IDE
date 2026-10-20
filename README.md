@@ -58,7 +58,7 @@ yarn workspace o1-app start       # run in Electron
 
 # Production package
 yarn dist:linux    # → dist/*.deb + dist/*.AppImage
-yarn dist:windows  # → dist/*.exe + dist/*.msi
+yarn dist:windows  # → dist/*.exe
 ```
 
 ---
@@ -70,6 +70,16 @@ git tag v0.2.0
 git push origin v0.2.0
 # GitHub Actions builds and publishes automatically
 ```
+
+---
+
+## Code signing policy
+
+Windows releases are code signed in CI. **Free code signing provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org).**
+
+Only artifacts built by our GitHub Actions pipeline from the tagged commit are signed; the signing key is held by SignPath in a Hardware Security Module and every signing request is manually approved. Full policy: [`website/code-signing.html`](website/code-signing.html) (served at `/code-signing`).
+
+To verify a Windows build: `Get-AuthenticodeSignature .\o1-ide-<version>-windows-x64.exe` — the publisher should read SignPath Foundation.
 
 ---
 
