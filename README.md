@@ -18,7 +18,6 @@
 | **Ubuntu / Debian** | `.deb` | `sudo apt install ./o1-ide-*.deb` |
 | **Any Linux** | `.AppImage` | `chmod +x o1-ide-*.AppImage && ./o1-ide-*.AppImage` |
 | **Windows 10/11** | `.exe` | Run the installer |
-| **Windows (enterprise)** | `.msi` | Silent deploy via GPO |
 
 → **[⬇ Download o1 IDE v0.1.0 — latest release](https://github.com/octaboomai/o1-ide/releases/latest)**
 

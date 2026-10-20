@@ -66,7 +66,6 @@ module.exports = {
     win: {
         target: [
             { target: "nsis", arch: ["x64"] },
-            { target: "msi",  arch: ["x64"] },
         ],
         icon:         "resources/icon.ico",
         artifactName: "o1-ide-${version}-windows-${arch}.${ext}",

@@ -82,13 +82,16 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: linux-builds
-          path: dist/*.{deb,AppImage}
+          path: |
+            dist/*.deb
+            dist/*.AppImage
 
   # ── Windows (.exe + .msi) ───────────────────────────────────────────────────
   build-windows:
     name: Windows build
     runs-on: windows-2022
     needs: build-linux
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -148,8 +151,8 @@ jobs:
       - name: Build Theia (production)
         run: yarn workspace o1-extension build && yarn workspace o1-app build:prod
 
-      - name: Package .exe + .msi
-        run: npx electron-builder --win nsis msi --publish never
+      - name: Package .exe
+        run: npx electron-builder --win nsis --publish never
         env:
           WIN_SIGN_CERT: ${{ secrets.WIN_SIGN_CERT }}
           WIN_SIGN_PASS: ${{ secrets.WIN_SIGN_PASS }}
@@ -157,14 +160,14 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: windows-builds
-          path: dist/*.{exe,msi}
+          path: dist/*.exe
 
   # ── GitHub Release ─────────────────────────────────────────────────────────
   release:
     name: Publish Release
     needs: [build-linux, build-windows]
     runs-on: ubuntu-22.04
-    if: startsWith(github.ref, 'refs/tags/')
+    if: ${{ always() && startsWith(github.ref, 'refs/tags/') && (needs.build-linux.result == 'success' || needs.build-windows.result == 'success') }}
     steps:
       - uses: actions/checkout@v4
 
@@ -184,7 +187,6 @@ jobs:
             echo "| Ubuntu / Debian | \`.deb\` | \`sudo apt install ./o1-ide-*.deb\` |" >> release-notes.md
             echo "| Any Linux | \`.AppImage\` | \`chmod +x o1-ide-*.AppImage && ./o1-ide-*.AppImage\` |" >> release-notes.md
             echo "| Windows 10/11 | \`.exe\` | Run installer, follow prompts |" >> release-notes.md
-            echo "| Windows (enterprise) | \`.msi\` | Silent deploy via GPO |" >> release-notes.md
           else
             cp CHANGELOG.md release-notes.md
           fi
@@ -195,10 +197,10 @@ jobs:
           body_path: release-notes.md
           draft: false
           prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}
+          fail_on_unmatched_files: false
           files: |
             dist/linux-builds/*.deb
             dist/linux-builds/*.AppImage
             dist/windows-builds/*.exe
-            dist/windows-builds/*.msi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

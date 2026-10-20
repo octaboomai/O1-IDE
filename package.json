@@ -11,7 +11,7 @@
     "build": "yarn workspace o1-extension build && yarn workspace o1-app build",
     "build:prod": "yarn workspace o1-extension build && yarn workspace o1-app build:prod",
     "dist:linux": "yarn build:prod && electron-builder --linux deb AppImage",
-    "dist:windows": "yarn build:prod && electron-builder --win nsis msi",
+    "dist:windows": "yarn build:prod && electron-builder --win nsis",
     "start": "yarn workspace o1-app start",
     "clean": "yarn workspace o1-extension clean && yarn workspace o1-app clean"
   },
