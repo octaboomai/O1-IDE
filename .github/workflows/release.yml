@@ -152,8 +152,12 @@ jobs:
         run: yarn workspace o1-extension build && yarn workspace o1-app build:prod
 
       - name: Package .exe
-        run: npx electron-builder --win nsis --publish never
-        timeout-minutes: 30
+        timeout-minutes: 20
+        shell: pwsh
+        run: |
+          Write-Host "cwd: $(Get-Location)"
+          Write-Host "electron-builder cli present: $(Test-Path node_modules/electron-builder/cli.js)"
+          node node_modules/electron-builder/cli.js --win nsis --publish never
         env:
           DEBUG: electron-builder
           WIN_SIGN_CERT: ${{ secrets.WIN_SIGN_CERT }}
