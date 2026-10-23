@@ -347,7 +347,7 @@ const ROBOTICS_LANGUAGES: LangSpec[] = [
         extensions: ['.ini', '.cfg', '.conf', '.properties'],
         filenames: ['.gitconfig', '.editorconfig'],
         aliases: ['INI', 'ini', 'cfg'],
-        configuration: { comments: { lineComment: ['#', ';'] }, brackets: [['[', ']']] },
+        configuration: { comments: { lineComment: '#' }, brackets: [['[', ']']] },
         monarch: {
             defaultToken: '',
             tokenizer: {
