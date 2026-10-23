@@ -179,6 +179,16 @@ jobs:
         with:
           path: dist/
 
+      - name: Verify build outputs are present
+        run: |
+          echo "--- downloaded artifacts ---"
+          find dist -maxdepth 2 -type f | sort
+          missing=0
+          for f in dist/linux-builds/*.deb dist/linux-builds/*.AppImage dist/windows-builds/*.exe; do
+            if [ ! -f "$f" ]; then echo "::error::missing build output: $f"; missing=1; fi
+          done
+          [ "$missing" -eq 0 ] || exit 1
+
       - name: Prepare release notes
         run: |
           if [ ! -f CHANGELOG.md ]; then
@@ -201,7 +211,7 @@ jobs:
           body_path: release-notes.md
           draft: false
           prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}
-          fail_on_unmatched_files: false
+          fail_on_unmatched_files: true
           files: |
             dist/linux-builds/*.deb
             dist/linux-builds/*.AppImage
