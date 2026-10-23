@@ -236,6 +236,27 @@ fetch('https://api.github.com/repos/octaboomai/o1-ide/releases/latest')
     All releases on <a href="https://github.com/octaboomai/o1-ide/releases">GitHub Releases</a> ·
     <a href="https://github.com/octaboomai/o1-ide">View source</a> · Apache-2.0 licensed
   </p>
+
+  <!-- Unsigned-build download fallback -->
+  <div style="max-width:760px;margin:28px auto 0;text-align:left;background:rgba(15,223,255,.06);
+              border:1px solid rgba(15,223,255,.25);border-radius:12px;padding:22px 24px;">
+    <div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:8px;">
+      ⚠️ Trouble downloading on Windows?
+    </div>
+    <p style="font-size:13px;color:var(--fg2);margin-bottom:14px;line-height:1.65;">
+      The Windows installer is <strong style="color:var(--fg)">not code-signed</strong>, so Chrome / Edge and
+      Windows SmartScreen may block it or warn that it “isn't commonly downloaded”. If that happens, copy-paste
+      this into a <strong style="color:var(--fg)">Windows PowerShell</strong> window to download it directly:
+    </p>
+    <pre style="background:#07090d;border:1px solid var(--bd);border-radius:8px;padding:14px 16px;
+                font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#d4e4f0;overflow-x:auto;margin:0;
+                white-space:pre-wrap;word-break:break-all;">[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.1.0/o1-ide-0.1.0-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\o1-ide-0.1.0-windows-x64.exe"</pre>
+    <p style="font-size:12px;color:var(--fg2);margin-top:12px;">
+      Then run the file from your Downloads folder. Windows may still warn for an unsigned app — choose
+      <strong style="color:var(--fg)">More info → Run anyway</strong>.
+    </p>
+  </div>
 </section>
 
 <section class="how">
@@ -275,7 +296,7 @@ fetch('https://api.github.com/repos/octaboomai/o1-ide/releases/latest')
     <a href="https://github.com/octaboomai/O1-IDE/tree/main/docs">Docs</a>
     <a href="terms.html">Terms of Service</a>
     <a href="privacy.html">Privacy Policy</a>
-    <a href="code-signing.html">Code signing policy</a>
+    <a href="code-signing.html">Download help</a>
     <a href="https://github.com/octaboomai/o1-ide" target="_blank">GitHub</a>
   </div>
   <div class="footer-copy">© 2026 o1 IDE · Apache-2.0</div>

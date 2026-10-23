@@ -21,6 +21,17 @@
 
 → **[⬇ Download o1 IDE v0.1.0 — latest release](https://github.com/octaboomai/o1-ide/releases/latest)**
 
+### Windows: browser blocked the download?
+
+The Windows installer is **not code-signed**, so Chrome / Edge and Windows SmartScreen may block it or warn that it "isn't commonly downloaded". If that happens, download it directly with PowerShell — open a Windows PowerShell window and paste this:
+
+```powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.1.0/o1-ide-0.1.0-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\o1-ide-0.1.0-windows-x64.exe"
+```
+
+Then run the file from your Downloads folder. Windows may still show a SmartScreen prompt for an unsigned app — choose **More info → Run anyway**.
+
 ---
 
 ## What's bundled (nothing to install separately)
@@ -70,16 +81,6 @@ git tag v0.2.0
 git push origin v0.2.0
 # GitHub Actions builds and publishes automatically
 ```
-
----
-
-## Code signing policy
-
-Windows releases are code signed in CI. **Free code signing provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org).**
-
-Only artifacts built by our GitHub Actions pipeline from the tagged commit are signed; the signing key is held by SignPath in a Hardware Security Module and every signing request is manually approved. Full policy: [`website/code-signing.html`](website/code-signing.html) (served at `/code-signing`).
-
-To verify a Windows build: `Get-AuthenticodeSignature .\o1-ide-<version>-windows-x64.exe` — the publisher should read SignPath Foundation.
 
 ---
 

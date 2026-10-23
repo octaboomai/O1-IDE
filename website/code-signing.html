@@ -2,33 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Code signing policy — o1 IDE</title>
-<meta name="description" content="How o1 IDE release artifacts are built and code signed, including free code signing provided by SignPath.io with a certificate by SignPath Foundation."/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Download help — o1 IDE</title>
+<meta name="description" content="How to install o1 IDE on Windows when the browser or SmartScreen blocks the unsigned installer, including a PowerShell download command."/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07090d;--s1:#0d1620;--cyan:#0fdfff;--fg:#d4e4f0;--fg2:#7a94a4;--bd:rgba(255,255,255,.06);--green:#10c980;color-scheme:dark}
+:root{--bg:#07090d;--s1:#0d1620;--cyan:#0fdfff;--fg:#d4e4f0;--fg2:#7a94a4;--bd:rgba(255,255,255,.06);--green:#10c980;--warn:#ff7b44;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;font-size:15px;line-height:1.75}
 nav{position:sticky;top:0;background:rgba(7,9,13,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:0 40px;display:flex;align-items:center;height:54px}
 .nav-logo{font-weight:700;font-size:17px;color:var(--cyan);text-decoration:none}
-.page{max-width:740px;margin:0 auto;padding:56px 32px 96px}
+.page{max-width:760px;margin:0 auto;padding:56px 32px 96px}
 .meta{font-size:12px;color:var(--fg2);margin-bottom:40px}
 h1{font-size:36px;font-weight:700;color:#fff;margin-bottom:8px}
 h2{font-size:18px;font-weight:600;color:#fff;margin:36px 0 10px;border-left:2px solid var(--cyan);padding-left:12px}
-h3{font-size:15px;font-weight:600;color:var(--fg);margin:20px 0 6px}
 p,li{color:var(--fg2);margin-bottom:10px;font-size:14.5px}
 ul{padding-left:20px;margin-bottom:12px}
 li{margin-bottom:6px}
 strong{color:var(--fg);font-weight:600}
 a{color:var(--cyan)}
 code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;background:var(--s1);padding:2px 6px;border-radius:4px;color:var(--fg)}
-.highlight{background:rgba(16,201,128,.08);border:1px solid rgba(16,201,128,.2);border-radius:8px;padding:16px 20px;margin:20px 0;color:var(--fg2)}
-.highlight strong{color:var(--green)}
-.data-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px}
-.data-table th{text-align:left;padding:8px 12px;font-size:11px;color:var(--fg2);border-bottom:1px solid var(--bd)}
-.data-table td{padding:10px 12px;border-bottom:1px solid var(--bd);color:var(--fg2);vertical-align:top}
-.data-table tr:last-child td{border-bottom:none}
-.data-table td:first-child{color:var(--fg);font-weight:500}
+pre{background:#07090d;border:1px solid var(--bd);border-radius:8px;padding:16px 18px;margin:14px 0;
+    font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;color:var(--fg);
+    overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+.note{background:rgba(255,123,68,.07);border:1px solid rgba(255,123,68,.25);border-radius:8px;padding:16px 20px;margin:20px 0}
+.note strong{color:var(--warn)}
+.ok{background:rgba(16,201,128,.08);border:1px solid rgba(16,201,128,.2);border-radius:8px;padding:16px 20px;margin:20px 0}
+.ok strong{color:var(--green)}
 footer{border-top:1px solid var(--bd);padding:20px 40px;font-size:12px;color:var(--fg2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 footer a{color:var(--fg2)}
 </style>
@@ -37,47 +36,45 @@ footer a{color:var(--fg2)}
 <nav><a href="index.html" class="nav-logo">← o1 IDE</a></nav>
 
 <div class="page">
-<h1>Code signing policy</h1>
+<h1>Download help</h1>
 <div class="meta">Last updated: October 2026</div>
 
-<p>This page describes how o1 IDE release artifacts are built and code signed. It is published in accordance with the requirements of the SignPath Foundation open-source code signing programme.</p>
+<p>o1 IDE is free and open source. The installers are built automatically by our GitHub Actions pipeline and published on the <a href="https://github.com/octaboomai/O1-IDE/releases">Releases page</a>.</p>
 
-<div class="highlight">
-<strong>Free code signing provided by SignPath.io, certificate by SignPath Foundation.</strong>
+<div class="note">
+<strong>Windows builds are not code-signed.</strong> We applied to the SignPath Foundation open-source signing programme but were not accepted, so the Windows installer ships unsigned. That is what triggers the browser and SmartScreen warnings below — it does <em>not</em> mean the file is unsafe.
 </div>
 
-<h2>What we sign</h2>
+<h2>If Chrome / Edge blocks the download</h2>
+<p>Browsers warn about files that “aren't commonly downloaded”. Open the download list (<code>Ctrl</code> + <code>J</code> in Chrome/Edge), then choose <strong>Keep</strong> — or use the PowerShell method below.</p>
+
+<h2>Download with PowerShell (recommended if the browser blocks it)</h2>
+<p>Open a <strong>Windows PowerShell</strong> window and paste these two lines:</p>
+<pre>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.1.0/o1-ide-0.1.0-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\o1-ide-0.1.0-windows-x64.exe"</pre>
+<p>The file lands in your <code>Downloads</code> folder. Then double-click it to install.</p>
+
+<h2>If SmartScreen warns when you run it</h2>
+<p>Windows SmartScreen warns about any app without an established download reputation. To continue:</p>
 <ul>
-  <li>The Windows installer published on our <a href="https://github.com/octaboomai/O1-IDE/releases">GitHub Releases</a> page — <code>o1-ide-&lt;version&gt;-windows-x64.exe</code>.</li>
-  <li>No other artifacts are signed at this time. Linux artifacts (<code>.deb</code>, <code>.AppImage</code>) are distributed unsigned; verify them against the checksums on the Releases page.</li>
+  <li>Click <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
+  <li>If your organisation blocks unsigned apps by policy, ask your IT team — that is a policy setting we cannot override.</li>
 </ul>
 
-<h2>Build and signing process</h2>
-<ul>
-  <li>All release artifacts are built from the source in our public repository by GitHub Actions CI (<code>.github/workflows/release.yml</code>). No release artifact is built or signed on a developer machine.</li>
-  <li>Only CI-built artifacts from the tagged commit are submitted for signing.</li>
-  <li>The code signing private key is generated and held by SignPath.io in a Hardware Security Module (HSM). o1 IDE never holds or has access to the private key.</li>
-  <li>Every signing request is manually approved by a project approver, and each signed file is timestamped.</li>
-</ul>
+<h2>Verify what you downloaded</h2>
+<p>Every release lists a SHA-256 digest next to each file. To check yours matches:</p>
+<pre>Get-FileHash "$env:USERPROFILE\Downloads\o1-ide-0.1.0-windows-x64.exe" -Algorithm SHA256</pre>
+<p>Compare the output with the digest shown on the <a href="https://github.com/octaboomai/O1-IDE/releases">Releases page</a>. If they match, the file is exactly what our build produced.</p>
 
-<h2>Team roles</h2>
-<table class="data-table">
-  <tr><th>Role</th><th>Members</th><th>Policy</th></tr>
-  <tr><td>Authors / Committers</td><td><a href="https://github.com/octaboomai">octaboomai</a></td><td>May modify the source repository without additional review.</td></tr>
-  <tr><td>Reviewers</td><td><a href="https://github.com/octaboomai">octaboomai</a></td><td>Every change proposed by a non-committer (a pull request) is reviewed before merge.</td></tr>
-  <tr><td>Approvers</td><td><a href="https://github.com/octaboomai">octaboomai</a></td><td>Every signing request requires explicit approval before an artifact is signed.</td></tr>
-</table>
+<div class="ok">
+<strong>Builds come from this repository.</strong> Every installer is produced by our public CI from the tagged commit — see <a href="https://github.com/octaboomai/O1-IDE/actions">Actions</a>.
+</div>
 
-<h2>How to verify a signed build</h2>
-<p>On Windows, check the Authenticode signature before installing:</p>
-<p><code>Get-AuthenticodeSignature .\o1-ide-0.1.0-windows-x64.exe | Format-List</code></p>
-<p>Or, with the Windows SDK: <code>signtool verify /pa /v o1-ide-0.1.0-windows-x64.exe</code>. A valid signature shows the publisher as SignPath Foundation.</p>
+<h2>Linux</h2>
+<p>Linux installers are not affected by these warnings. Download the <code>.deb</code> or <code>.AppImage</code> from the Releases page and follow the instructions there.</p>
 
-<h2>Privacy</h2>
-<p>o1 IDE does not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. See our <a href="privacy.html">Privacy Policy</a> for details.</p>
-
-<h2>Contact</h2>
-<p>Questions about code signing: <a href="mailto:hello@o1ide.dev">hello@o1ide.dev</a></p>
+<h2>Still stuck?</h2>
+<p>Open an issue: <a href="https://github.com/octaboomai/O1-IDE/issues">github.com/octaboomai/O1-IDE/issues</a></p>
 </div>
 
 <footer>

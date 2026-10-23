@@ -1,6 +1,6 @@
 #!/bin/bash
-# Generates icon.png and icon.ico from the o1 SVG logo
-# Requires: imagemagick (available in ubuntu-22.04 CI runner)
+# Generates resources/icon.png and resources/icon.ico for o1 IDE.
+# Requires: imagemagick (available on the ubuntu-22.04 CI runner)
 set -e
 
 mkdir -p resources
@@ -8,44 +8,31 @@ mkdir -p resources
 ICON_OUT="resources/icon.png"
 ICO_OUT="resources/icon.ico"
 
-# Extract the SVG from splash.html
-python3 << 'PYEOF'
-import re, sys
-
-with open('o1-app/src/splash.html') as f:
-    html = f.read()
-
-m = re.search(r'(<svg[^>]*viewBox[^>]*>.*?</svg>)', html, re.DOTALL)
-if m:
-    svg = m.group(1)
-    with open('/tmp/o1-icon.svg', 'w') as f:
-        f.write(f'<?xml version="1.0"?>\n{svg}')
-    print("SVG extracted")
-else:
-    # Fallback: write o1 logo SVG directly
-    svg = '''<?xml version="1.0"?>
+# ── o1 logo ───────────────────────────────────────────────────────────────────
+# Bright cyan tile with the dark o1 orbit mark. The previous design was a
+# near-black (#07090d) tile, which read as a black blob against a dark taskbar.
+# A light tile keeps the mark legible on BOTH dark and light taskbars.
+cat > /tmp/o1-icon.svg << 'SVGEOF'
+<?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" rx="50" fill="#07090d"/>
-  <rect x="4" y="4" width="248" height="248" rx="47" fill="none" stroke="#0fdfff" stroke-width="4" stroke-opacity="0.3"/>
-  <circle cx="128" cy="128" r="70" stroke="#0fdfff" stroke-width="8" fill="none"/>
-  <circle cx="128" cy="128" r="35" stroke="#0fdfff" stroke-width="4" fill="none" stroke-opacity="0.3"/>
-  <ellipse cx="128" cy="128" rx="105" ry="38" stroke="#0fdfff" stroke-width="5" fill="none"
-           stroke-dasharray="14 10" stroke-opacity="0.4" transform="rotate(-28 128 128)"/>
-  <circle cx="210" cy="84" r="16" fill="#0fdfff"/>
-  <circle cx="128" cy="128" r="14" fill="#0fdfff" opacity="0.9"/>
-</svg>'''
-    with open('/tmp/o1-icon.svg', 'w') as f:
-        f.write(svg)
-    print("SVG generated from fallback")
-PYEOF
+  <rect width="256" height="256" rx="56" fill="#0fdfff"/>
+  <rect x="7" y="7" width="242" height="242" rx="50" fill="none" stroke="#07090d" stroke-width="3" stroke-opacity="0.15"/>
+  <ellipse cx="128" cy="128" rx="96" ry="35" stroke="#07090d" stroke-width="8" fill="none"
+           stroke-dasharray="17 12" stroke-opacity="0.5" transform="rotate(-28 128 128)"/>
+  <circle cx="128" cy="128" r="62" stroke="#07090d" stroke-width="13" fill="none"/>
+  <circle cx="128" cy="128" r="17" fill="#07090d"/>
+  <circle cx="205" cy="86" r="15" fill="#07090d"/>
+</svg>
+SVGEOF
+echo "icon SVG written"
 
-# Convert SVG → PNG (512×512)
+# ── SVG → PNG (512×512) ───────────────────────────────────────────────────────
 if command -v convert &>/dev/null; then
     convert -background none -size 512x512 /tmp/o1-icon.svg "$ICON_OUT" 2>/dev/null || \
-    convert -background "#07090d" -size 512x512 /tmp/o1-icon.svg "$ICON_OUT"
+    convert -background "#0fdfff" -size 512x512 /tmp/o1-icon.svg "$ICON_OUT"
     echo "icon.png generated (512×512)"
 
-    # PNG → ICO (multi-size: 16,32,48,256)
+    # PNG → ICO (multi-size: 256,48,32,16)
     if convert "$ICON_OUT" \
         \( -clone 0 -resize 256x256 \) \
         \( -clone 0 -resize 48x48 \) \
