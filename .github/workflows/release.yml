@@ -40,7 +40,7 @@ jobs:
         run: bash scripts/generate-icons.sh
 
       - name: Upload app icons
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: app-icons
           path: |
@@ -79,7 +79,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: linux-builds
           path: |
@@ -161,7 +161,7 @@ jobs:
         env:
           DEBUG: electron-builder
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: windows-builds
           path: dist/*.exe
