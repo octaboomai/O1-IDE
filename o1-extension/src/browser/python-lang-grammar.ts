@@ -14,6 +14,16 @@ export class PythonLangGrammarContribution implements LanguageGrammarDefinitionC
     readonly PYTHON_LANGUAGE_ID = 'python';
 
     registerTextmateLanguage(_registry: TextmateRegistry): void {
+        // Guarded: this runs during frontend startup, and an exception here would
+        // leave the whole IDE stuck on its loading spinner.
+        try {
+            this.register();
+        } catch (err) {
+            console.error('[o1] python language registration failed', err);
+        }
+    }
+
+    private register(): void {
         monaco.languages.register({
             id: this.PYTHON_LANGUAGE_ID,
             extensions: ['.py', '.pyw', '.pyi'],

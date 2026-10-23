@@ -16,21 +16,36 @@ import { TextmateRegistry } from '@theia/monaco/lib/browser/textmate/textmate-re
 export class RoboticsLanguagesContribution implements LanguageGrammarDefinitionContribution {
 
     registerTextmateLanguage(_registry: TextmateRegistry): void {
+        // Never let language registration take the IDE down: a failure here runs
+        // during frontend startup and would otherwise leave the app on its spinner.
+        try {
+            this.registerAll();
+        } catch (err) {
+            console.error('[o1] language registration failed', err);
+        }
+    }
+
+    private registerAll(): void {
         const alreadyRegistered = new Set(monaco.languages.getLanguages().map(l => l.id));
         for (const spec of ROBOTICS_LANGUAGES) {
             if (alreadyRegistered.has(spec.id)) {
                 continue;   // never double-register an id Monaco already knows
             }
-            monaco.languages.register({
-                id: spec.id,
-                extensions: spec.extensions,
-                filenames: spec.filenames,
-                aliases: spec.aliases,
-                mimetypes: spec.mimetypes,
-            });
-            monaco.languages.setMonarchTokensProvider(spec.id, spec.monarch);
-            if (spec.configuration) {
-                monaco.languages.setLanguageConfiguration(spec.id, spec.configuration);
+            try {
+                monaco.languages.register({
+                    id: spec.id,
+                    extensions: spec.extensions,
+                    filenames: spec.filenames,
+                    aliases: spec.aliases,
+                    mimetypes: spec.mimetypes,
+                });
+                monaco.languages.setMonarchTokensProvider(spec.id, spec.monarch);
+                if (spec.configuration) {
+                    monaco.languages.setLanguageConfiguration(spec.id, spec.configuration);
+                }
+            } catch (err) {
+                // Skip just this language; keep the rest of the IDE working.
+                console.error('[o1] could not register language', spec.id, err);
             }
         }
     }
@@ -88,7 +103,6 @@ const ROBOTICS_LANGUAGES: LangSpec[] = [
                     [/\b\d+(\.\d+)?([eE][+-]?\d+)?[fFuUlL]*\b/, 'number'],
                     [/[a-zA-Z_]\w*/, { cases: { '@keywords': 'keyword', '@default': 'identifier' } }],
                     [/[{}()\[\]]/, '@brackets'],
-                    [/[<>](?!@symbols)/, '@brackets'],
                     [/[=><!~?:&|+\-*/^%]+/, 'operator'],
                     [/\s+/, 'white'],
                 ],
