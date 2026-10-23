@@ -56,7 +56,6 @@ const ROS_LAUNCH_JSON = {
             type:        'python',
             request:     'launch',
             program:     '${file}',
-            console:     'integratedTerminal',
             cwd:         '${workspaceFolder}',
             justMyCode:  false,
             env: {
@@ -94,7 +93,6 @@ const ROS_LAUNCH_JSON = {
             type:    'python',
             request: 'launch',
             program: '${file}',
-            console: 'integratedTerminal',
             justMyCode: false,
             env: {
                 ROS_DOMAIN_ID:      '0',
@@ -108,7 +106,6 @@ const ROS_LAUNCH_JSON = {
             request:        'launch',
             preLaunchTask:  'ros2: colcon build (this package)',
             program:        '${file}',
-            console:        'integratedTerminal',
             justMyCode:     false,
             env: {
                 ROS_DOMAIN_ID:     '0',
