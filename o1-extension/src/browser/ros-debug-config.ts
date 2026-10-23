@@ -49,6 +49,21 @@ const ROS_LAUNCH_JSON = {
     ],
     configurations: [
         {
+            // NOTE: F5 / Run uses the FIRST configuration. Keep a *launch* config
+            // first so "Run" executes the current file instead of attaching to a
+            // node that isn't there (which produced no output).
+            name:        'Python: Run current file',
+            type:        'python',
+            request:     'launch',
+            program:     '${file}',
+            console:     'integratedTerminal',
+            cwd:         '${workspaceFolder}',
+            justMyCode:  false,
+            env: {
+                ROS_DOMAIN_ID: '0',
+            },
+        },
+        {
             name:        'ROS 2: Attach to Python node',
             type:        'python',
             request:     'attach',

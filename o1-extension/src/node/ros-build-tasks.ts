@@ -16,6 +16,9 @@ export class RosBuildTaskProvider implements TaskContribution, TaskProvider {
 
     async provideTasks(): Promise<TaskConfiguration[]> {
         return [
+            // Plain "run and see the output" — no debug adapter required.
+            this.make('o1: run current Python file', 'python3 "${file}"'),
+
             this.make('ros2: colcon build',
                 'colcon build --symlink-install',
                 { kind: 'build', isDefault: true }),
