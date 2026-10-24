@@ -6,11 +6,14 @@
 !macroend
 
 !macro customInstall
+  ; Desktop shortcut so users can launch o1 IDE after install
+  CreateShortcut "$DESKTOP\o1 IDE.lnk" "$INSTDIR\o1 IDE.exe"
   ; Run Python packages setup after install
   ExecWait '"$INSTDIR\resources\scripts\install-toolchain-windows.ps1" -Silent'
 !macroend
 
 !macro customUnInstall
-  ; Remove o1 workspace shortcut
+  ; Remove shortcuts
+  Delete "$DESKTOP\o1 IDE.lnk"
   Delete "$DESKTOP\o1-workspace.lnk"
 !macroend

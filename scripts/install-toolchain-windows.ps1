@@ -28,15 +28,15 @@ if (-not $pyCmd) {
 } else { Ok "Python: $($pyCmd.Source)" }
 
 # ── FIX #6: Python packages with --break-system-packages ─────────────────────
-Log "Installing Python packages (pymavlink, pyulog, numpy)..."
-$pipArgs = @("install", "pymavlink", "pyulog", "numpy", "-q")
+Log "Installing Python packages (pymavlink, pyulog, numpy, debugpy)..."
+$pipArgs = @("install", "pymavlink", "pyulog", "numpy", "debugpy", "-q")
 $result = & python -m pip $pipArgs "--break-system-packages" 2>&1
 if ($LASTEXITCODE -ne 0) {
     # Retry without the flag (older Python)
     $result = & python -m pip $pipArgs 2>&1
 }
 if ($LASTEXITCODE -eq 0) { Ok "Python packages installed" }
-else { Warn "pip install failed — manual install needed: pip install pymavlink pyulog numpy" }
+else { Warn "pip install failed — manual install needed: pip install pymavlink pyulog numpy debugpy" }
 
 # ── CMake ────────────────────────────────────────────────────────────────────
 if (-not (Get-Command cmake -ErrorAction SilentlyContinue)) {

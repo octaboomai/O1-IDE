@@ -22,6 +22,17 @@ import * as fs   from 'fs';
 
 const execFile = promisify(execFileCb);
 
+/** True when the IDE runs on Windows. ROS 2 lives inside WSL there. */
+const IS_WIN = process.platform === 'win32';
+
+/** Shell used to run ROS snippets: WSL's bash on Windows, /bin/bash elsewhere. */
+const ROS_SHELL = IS_WIN ? 'wsl.exe' : '/bin/bash';
+
+/** argv for running a bash snippet in the ROS environment (WSL on Windows). */
+function rosShellArgs(snippet: string): string[] {
+    return IS_WIN ? ['-e', 'bash', '-lc', snippet] : ['-c', snippet];
+}
+
 export interface CheckResult {
     id:      string;
     label:   string;
@@ -108,22 +119,29 @@ export class O1RestContribution implements BackendApplicationContribution {
             const send = (line: string, type = 'log') =>
                 res.write(`data: ${JSON.stringify({ type, line })}\n\n`);
 
+            const scriptName = IS_WIN ? 'install-toolchain-windows.ps1' : 'install-ros.sh';
             const scriptPath = path.resolve(
-                __dirname, '..', '..', '..', 'scripts', 'install-ros.sh'
+                __dirname, '..', '..', '..', 'scripts', scriptName
             );
 
             send('Starting o1 toolchain installer…', 'info');
             send(`Script: ${scriptPath}`, 'cmd');
 
-            const proc = spawn(scriptPath, [], {
-                shell: false,
-                env: {
-                    HOME:   os.homedir(),
-                    USER:   os.userInfo().username,
-                    PATH:   SAFE_PATH,
-                    DEBIAN_FRONTEND: 'noninteractive',
-                },
-            });
+            // Windows: run the PowerShell script. Linux: run the shell script directly.
+            const proc = IS_WIN
+                ? spawn('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', scriptPath], {
+                    shell: false,
+                    env: process.env,
+                })
+                : spawn(scriptPath, [], {
+                    shell: false,
+                    env: {
+                        HOME:   os.homedir(),
+                        USER:   os.userInfo().username,
+                        PATH:   SAFE_PATH,
+                        DEBIAN_FRONTEND: 'noninteractive',
+                    },
+                });
 
             proc.stdout.on('data', (d: Buffer) =>
                 d.toString().split('\n').filter(Boolean).forEach(l => send(l, 'log'))
@@ -141,8 +159,8 @@ export class O1RestContribution implements BackendApplicationContribution {
         app.get('/o1/ros/topics', async (_req: Request, res: Response) => {
             try {
                 const { stdout } = await execFile(
-                    '/bin/bash',
-                    ['-c', 'source /opt/ros/humble/setup.bash 2>/dev/null && ros2 topic list -t'],
+                    ROS_SHELL,
+                    rosShellArgs('source /opt/ros/humble/setup.bash 2>/dev/null && ros2 topic list -t'),
                     { timeout: 5000 }
                 );
                 const topics = stdout.trim().split('\n')
@@ -184,8 +202,8 @@ export class O1RestContribution implements BackendApplicationContribution {
             try {
                 // Use execFile (not exec) — no shell interpolation possible
                 const { stdout } = await execFile(
-                    '/bin/bash',
-                    ['-c', `source /opt/ros/humble/setup.bash 2>/dev/null; ros2 run xacro xacro '${resolved}' 2>&1`],
+                    ROS_SHELL,
+                    rosShellArgs(`source /opt/ros/humble/setup.bash 2>/dev/null; ros2 run xacro xacro '${resolved}' 2>&1`),
                     { timeout: 15000, maxBuffer: 10 * 1024 * 1024 }
                 );
 
@@ -208,8 +226,8 @@ export class O1RestContribution implements BackendApplicationContribution {
         const { id, label, cmd } = tool;
         try {
             const { stdout } = await execFile(
-                '/bin/bash',
-                ['-c', `source /opt/ros/humble/setup.bash 2>/dev/null; ${cmd} 2>&1`],
+                ROS_SHELL,
+                rosShellArgs(`source /opt/ros/humble/setup.bash 2>/dev/null; ${cmd} 2>&1`),
                 { timeout: 8000 }
             );
             const version = stdout.trim().split('\n')[0]?.substring(0, 80) ?? 'installed';
