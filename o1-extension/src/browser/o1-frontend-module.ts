@@ -7,6 +7,8 @@ import { WidgetFactory } from '@theia/core/lib/browser/widget-manager';
 
 import { O1CommandContribution, O1MenuContribution } from './o1-commands';
 import { RosLangGrammarContribution } from './ros-lang-grammar';
+import { PythonLangGrammarContribution } from './python-lang-grammar';
+import { RoboticsLanguagesContribution } from './robotics-languages';
 import { UrdfViewerWidget } from './urdf-viewer/urdf-viewer-widget';
 import { RosTopicsWidget } from './ros-topics/ros-topics-widget';
 import { ToolchainInstallerWidget } from './toolchain/toolchain-installer';
@@ -32,6 +34,10 @@ export default new ContainerModule(bind => {
 
     // ROS msg/srv/action grammar
     bind(LanguageGrammarDefinitionContribution).to(RosLangGrammarContribution).inSingletonScope();
+
+    // Python + robotics/drone languages (grammar + detection + keyword completion)
+    bind(LanguageGrammarDefinitionContribution).to(PythonLangGrammarContribution).inSingletonScope();
+    bind(LanguageGrammarDefinitionContribution).to(RoboticsLanguagesContribution).inSingletonScope();
 
     // Project templates
     bind(TemplatesContribution).toSelf().inSingletonScope();
