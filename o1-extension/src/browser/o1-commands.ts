@@ -7,7 +7,6 @@ import { MessageService } from '@theia/core/lib/common/message-service';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application-contribution';
 import { TaskService } from '@theia/task/lib/browser/task-service';
 import { TaskScope } from '@theia/task/lib/common/task-protocol';
-import { CommonMenus } from '@theia/core/lib/browser/common-menus';
 import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
 import { UrdfViewerWidget } from './urdf-viewer/urdf-viewer-widget';
 import { RosTopicsWidget } from './ros-topics/ros-topics-widget';
@@ -163,7 +162,8 @@ export class O1MenuContribution implements MenuContribution {
         registry.registerMenuAction(O1Menus.ROS_MENU, { commandId: O1Commands.OPEN_ROS_TOPICS.id,      order: '4' });
         registry.registerMenuAction(O1Menus.ROS_MENU, { commandId: O1Commands.PREVIEW_URDF_CURRENT.id, order: '5' });
         registry.registerMenuAction(O1Menus.ROS_MENU, { commandId: 'o1.runCurrentFile',            order: '6' });
-        // #3 — also under the Run menu
-        registry.registerMenuAction(CommonMenus.RUN,    { commandId: 'o1.runCurrentFile',            order: '0' });
+        // #3 — also under the Run menu. Theia does not expose a RUN constant in
+        // CommonMenus, so use the menu id directly; harmless if it is not present.
+        registry.registerMenuAction(['3_run'], { commandId: 'o1.runCurrentFile', order: '0' });
     }
 }
