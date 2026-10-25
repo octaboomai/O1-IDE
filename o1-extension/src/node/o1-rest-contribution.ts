@@ -120,9 +120,12 @@ export class O1RestContribution implements BackendApplicationContribution {
                 res.write(`data: ${JSON.stringify({ type, line })}\n\n`);
 
             const scriptName = IS_WIN ? 'install-toolchain-windows.ps1' : 'install-ros.sh';
-            const scriptPath = path.resolve(
-                __dirname, '..', '..', '..', 'scripts', scriptName
-            );
+            // In a packaged app __dirname is inside app.asar, where scripts/ does not
+            // exist. The scripts are shipped as an extra resource, so resolve against
+            // process.resourcesPath and only fall back to the repo layout in dev.
+            const scriptPath = (process as any).resourcesPath
+                ? path.join((process as any).resourcesPath, 'scripts', scriptName)
+                : path.resolve(__dirname, '..', '..', '..', 'scripts', scriptName);
 
             send('Starting o1 toolchain installer…', 'info');
             send(`Script: ${scriptPath}`, 'cmd');

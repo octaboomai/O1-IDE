@@ -5,6 +5,9 @@ import { ApplicationShell } from '@theia/core/lib/browser/shell/application-shel
 import { WidgetManager } from '@theia/core/lib/browser/widget-manager';
 import { MessageService } from '@theia/core/lib/common/message-service';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application-contribution';
+import { TaskService } from '@theia/task/lib/browser/task-service';
+import { TaskScope } from '@theia/task/lib/common/task-protocol';
+import { CommonMenus } from '@theia/core/lib/browser/common-menus';
 import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
 import { UrdfViewerWidget } from './urdf-viewer/urdf-viewer-widget';
 import { RosTopicsWidget } from './ros-topics/ros-topics-widget';
@@ -32,9 +35,17 @@ export class O1CommandContribution
     @inject(MessageService)         protected readonly messageService: MessageService;
     @inject(TemplatesContribution)  protected readonly templates:     TemplatesContribution;
     @inject(EditorManager)          protected readonly editorManager: EditorManager;
+    @inject(TaskService)            protected readonly taskService:   TaskService;
+    @inject(CommandRegistry)        protected readonly commandRegistry: CommandRegistry;
 
     /** FIX: auto-open URDF viewer when a .urdf or .xacro file is opened */
     onStart(): void {
+        // #6 — open a terminal on launch so users can see they have a shell.
+        // Deferred so it does not compete with the shell finishing its layout.
+        setTimeout(() => {
+            this.commandRegistry.executeCommand('terminal:new').catch(() => { /* terminal optional */ });
+        }, 1500);
+
         this.editorManager.onCreated(editorWidget => {
             const uri = editorWidget.getResourceUri();
             if (!uri) return;
@@ -66,7 +77,37 @@ export class O1CommandContribution
         }
     }
 
+    /** #3 — run the file in the current editor in a terminal. */
+    async runCurrentFile(): Promise<void> {
+        const uri = this.editorManager.currentEditor?.getResourceUri();
+        if (!uri) {
+            this.messageService.warn('Open a file first, then run it.');
+            return;
+        }
+        const file = uri.path.fsPath();
+        const isWin = typeof navigator !== 'undefined' && navigator.userAgent.includes('Windows');
+        const ext = uri.path.ext.toLowerCase();
+        // .py → run with the interpreter; anything else → execute the file directly.
+        const command = ext === '.py'
+            ? `${isWin ? 'python' : 'python3'} "${file}"`
+            : `"${file}"`;
+        try {
+            await this.taskService.runTask({
+                type: 'shell',
+                _scope: TaskScope.Workspace,
+                label: `o1: run ${uri.path.base}`,
+                command,
+                options: { cwd: uri.path.dir.fsPath() },
+            } as any);
+        } catch (err: any) {
+            this.messageService.error(`Could not run ${uri.path.base}: ${err?.message ?? err}`);
+        }
+    }
+
     registerCommands(registry: CommandRegistry): void {
+        registry.registerCommand({ id: 'o1.runCurrentFile', label: 'Run Current File in Terminal' }, {
+            execute: () => this.runCurrentFile()
+        });
         registry.registerCommand(O1Commands.OPEN_URDF_VIEWER, {
             execute: () => this.openWidget(UrdfViewerWidget.ID)
         });
@@ -121,5 +162,8 @@ export class O1MenuContribution implements MenuContribution {
         registry.registerMenuAction(O1Menus.ROS_MENU, { commandId: O1Commands.OPEN_URDF_VIEWER.id,     order: '3' });
         registry.registerMenuAction(O1Menus.ROS_MENU, { commandId: O1Commands.OPEN_ROS_TOPICS.id,      order: '4' });
         registry.registerMenuAction(O1Menus.ROS_MENU, { commandId: O1Commands.PREVIEW_URDF_CURRENT.id, order: '5' });
+        registry.registerMenuAction(O1Menus.ROS_MENU, { commandId: 'o1.runCurrentFile',            order: '6' });
+        // #3 — also under the Run menu
+        registry.registerMenuAction(CommonMenus.RUN,    { commandId: 'o1.runCurrentFile',            order: '0' });
     }
 }
