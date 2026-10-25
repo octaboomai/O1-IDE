@@ -37,8 +37,8 @@ Then run the file from your Downloads folder. Windows may still show a SmartScre
 ## What's bundled (nothing to install separately)
 
 - ROS 2 Humble detection + guided install
-- **clangd 18** — C++ IntelliSense, bundled in the app
-- **pyright** — Python IntelliSense, bundled in the app
+- **clangd 18** — bundled for C++; editor intelligence (completion, go-to-definition) arrives with language-server wiring in the next release
+- **pyright** — bundled for Python; same caveat as clangd above
 - **pymavlink + pyulog + numpy** — installed automatically on first launch
 - Three.js + roslibjs — offline, no CDN needed
 
