@@ -86,10 +86,34 @@ export class O1CommandContribution
         const file = uri.path.fsPath();
         const isWin = typeof navigator !== 'undefined' && navigator.userAgent.includes('Windows');
         const ext = uri.path.ext.toLowerCase();
-        // .py → run with the interpreter; anything else → execute the file directly.
-        const command = ext === '.py'
-            ? `${isWin ? 'python' : 'python3'} "${file}"`
-            : `"${file}"`;
+
+        // C/C++ must be compiled before it can run. Do it for the user in one step
+        // (gcc/g++, -g so breakpoints work later) and then execute the binary.
+        const cLike = ['.c', '.cc', '.cpp', '.cxx', '.c++'].includes(ext);
+        const cxxLike = ['.cc', '.cpp', '.cxx', '.c++'].includes(ext);
+
+        let command: string;
+        if (cLike) {
+            const compiler = cxxLike ? 'g++' : 'gcc';
+            const out = `${file}.out`;
+            if (isWin) {
+                // ROS toolchain lives in WSL, so compile there with a WSL path.
+                // C:\dir\file -> /mnt/c/dir/file ; a POSIX path is left as-is.
+                const wsl = (p: string): string => {
+                    const m = /^([A-Za-z]):[\\/](.*)$/.exec(p);
+                    return m ? `/mnt/${m[1].toLowerCase()}/${m[2].replace(/\\/g, '/')}`
+                             : p.replace(/\\/g, '/');
+                };
+                const inner = `${compiler} -g -O0 '${wsl(file)}' -o '${wsl(out)}' && '${wsl(out)}'`;
+                command = `wsl.exe bash -lc "${inner}"`;
+            } else {
+                command = `${compiler} -g -O0 "${file}" -o "${out}" && "${out}"`;
+            }
+        } else if (ext === '.py') {
+            command = `${isWin ? 'python' : 'python3'} "${file}"`;
+        } else {
+            command = `"${file}"`;
+        }
         try {
             await this.taskService.runTask({
                 type: 'shell',
