@@ -84,6 +84,18 @@ git push origin v0.2.0
 
 ---
 
+## Known limitations (v0.1 beta)
+
+Please read this before filing an issue. It is deliberately blunt.
+
+- **No code intelligence yet.** clangd and pyright ship inside the app but are not wired as language servers, so there is no autocomplete, go-to-definition or inline diagnostics yet. Syntax highlighting and language detection for 13 languages does work.
+- **No C++ debugger.** Python debugging requires `debugpy` (`pip install debugpy`), which the Windows toolchain setup installs for you.
+- **ROS 2 on Windows runs through WSL.** Install WSL 2 and ROS 2 Humble inside it first — the IDE shells out via `wsl.exe`. On Ubuntu, use the ROS 2 Toolchain panel's "Install / repair".
+- **Builds are not code-signed.** Windows SmartScreen will warn on first run. Use the PowerShell download command above and verify the SHA-256 shown on the release page.
+- **Tested on Ubuntu 22.04 and Windows 11 only.** Other distributions and versions may work but are untested.
+
+---
+
 ## License
 
 Apache 2.0 © octaboomai
