@@ -63,7 +63,6 @@ const TOOL_DEFS: ToolDef[] = [
 ];
 
 /** Allowed workspace roots for xacro-expand — prevents path traversal */
-const IS_WIN = process.platform === 'win32';
 
 /** Roots the xacro endpoint may read from. On Windows a project can live on any
  *  drive, so allow the existing drive roots as well as the home directory. */

@@ -38,6 +38,22 @@ export class RosDebugConfigContribution implements FrontendApplicationContributi
 }
 
 /** Default ROS 2 debug configurations written to every new workspace */
+const IS_WIN_UI = (typeof process !== 'undefined' && (process as any)?.platform === 'win32')
+    || (typeof navigator !== 'undefined' && /Windows/i.test(navigator.userAgent));
+
+/** On Windows ROS 2 lives inside WSL, so /opt/ros paths do not exist on the
+ *  Windows filesystem and must not be injected into a Windows debug session. */
+const ROS_ENV_FULL = IS_WIN_UI
+    ? { ROS_DOMAIN_ID: '0' }
+    : {
+        ROS_DOMAIN_ID: '0',
+        AMENT_PREFIX_PATH: '/opt/ros/humble',
+        PYTHONPATH: '/opt/ros/humble/lib/python3.10/site-packages',
+    };
+const ROS_ENV_MIN = IS_WIN_UI
+    ? { ROS_DOMAIN_ID: '0' }
+    : { ROS_DOMAIN_ID: '0', AMENT_PREFIX_PATH: '/opt/ros/humble' };
+
 const ROS_LAUNCH_JSON = {
     version: '0.2.0',
     inputs: [
