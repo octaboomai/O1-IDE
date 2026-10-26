@@ -19,6 +19,7 @@ import { promisify } from 'util';
 import * as path from 'path';
 import * as os   from 'os';
 import * as fs   from 'fs';
+import * as fs from 'fs';
 
 const execFile = promisify(execFileCb);
 
