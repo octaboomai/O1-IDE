@@ -15,7 +15,9 @@ export class RosTopicsWidget extends BaseWidget implements StatefulWidget {
     @inject(MessageService) protected readonly messageService: MessageService;
 
     protected iframe: HTMLIFrameElement | undefined;
-    protected rosbridgeUrl = `ws://${window.location.host}/rosbridge`;
+    /** rosbridge listens on 9090 (inside WSL on Windows). There is no proxy on
+     *  the Theia origin, so window.location.host was never right. Still editable. */
+    protected rosbridgeUrl = 'ws://localhost:9090';
 
     constructor() {
         super();
@@ -30,7 +32,7 @@ export class RosTopicsWidget extends BaseWidget implements StatefulWidget {
     storeState(): object { return { rosbridgeUrl: this.rosbridgeUrl }; }
     restoreState(state: object): void {
         const s = state as { rosbridgeUrl?: string };
-        this.rosbridgeUrl = s.rosbridgeUrl || `ws://${window.location.host}/rosbridge`;
+        this.rosbridgeUrl = s.rosbridgeUrl || 'ws://localhost:9090';
     }
 
     protected onAfterAttach(msg: Message): void {

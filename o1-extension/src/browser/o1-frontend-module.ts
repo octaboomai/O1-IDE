@@ -1,5 +1,6 @@
 import { ContainerModule } from '@theia/core/shared/inversify';
 import { CommandContribution } from '@theia/core/lib/common/command';
+import { KeybindingContribution } from '@theia/core/lib/browser/keybinding';
 import { MenuContribution } from '@theia/core/lib/common/menu';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application-contribution';
 import { LanguageGrammarDefinitionContribution } from '@theia/monaco/lib/browser/textmate/textmate-contribution';
@@ -21,6 +22,7 @@ export default new ContainerModule(bind => {
     bind(O1CommandContribution).toSelf().inSingletonScope();
     bind(CommandContribution).toService(O1CommandContribution);
     bind(FrontendApplicationContribution).toService(O1CommandContribution);
+    bind(KeybindingContribution).toService(O1CommandContribution);
 
     bind(MenuContribution).to(O1MenuContribution).inSingletonScope();
 

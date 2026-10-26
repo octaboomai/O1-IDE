@@ -79,10 +79,7 @@ const ROS_LAUNCH_JSON = {
             processId:   '${input:rosNodeProcess}',
             MIMode:      'gdb',
             miDebuggerPath: '/usr/bin/gdb',
-            environment: [
-                { name: 'ROS_DOMAIN_ID',     value: '0' },
-                { name: 'AMENT_PREFIX_PATH', value: '/opt/ros/humble' },
-            ],
+            environment: Object.entries(ROS_ENV_MIN).map(([name, value]) => ({ name, value })),
             setupCommands: [
                 { text: '-enable-pretty-printing',              ignoreFailures: true },
                 { text: '-gdb-set disassembly-flavor intel',    ignoreFailures: true },
@@ -94,11 +91,7 @@ const ROS_LAUNCH_JSON = {
             request: 'launch',
             program: '${file}',
             justMyCode: false,
-            env: {
-                ROS_DOMAIN_ID:      '0',
-                AMENT_PREFIX_PATH:  '/opt/ros/humble',
-                PYTHONPATH:         '/opt/ros/humble/lib/python3.10/site-packages',
-            },
+            env: ROS_ENV_FULL,
         },
         {
             name:           'ROS 2: Build then debug',
@@ -107,10 +100,7 @@ const ROS_LAUNCH_JSON = {
             preLaunchTask:  'ros2: colcon build (this package)',
             program:        '${file}',
             justMyCode:     false,
-            env: {
-                ROS_DOMAIN_ID:     '0',
-                AMENT_PREFIX_PATH: '/opt/ros/humble',
-            },
+            env: ROS_ENV_MIN,
         },
     ]
 };

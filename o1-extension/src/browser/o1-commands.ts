@@ -6,6 +6,7 @@ import { WidgetManager } from '@theia/core/lib/browser/widget-manager';
 import { MessageService } from '@theia/core/lib/common/message-service';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application-contribution';
 import { TaskService } from '@theia/task/lib/browser/task-service';
+import { KeybindingContribution, KeybindingRegistry } from '@theia/core/lib/browser/keybinding';
 import { TaskScope } from '@theia/task/lib/common/task-protocol';
 import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
 import { UrdfViewerWidget } from './urdf-viewer/urdf-viewer-widget';
@@ -27,7 +28,7 @@ export namespace O1Menus {
 
 @injectable()
 export class O1CommandContribution
-    implements CommandContribution, FrontendApplicationContribution {
+    implements CommandContribution, FrontendApplicationContribution, KeybindingContribution {
 
     @inject(ApplicationShell)       protected readonly shell:         ApplicationShell;
     @inject(WidgetManager)          protected readonly widgetManager: WidgetManager;
@@ -84,13 +85,21 @@ export class O1CommandContribution
             return;
         }
         const file = uri.path.fsPath();
-        const isWin = typeof navigator !== 'undefined' && navigator.userAgent.includes('Windows');
+        // Prefer the real platform; userAgent is only a fallback because Electron
+        // lets the app override it and Theia sometimes does.
+        const isWin = (typeof process !== 'undefined' && (process as any)?.platform === 'win32')
+            || (typeof navigator !== 'undefined' && /Windows/i.test(navigator.userAgent));
         const ext = uri.path.ext.toLowerCase();
 
         // C/C++ must be compiled before it can run. Do it for the user in one step
         // (gcc/g++, -g so breakpoints work later) and then execute the binary.
         const cLike = ['.c', '.cc', '.cpp', '.cxx', '.c++'].includes(ext);
         const cxxLike = ['.cc', '.cpp', '.cxx', '.c++'].includes(ext);
+
+        // A missing tool otherwise fails with a bare shell error, or nothing at all.
+        const notFound = (tool: string): string => cLike
+            ? `${tool} was not found. Windows needs WSL 2 with g++ installed. Linux: sudo apt install build-essential.`
+            : `${tool} was not found on PATH. Install Python 3 from python.org and restart o1 IDE.`;
 
         let command: string;
         if (cLike) {
@@ -104,13 +113,20 @@ export class O1CommandContribution
                     return m ? `/mnt/${m[1].toLowerCase()}/${m[2].replace(/\\/g, '/')}`
                              : p.replace(/\\/g, '/');
                 };
-                const inner = `${compiler} -g -O0 '${wsl(file)}' -o '${wsl(out)}' && '${wsl(out)}'`;
+                // The compiler lives inside WSL, so check it there — not on the Windows PATH.
+                const inner = `command -v ${compiler} >/dev/null 2>&1 || { echo '${notFound(compiler)}'; exit 1; }; `
+                    + `${compiler} -g -O0 '${wsl(file)}' -o '${wsl(out)}' && '${wsl(out)}'`;
                 command = `wsl.exe bash -lc "${inner}"`;
             } else {
-                command = `${compiler} -g -O0 "${file}" -o "${out}" && "${out}"`;
+                command = `command -v ${compiler} >/dev/null 2>&1 || { echo "${notFound(compiler)}"; exit 1; }; `
+                    + `${compiler} -g -O0 "${file}" -o "${out}" && "${out}"`;
             }
         } else if (ext === '.py') {
-            command = `${isWin ? 'python' : 'python3'} "${file}"`;
+            const py = isWin ? 'python' : 'python3';
+            // Windows task shells are cmd.exe (node's default), where '||' is valid.
+            command = isWin
+                ? `where ${py} >nul 2>&1 || (echo ${notFound(py)} & exit /b 1) && ${py} "${file}"`
+                : `command -v ${py} >/dev/null 2>&1 || { echo "${notFound(py)}"; exit 1; }; ${py} "${file}"`;
         } else {
             command = `"${file}"`;
         }
@@ -138,6 +154,10 @@ export class O1CommandContribution
         } catch (err: any) {
             this.messageService.error(`Could not run ${uri.path.base}: ${err?.message ?? err}`);
         }
+    }
+
+    registerKeybindings(registry: KeybindingRegistry): void {
+        registry.registerKeybinding({ command: 'o1.runCurrentFile', keybinding: 'ctrl+r', when: 'editorFocus' });
     }
 
     registerCommands(registry: CommandRegistry): void {

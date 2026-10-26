@@ -68,11 +68,15 @@ export class RosBuildTaskProvider implements TaskContribution, TaskProvider {
             command,
             options: {
                 cwd: '${workspaceFolder}',
-                env: {
-                    ROS_DOMAIN_ID:     '0',
-                    AMENT_PREFIX_PATH: '/opt/ros/humble',
-                    PATH: '/opt/ros/humble/bin:${env:PATH}',
-                }
+                // ROS 2 lives inside WSL on Windows, so injecting /opt/ros paths
+                // (and a ':' PATH separator) into a Windows shell breaks every task.
+                env: process.platform === 'win32'
+                    ? { ROS_DOMAIN_ID: '0' }
+                    : {
+                        ROS_DOMAIN_ID:     '0',
+                        AMENT_PREFIX_PATH: '/opt/ros/humble',
+                        PATH: '/opt/ros/humble/bin:${env:PATH}',
+                    }
             },
             problemMatcher: ['$gcc'],
             ...(group ? { group } : {}),

@@ -52,6 +52,7 @@ const TOOL_DEFS: ToolDef[] = [
     { id: 'colcon',    label: 'colcon',               cmd: 'colcon --version' },
     { id: 'rosdep',    label: 'rosdep',               cmd: 'rosdep --version' },
     { id: 'cmake',     label: 'CMake',                cmd: 'cmake --version' },
+    { id: 'docker',    label: 'Docker Engine',        cmd: 'docker --version' },
     { id: 'git',       label: 'Git',                  cmd: 'git --version' },
     { id: 'clangd',    label: 'clangd (C++ LSP)',     cmd: 'clangd --version' },
     { id: 'pyright',   label: 'pyright (Python LSP)', cmd: 'pyright --version' },
@@ -62,7 +63,13 @@ const TOOL_DEFS: ToolDef[] = [
 ];
 
 /** Allowed workspace roots for xacro-expand — prevents path traversal */
-const WORKSPACE_ROOTS = ['/workspace', '/home/o1user', os.homedir()];
+const IS_WIN = process.platform === 'win32';
+
+/** Roots the xacro endpoint may read from. On Windows a project can live on any
+ *  drive, so allow the existing drive roots as well as the home directory. */
+const WORKSPACE_ROOTS: string[] = IS_WIN
+    ? [os.homedir(), ...['C', 'D', 'E', 'F', 'G'].map(d => `${d}:\\`).filter(r => fs.existsSync(r))]
+    : ['/workspace', '/home/o1user', os.homedir()];
 
 /** Restricted PATH used for the install script — prevents hijacking via env */
 const SAFE_PATH = [

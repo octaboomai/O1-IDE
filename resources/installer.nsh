@@ -9,7 +9,9 @@
   ; Desktop shortcut so users can launch o1 IDE after install
   CreateShortcut "$DESKTOP\o1 IDE.lnk" "$INSTDIR\o1 IDE.exe"
   ; Run Python packages setup after install
-  ExecWait '"$INSTDIR\resources\scripts\install-toolchain-windows.ps1" -Silent'
+  ; Invoke PowerShell explicitly: a bare .ps1 runs under the default
+  ; execution policy (Restricted on a fresh Windows), which silently blocks it.
+  ExecWait 'powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "$INSTDIR\resources\scripts\install-toolchain-windows.ps1" -Silent'
 !macroend
 
 !macro customUnInstall
