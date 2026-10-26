@@ -114,6 +114,19 @@ export class O1CommandContribution
         } else {
             command = `"${file}"`;
         }
+        // Tell the user exactly what will run, and what to check if nothing appears.
+        // (Deliberately NOT a shell-level existence check: `||` breaks on PowerShell 5.1,
+        //  so a wrong guess would replace a clear message with a syntax error.)
+        const interpreter = cLike
+            ? (cxxLike ? 'g++' : 'gcc')
+            : (ext === '.py' ? (isWin ? 'python' : 'python3') : null);
+        if (interpreter) {
+            const hint = cLike && isWin
+                ? 'C/C++ compiles inside WSL — WSL 2 with g++ must be installed.'
+                : `If no output appears, ${interpreter} may not be on your PATH.`;
+            this.messageService.info(`Running ${uri.path.base} with ${interpreter}. ${hint}`);
+        }
+
         try {
             await this.taskService.runTask({
                 type: 'shell',
