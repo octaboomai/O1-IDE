@@ -38,8 +38,8 @@ export default new ContainerModule(bind => {
     bind(LanguageGrammarDefinitionContribution).to(RosLangGrammarContribution).inSingletonScope();
 
     // Python + robotics/drone languages (grammar + detection + keyword completion)
-    bind(LanguageGrammarDefinitionContribution).to(PythonLangGrammarContribution).inSingletonScope();
-    bind(LanguageGrammarDefinitionContribution).to(RoboticsLanguagesContribution).inSingletonScope();
+    bind(FrontendApplicationContribution).to(PythonLangGrammarContribution).inSingletonScope();
+    bind(FrontendApplicationContribution).to(RoboticsLanguagesContribution).inSingletonScope();
 
     // Project templates
     bind(TemplatesContribution).toSelf().inSingletonScope();

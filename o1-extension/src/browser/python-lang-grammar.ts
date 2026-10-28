@@ -1,6 +1,7 @@
 import { injectable } from '@theia/core/shared/inversify';
-import { LanguageGrammarDefinitionContribution } from '@theia/monaco/lib/browser/textmate/textmate-contribution';
-import { TextmateRegistry } from '@theia/monaco/lib/browser/textmate/textmate-registry';
+import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application-contribution';
+import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
+import { inject, injectable } from '@theia/core/shared/inversify';
 
 /**
  * FEATURE: Python language support (.py / .pyw / .pyi)
@@ -10,10 +11,13 @@ import { TextmateRegistry } from '@theia/monaco/lib/browser/textmate/textmate-re
  * to. Registering the language here fixes both.
  */
 @injectable()
-export class PythonLangGrammarContribution implements LanguageGrammarDefinitionContribution {
+export class PythonLangGrammarContribution implements FrontendApplicationContribution {
     readonly PYTHON_LANGUAGE_ID = 'python';
 
-    registerTextmateLanguage(_registry: TextmateRegistry): void {
+    @inject(EditorManager) protected readonly editorManager!: EditorManager;
+
+    onStart(): void {
+        this.editorManager.onCreated(() => setTimeout(() => applyModelLanguages(PY_EXT), 250));
         // Guarded: this runs during frontend startup, and an exception here would
         // leave the whole IDE stuck on its loading spinner.
         try {
@@ -21,6 +25,7 @@ export class PythonLangGrammarContribution implements LanguageGrammarDefinitionC
         } catch (err) {
             console.error('[o1] python language registration failed', err);
         }
+        applyModelLanguages(PY_EXT);
     }
 
     private register(): void {
@@ -55,6 +60,28 @@ export class PythonLangGrammarContribution implements LanguageGrammarDefinitionC
         });
     }
 }
+
+
+/** Force the language onto already-open models. Theia detects a language when an
+ *  editor is created; a file opened before registration (or restored from the last
+ *  session) stays "plaintext" forever. This re-applies it by extension. */
+function applyModelLanguages(map: Record<string, string>): void {
+    try {
+        for (const model of monaco.editor.getModels()) {
+            const p = model.uri.path.toLowerCase();
+            const dot = p.lastIndexOf('.');
+            if (dot < 0) continue;
+            const id = map[p.slice(dot)];
+            if (id && model.getLanguageId() !== id) {
+                monaco.editor.setModelLanguage(model, id);
+            }
+        }
+    } catch (err) {
+        console.error('[o1] could not apply model languages', err);
+    }
+}
+
+const PY_EXT: Record<string, string> = { '.py': 'python', '.pyw': 'python', '.pyi': 'python' };
 
 const PYTHON_KEYWORDS = [
     'and', 'as', 'assert', 'async', 'await', 'break', 'class', 'continue', 'def', 'del',
