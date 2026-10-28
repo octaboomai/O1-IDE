@@ -59,7 +59,7 @@ const TOOL_DEFS: ToolDef[] = [
     { id: 'pymavlink', label: 'pymavlink',            cmd: 'python3 -c "import pymavlink; print(pymavlink.__version__)"' },
     { id: 'pyulog',    label: 'pyulog',               cmd: 'python3 -c "import pyulog; print(pyulog.__version__)"' },
     { id: 'numpy',     label: 'numpy',                cmd: 'python3 -c "import numpy; print(numpy.__version__)"' },
-    { id: 'rosbridge', label: 'rosbridge-suite',      cmd: 'ros2 pkg list 2>/dev/null | grep -c rosbridge' },
+    { id: 'rosbridge', label: 'rosbridge-suite',      cmd: 'ros2 pkg xml rosbridge_server 2>/dev/null | grep -m1 -o "<version>[^<]*" | cut -d">" -f2' },
 ];
 
 /** Allowed workspace roots for xacro-expand — prevents path traversal */
@@ -212,7 +212,9 @@ export class O1RestContribution implements BackendApplicationContribution {
                 // Use execFile (not exec) — no shell interpolation possible
                 const { stdout } = await execFile(
                     ROS_SHELL,
-                    rosShellArgs(`source /opt/ros/humble/setup.bash 2>/dev/null; ros2 run xacro xacro '${resolved}' 2>&1`),
+                    // Escape single quotes: a filename like robot's_arm.xacro would
+                    // otherwise close the quote and corrupt the command.
+                    rosShellArgs(`source /opt/ros/humble/setup.bash 2>/dev/null; ros2 run xacro xacro '${resolved.replace(/'/g, "'\\''")}' 2>&1`),
                     { timeout: 15000, maxBuffer: 10 * 1024 * 1024 }
                 );
 

@@ -93,7 +93,7 @@ pre{white-space:pre-wrap;word-break:break-all}
 <body>
 <div class="toolbar">
   <span style="font-weight:700;color:#0fdfff;font-size:13px">rosbridge</span>
-  <input id="url" value="' + ('ws://' + (window.parent.location.host || window.location.host || 'localhost:8080') + '/rosbridge') + '"/>
+  <input id="url" value="' + this.rosbridgeUrl + '"/>
   <button class="btn" id="bc">Connect</button>
   <button class="btn d" id="bd" style="display:none">Disconnect</button>
 </div>
@@ -145,7 +145,7 @@ function subscribe(n){
 }
 
 function connect(){
-  var url=document.getElementById('url').value.trim()||('ws://'+window.parent.location.host+'/rosbridge');
+  var url=document.getElementById('url').value.trim()||'ws://localhost:9090';
   setS('','Connecting…');
   if(!window.ROSLIB){
     var s=document.createElement('script');

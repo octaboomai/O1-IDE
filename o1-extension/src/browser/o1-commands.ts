@@ -110,8 +110,10 @@ export class O1CommandContribution
                 // C:\dir\file -> /mnt/c/dir/file ; a POSIX path is left as-is.
                 const wsl = (p: string): string => {
                     const m = /^([A-Za-z]):[\\/](.*)$/.exec(p);
-                    return m ? `/mnt/${m[1].toLowerCase()}/${m[2].replace(/\\/g, '/')}`
-                             : p.replace(/\\/g, '/');
+                    const posix = m ? `/mnt/${m[1].toLowerCase()}/${m[2].replace(/\\/g, '/')}`
+                                    : p.replace(/\\/g, '/');
+                    // Escape single quotes for the bash single-quote context it lands in.
+                    return posix.replace(/'/g, "'\\''");
                 };
                 // The compiler lives inside WSL, so check it there — not on the Windows PATH.
                 const inner = `command -v ${compiler} >/dev/null 2>&1 || { echo '${notFound(compiler)}'; exit 1; }; `
@@ -150,6 +152,9 @@ export class O1CommandContribution
                 label: `o1: run ${uri.path.base}`,
                 command,
                 options: { cwd: uri.path.dir.fsPath() },
+                // Keep the terminal open after exit. Without this a fast script
+                // (print + exit in ~80ms) flashes past and the output is lost.
+                presentation: { reveal: 'always', panel: 'new', focus: true, close: false },
             } as any);
         } catch (err: any) {
             this.messageService.error(`Could not run ${uri.path.base}: ${err?.message ?? err}`);
