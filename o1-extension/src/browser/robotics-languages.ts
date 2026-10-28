@@ -1,7 +1,6 @@
-import { injectable } from '@theia/core/shared/inversify';
-import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application-contribution';
-import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
-import { inject, injectable } from '@theia/core/shared/inversify';
+import { injectable, inject } from '@theia/core/shared/inversify';
+import { LanguageGrammarDefinitionContribution } from '@theia/monaco/lib/browser/textmate/textmate-contribution';
+import { TextmateRegistry } from '@theia/monaco/lib/browser/textmate/textmate-registry';
 
 /**
  * FEATURE: languages used in robotics / drone development.
@@ -14,12 +13,9 @@ import { inject, injectable } from '@theia/core/shared/inversify';
  * Shell · Makefile · Dockerfile · INI · Lua · Rust · Protocol Buffers.
  */
 @injectable()
-export class RoboticsLanguagesContribution implements FrontendApplicationContribution {
+export class RoboticsLanguagesContribution implements LanguageGrammarDefinitionContribution {
 
-    @inject(EditorManager) protected readonly editorManager!: EditorManager;
-
-    onStart(): void {
-        this.editorManager.onCreated(() => setTimeout(() => applyModelLanguages(EXT_TO_LANGUAGE), 250));
+    registerTextmateLanguage(_registry: TextmateRegistry): void {
         // Never let language registration take the IDE down: a failure here runs
         // during frontend startup and would otherwise leave the app on its spinner.
         try {
@@ -52,35 +48,8 @@ export class RoboticsLanguagesContribution implements FrontendApplicationContrib
                 console.error('[o1] could not register language', spec.id, err);
             }
         }
-        applyModelLanguages(EXT_TO_LANGUAGE);
     }
 }
-
-
-/** Force the language onto already-open models. Theia detects a language when an
- *  editor is created; a file opened before registration (or restored from the last
- *  session) stays "plaintext" forever. This re-applies it by extension. */
-function applyModelLanguages(map: Record<string, string>): void {
-    try {
-        for (const model of monaco.editor.getModels()) {
-            const p = model.uri.path.toLowerCase();
-            const dot = p.lastIndexOf('.');
-            if (dot < 0) continue;
-            const id = map[p.slice(dot)];
-            if (id && model.getLanguageId() !== id) {
-                monaco.editor.setModelLanguage(model, id);
-            }
-        }
-    } catch (err) {
-        console.error('[o1] could not apply model languages', err);
-    }
-}
-
-/** extension -> language id, for the model sweep */
-const EXT_TO_LANGUAGE: Record<string, string> = ROBOTICS_LANGUAGES.reduce((acc, spec) => {
-    for (const ext of spec.extensions) acc[ext.toLowerCase()] = spec.id;
-    return acc;
-}, {} as Record<string, string>);
 
 interface LangSpec {
     id: string;
