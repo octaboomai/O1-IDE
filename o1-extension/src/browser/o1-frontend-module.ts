@@ -10,6 +10,7 @@ import { O1CommandContribution, O1MenuContribution } from './o1-commands';
 import { RosLangGrammarContribution } from './ros-lang-grammar';
 import { PythonLangGrammarContribution } from './python-lang-grammar';
 import { RoboticsLanguagesContribution } from './robotics-languages';
+import { LanguageActivationContribution } from './language-activation';
 import { UrdfViewerWidget } from './urdf-viewer/urdf-viewer-widget';
 import { RosTopicsWidget } from './ros-topics/ros-topics-widget';
 import { ToolchainInstallerWidget } from './toolchain/toolchain-installer';
@@ -40,6 +41,9 @@ export default new ContainerModule(bind => {
     // Python + robotics/drone languages (grammar + detection + keyword completion)
     bind(FrontendApplicationContribution).to(PythonLangGrammarContribution).inSingletonScope();
     bind(FrontendApplicationContribution).to(RoboticsLanguagesContribution).inSingletonScope();
+
+    // Re-apply language ids to open models so files never stay 'Plain Text'
+    bind(FrontendApplicationContribution).to(LanguageActivationContribution).inSingletonScope();
 
     // Project templates
     bind(TemplatesContribution).toSelf().inSingletonScope();
