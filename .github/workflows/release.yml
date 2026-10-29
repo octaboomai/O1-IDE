@@ -75,6 +75,7 @@ jobs:
         run: yarn workspace o1-extension build && yarn workspace o1-app build:prod
 
       - name: Download IDE plugins (language grammars)
+        shell: bash   # Windows runners default to PowerShell; this step is bash
         run: |
           # Fetch the .vsix files directly. `theia download:plugins` hits Open VSX
           # and fails intermittently from CI runners; this is deterministic.
@@ -175,6 +176,7 @@ jobs:
         run: yarn workspace o1-extension build && yarn workspace o1-app build:prod
 
       - name: Download IDE plugins (language grammars)
+        shell: bash   # Windows runners default to PowerShell; this step is bash
         run: |
           # Fetch the .vsix files directly. `theia download:plugins` hits Open VSX
           # and fails intermittently from CI runners; this is deterministic.

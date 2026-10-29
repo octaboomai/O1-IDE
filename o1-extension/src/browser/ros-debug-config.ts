@@ -15,6 +15,17 @@ export class RosDebugConfigContribution implements FrontendApplicationContributi
     @inject(WorkspaceService)  protected readonly workspaceService: WorkspaceService;
 
     async onStart(): Promise<void> {
+        // DELIBERATELY DISABLED for the 0.1 beta.
+        //
+        // The generated configurations need debugpy (Python) and lldb-dap (C++)
+        // inside the workspace, neither of which ships yet. Pressing F5 produced
+        // "Timed out waiting for launcher to connect" and opened an unrelated
+        // source file, which reads as the IDE misbehaving.
+        //
+        // Shipping no debug configuration is honest; shipping one that fails with
+        // a red error is not. Debugging returns in 0.2 once the adapters land.
+        if (1 as number) { return; }
+
         // Wait for workspace to be ready
         await this.workspaceService.ready;
         const roots = this.workspaceService.tryGetRoots();
