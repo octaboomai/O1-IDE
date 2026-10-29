@@ -1,17 +1,17 @@
 import { injectable, inject } from '@theia/core/shared/inversify';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application-contribution';
 import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
+import { MessageService } from '@theia/core/lib/common/message-service';
 
 /**
- * FEATURE: make language detection actually stick.
+ * FEATURE: make language detection stick, and REPORT what it did.
  *
- * Theia assigns a language when an editor model is created. A file opened before
- * the grammars are registered — or restored from the previous session — keeps
- * `plaintext` forever, which is why files still showed "Plain Text" in the status
- * bar even though the grammars were registered.
+ * Theia assigns a language when an editor model is created, so a file opened
+ * before the grammars register (or restored from the last session) keeps
+ * `plaintext` forever. This re-applies the language by file name/extension.
  *
- * This re-applies the language by file name/extension: once at startup, and again
- * shortly after any editor is created.
+ * It also shows a one-line startup report, because the previous versions failed
+ * silently and there was no way to tell "didn't run" from "ran and did nothing".
  */
 const EXT_TO_LANGUAGE: Record<string, string> = {
     '.py': 'python', '.pyw': 'python', '.pyi': 'python',
@@ -30,7 +30,6 @@ const EXT_TO_LANGUAGE: Record<string, string> = {
     '.proto': 'proto',
 };
 
-/** Files identified by name rather than extension. */
 const NAME_TO_LANGUAGE: Record<string, string> = {
     'cmakelists.txt': 'cmake',
     'makefile': 'makefile',
@@ -42,24 +41,55 @@ const NAME_TO_LANGUAGE: Record<string, string> = {
 @injectable()
 export class LanguageActivationContribution implements FrontendApplicationContribution {
 
-    @inject(EditorManager) protected readonly editorManager!: EditorManager;
+    @inject(EditorManager)   protected readonly editorManager!: EditorManager;
+    @inject(MessageService)  protected readonly messages!: MessageService;
 
     onStart(): void {
-        this.sweep();
-        // New editors get their language re-applied once the model exists.
-        this.editorManager.onCreated(() => setTimeout(() => this.sweep(), 300));
+        setTimeout(() => this.report(), 2500);
+        this.editorManager.onCreated(() => setTimeout(() => this.sweep(false), 300));
     }
 
-    private sweep(): void {
+    /** Runs once shortly after startup and tells the user exactly what it found. */
+    private report(): void {
+        const result = this.sweep(false);
+        const text = result.detail
+            ? `o1 languages: ${result.detail}`
+            : `o1 languages: ${result.checked} open file(s), ${result.applied} set to a language.`;
+        console.info('[o1] ' + text);
+        // Visible in the UI so the user can report it without opening DevTools.
+        this.messages.info(text, { timeout: 15000 });
+    }
+
+    private sweep(verbose: boolean): { checked: number; applied: number; detail?: string } {
+        const monacoAny = (typeof monaco !== 'undefined' ? monaco : undefined) as any;
+        if (!monacoAny || !monacoAny.editor || typeof monacoAny.editor.getModels !== 'function') {
+            return { checked: 0, applied: 0, detail: 'monaco.editor.getModels is not available' };
+        }
+        if (!monacoAny.languages || typeof monacoAny.languages.getLanguages !== 'function') {
+            return { checked: 0, applied: 0, detail: 'monaco.languages is not available' };
+        }
         try {
-            for (const model of monaco.editor.getModels()) {
+            const known: string[] = monacoAny.languages.getLanguages().map((l: any) => l.id);
+            const models = monacoAny.editor.getModels();
+            let applied = 0;
+            for (const model of models) {
                 const id = this.languageFor(model.uri.path);
                 if (id && model.getLanguageId() !== id) {
-                    monaco.editor.setModelLanguage(model, id);
+                    monacoAny.editor.setModelLanguage(model, id);
+                    applied++;
                 }
             }
-        } catch (err) {
-            console.error('[o1] language activation failed', err);
+            if (verbose) console.info('[o1] languages known to monaco:', known.join(','));
+            // If a language we want is NOT registered, say so — that is the real bug.
+            const wanted = ['python', 'cpp', 'cmake'];
+            const missing = wanted.filter(w => !known.includes(w));
+            if (missing.length) {
+                return { checked: models.length, applied,
+                         detail: `${models.length} file(s), ${applied} set, but monaco does NOT know: ${missing.join(', ')}` };
+            }
+            return { checked: models.length, applied };
+        } catch (err: any) {
+            return { checked: 0, applied: 0, detail: 'sweep failed: ' + (err?.message ?? err) };
         }
     }
 
