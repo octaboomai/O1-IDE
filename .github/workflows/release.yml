@@ -77,8 +77,12 @@ jobs:
       - name: Download IDE plugins (language grammars)
         run: |
           cd o1-app
-          npx --yes @theia/cli download:plugins
-          ls -la plugins || true
+          # `npx @theia/cli` cannot resolve a binary (the bin is called `theia`).
+          yarn theia download:plugins
+          echo "--- plugins downloaded ---"
+          ls -la plugins
+          # Fail loudly: an empty plugins dir means no language grammar ships.
+          test -n "$(ls -A plugins)" || { echo "::error::no plugins downloaded"; exit 1; }
 
       - name: Package .deb + .AppImage
         run: npx electron-builder --linux deb AppImage --publish never
@@ -160,8 +164,12 @@ jobs:
       - name: Download IDE plugins (language grammars)
         run: |
           cd o1-app
-          npx --yes @theia/cli download:plugins
-          ls -la plugins || true
+          # `npx @theia/cli` cannot resolve a binary (the bin is called `theia`).
+          yarn theia download:plugins
+          echo "--- plugins downloaded ---"
+          ls -la plugins
+          # Fail loudly: an empty plugins dir means no language grammar ships.
+          test -n "$(ls -A plugins)" || { echo "::error::no plugins downloaded"; exit 1; }
 
       - name: Package .exe
         timeout-minutes: 20
