@@ -26,13 +26,11 @@
   "overrides": {
     "electron": "42.8.1"
   },
-  "theia": {
-    "theiaPluginsDir": "o1-app/plugins",
-    "theiaPlugins": {
-      "ms-python.python": "https://open-vsx.org/api/ms-python/python/2026.4.0/file/ms-python.python-2026.4.0.vsix",
-      "jeff-hykin.better-cpp-syntax": "https://open-vsx.org/api/jeff-hykin/better-cpp-syntax/1.27.1/file/jeff-hykin.better-cpp-syntax-1.27.1.vsix",
-      "twxs.cmake": "https://open-vsx.org/api/twxs/cmake/0.0.17/file/twxs.cmake-0.0.17.vsix",
-      "redhat.vscode-xml": "https://open-vsx.org/api/redhat/vscode-xml/0.29.3/file/redhat.vscode-xml-0.29.3.vsix"
-    }
+  "theiaPluginsDir": "o1-app/plugins",
+  "theiaPlugins": {
+    "ms-python.python": "https://open-vsx.org/api/ms-python/python/2026.4.0/file/ms-python.python-2026.4.0.vsix",
+    "jeff-hykin.better-cpp-syntax": "https://open-vsx.org/api/jeff-hykin/better-cpp-syntax/1.27.1/file/jeff-hykin.better-cpp-syntax-1.27.1.vsix",
+    "twxs.cmake": "https://open-vsx.org/api/twxs/cmake/0.0.17/file/twxs.cmake-0.0.17.vsix",
+    "redhat.vscode-xml": "https://open-vsx.org/api/redhat/vscode-xml/0.29.3/file/redhat.vscode-xml-0.29.3.vsix"
   }
 }
