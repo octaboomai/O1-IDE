@@ -74,6 +74,12 @@ jobs:
       - name: Build Theia (production)
         run: yarn workspace o1-extension build && yarn workspace o1-app build:prod
 
+      - name: Download IDE plugins (language grammars)
+        run: |
+          cd o1-app
+          npx --yes @theia/cli download:plugins
+          ls -la plugins || true
+
       - name: Package .deb + .AppImage
         run: npx electron-builder --linux deb AppImage --publish never
         env:
@@ -150,6 +156,12 @@ jobs:
 
       - name: Build Theia (production)
         run: yarn workspace o1-extension build && yarn workspace o1-app build:prod
+
+      - name: Download IDE plugins (language grammars)
+        run: |
+          cd o1-app
+          npx --yes @theia/cli download:plugins
+          ls -la plugins || true
 
       - name: Package .exe
         timeout-minutes: 20
