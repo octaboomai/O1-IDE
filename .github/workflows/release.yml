@@ -76,13 +76,26 @@ jobs:
 
       - name: Download IDE plugins (language grammars)
         run: |
-          # yarn workspaces always run from the repo root, which is why the
-          # theiaPlugins config lives in the root package.json.
-          yarn theia download:plugins
-          echo "--- plugins downloaded ---"
-          ls -la o1-app/plugins
-          # Fail loudly: an empty plugins dir means no language grammar ships.
-          test -n "$(ls -A o1-app/plugins)" || { echo "::error::no plugins downloaded"; exit 1; }
+          # Fetch the .vsix files directly. `theia download:plugins` hits Open VSX
+          # and fails intermittently from CI runners; this is deterministic.
+          mkdir -p o1-app/plugins
+          fetch_plugin () {
+            id="$1"; url="$2"
+            dest="o1-app/plugins/$id"
+            rm -rf "$dest" /tmp/p.vsix /tmp/px
+            mkdir -p "$dest"
+            curl -fsSL --retry 5 --retry-delay 3 "$url" -o /tmp/p.vsix
+            unzip -q -o /tmp/p.vsix -d /tmp/px
+            cp -r /tmp/px/extension/. "$dest"/
+            test -f "$dest/package.json" || { echo "::error::$id has no package.json"; exit 1; }
+            echo "  bundled $id"
+          }
+          fetch_plugin ms-python.python-2026.4.0 "https://open-vsx.org/api/ms-python/python/2026.4.0/file/ms-python.python-2026.4.0.vsix"
+          fetch_plugin jeff-hykin.better-cpp-syntax-1.27.1 "https://open-vsx.org/api/jeff-hykin/better-cpp-syntax/1.27.1/file/jeff-hykin.better-cpp-syntax-1.27.1.vsix"
+          fetch_plugin twxs.cmake-0.0.17 "https://open-vsx.org/api/twxs/cmake/0.0.17/file/twxs.cmake-0.0.17.vsix"
+          fetch_plugin redhat.vscode-xml-0.29.3 "https://open-vsx.org/api/redhat/vscode-xml/0.29.3/file/redhat.vscode-xml-0.29.3.vsix"
+          echo "--- plugins ---"
+          ls -1 o1-app/plugins
 
       - name: Package .deb + .AppImage
         run: npx electron-builder --linux deb AppImage --publish never
@@ -163,13 +176,26 @@ jobs:
 
       - name: Download IDE plugins (language grammars)
         run: |
-          # yarn workspaces always run from the repo root, which is why the
-          # theiaPlugins config lives in the root package.json.
-          yarn theia download:plugins
-          echo "--- plugins downloaded ---"
-          ls -la o1-app/plugins
-          # Fail loudly: an empty plugins dir means no language grammar ships.
-          test -n "$(ls -A o1-app/plugins)" || { echo "::error::no plugins downloaded"; exit 1; }
+          # Fetch the .vsix files directly. `theia download:plugins` hits Open VSX
+          # and fails intermittently from CI runners; this is deterministic.
+          mkdir -p o1-app/plugins
+          fetch_plugin () {
+            id="$1"; url="$2"
+            dest="o1-app/plugins/$id"
+            rm -rf "$dest" /tmp/p.vsix /tmp/px
+            mkdir -p "$dest"
+            curl -fsSL --retry 5 --retry-delay 3 "$url" -o /tmp/p.vsix
+            unzip -q -o /tmp/p.vsix -d /tmp/px
+            cp -r /tmp/px/extension/. "$dest"/
+            test -f "$dest/package.json" || { echo "::error::$id has no package.json"; exit 1; }
+            echo "  bundled $id"
+          }
+          fetch_plugin ms-python.python-2026.4.0 "https://open-vsx.org/api/ms-python/python/2026.4.0/file/ms-python.python-2026.4.0.vsix"
+          fetch_plugin jeff-hykin.better-cpp-syntax-1.27.1 "https://open-vsx.org/api/jeff-hykin/better-cpp-syntax/1.27.1/file/jeff-hykin.better-cpp-syntax-1.27.1.vsix"
+          fetch_plugin twxs.cmake-0.0.17 "https://open-vsx.org/api/twxs/cmake/0.0.17/file/twxs.cmake-0.0.17.vsix"
+          fetch_plugin redhat.vscode-xml-0.29.3 "https://open-vsx.org/api/redhat/vscode-xml/0.29.3/file/redhat.vscode-xml-0.29.3.vsix"
+          echo "--- plugins ---"
+          ls -1 o1-app/plugins
 
       - name: Package .exe
         timeout-minutes: 20
