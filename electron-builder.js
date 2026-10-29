@@ -31,6 +31,9 @@ module.exports = {
         { from: "resources/pyright", to: "pyright", filter: ["**/*"] },
         // Three.js + roslibjs for offline URDF viewer
         { from: "resources/vendor", to: "vendor", filter: ["three.min.js","roslib.min.js"] },
+        // Theia language extensions (Python, C/C++, CMake, XML) — without this the
+        // plugins are downloaded but never packaged, so no grammar is registered.
+        { from: "o1-app/plugins", to: "plugins", filter: ["**/*"] },
         // Post-install scripts
         { from: "scripts", to: "scripts", filter: ["*.sh","*.ps1"] },
         // Splash screen
