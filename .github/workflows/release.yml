@@ -76,13 +76,13 @@ jobs:
 
       - name: Download IDE plugins (language grammars)
         run: |
-          cd o1-app
-          # `npx @theia/cli` cannot resolve a binary (the bin is called `theia`).
+          # yarn workspaces always run from the repo root, which is why the
+          # theiaPlugins config lives in the root package.json.
           yarn theia download:plugins
           echo "--- plugins downloaded ---"
-          ls -la plugins
+          ls -la o1-app/plugins
           # Fail loudly: an empty plugins dir means no language grammar ships.
-          test -n "$(ls -A plugins)" || { echo "::error::no plugins downloaded"; exit 1; }
+          test -n "$(ls -A o1-app/plugins)" || { echo "::error::no plugins downloaded"; exit 1; }
 
       - name: Package .deb + .AppImage
         run: npx electron-builder --linux deb AppImage --publish never
@@ -163,13 +163,13 @@ jobs:
 
       - name: Download IDE plugins (language grammars)
         run: |
-          cd o1-app
-          # `npx @theia/cli` cannot resolve a binary (the bin is called `theia`).
+          # yarn workspaces always run from the repo root, which is why the
+          # theiaPlugins config lives in the root package.json.
           yarn theia download:plugins
           echo "--- plugins downloaded ---"
-          ls -la plugins
+          ls -la o1-app/plugins
           # Fail loudly: an empty plugins dir means no language grammar ships.
-          test -n "$(ls -A plugins)" || { echo "::error::no plugins downloaded"; exit 1; }
+          test -n "$(ls -A o1-app/plugins)" || { echo "::error::no plugins downloaded"; exit 1; }
 
       - name: Package .exe
         timeout-minutes: 20
