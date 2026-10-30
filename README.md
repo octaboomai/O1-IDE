@@ -3,8 +3,8 @@
 > **The IDE that reads your drone's mind.**
 > Zero-setup ROS 2 robotics IDE for Ubuntu and Windows.
 
-[![Release](https://img.shields.io/github/v/release/octaboomai/O1-IDE)](https://github.com/octaboomai/O1-IDE/releases/latest)
-[![Version](https://img.shields.io/badge/version-0.1.2-0fdfff)](https://github.com/octaboomai/O1-IDE/releases/tag/v0.1.2)
+[![Release](https://img.shields.io/github/v/release/octaboomai/Rovant)](https://github.com/octaboomai/Rovant/releases/latest)
+[![Version](https://img.shields.io/badge/version-0.1.2-0fdfff)](https://github.com/octaboomai/Rovant/releases/tag/v0.1.2)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 
 ---
@@ -19,7 +19,7 @@
 | **Any Linux** | `.AppImage` | `chmod +x rovant-*.AppImage && ./rovant-*.AppImage` |
 | **Windows 10/11** | `.exe` | Run the installer |
 
-→ **[⬇ Download Rovant v0.1.2 — latest release](https://github.com/octaboomai/O1-IDE/releases/latest)**
+→ **[⬇ Download Rovant v0.1.2 — latest release](https://github.com/octaboomai/Rovant/releases/latest)**
 
 ### Windows: browser blocked the download?
 
@@ -27,7 +27,7 @@ The Windows installer is **not code-signed**, so Chrome / Edge and Windows Smart
 
 ```powershell
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/rovant-0.1.2-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\rovant-0.1.2-windows-x64.exe"
+Invoke-WebRequest -Uri "https://github.com/octaboomai/Rovant/releases/download/v0.1.2/rovant-0.1.2-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\rovant-0.1.2-windows-x64.exe"
 ```
 
 Then run the file from your Downloads folder. Windows may still show a SmartScreen prompt for an unsigned app — choose **More info → Run anyway**.
@@ -60,7 +60,7 @@ Then run the file from your Downloads folder. Windows may still show a SmartScre
 ## Development
 
 ```bash
-git clone https://github.com/octaboomai/O1-IDE
+git clone https://github.com/octaboomai/Rovant
 cd rovant
 yarn install
 yarn workspace o1-extension build

@@ -3,7 +3,7 @@ import { TaskContribution } from '@theia/task/lib/browser/task-contribution';
 import { BackendApplicationContribution } from '@theia/core/lib/node/backend-application';
 import { DebugAdapterContribution } from '@theia/debug/lib/common/debug-model';
 import { RosBuildTaskProvider } from './ros-build-tasks';
-import { O1RestContribution } from './o1-rest-contribution';
+import { O1RestContribution } from './rovant-rest-contribution';
 import { PythonDebugAdapterContribution } from './python-debug-adapter';
 
 export default new ContainerModule(bind => {

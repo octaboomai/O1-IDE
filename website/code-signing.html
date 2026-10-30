@@ -39,7 +39,7 @@ footer a{color:var(--fg2)}
 <h1>Download help</h1>
 <div class="meta">Last updated: October 2026</div>
 
-<p>Rovant is free and open source. The installers are built automatically by our GitHub Actions pipeline and published on the <a href="https://github.com/octaboomai/O1-IDE/releases">Releases page</a>.</p>
+<p>Rovant is free and open source. The installers are built automatically by our GitHub Actions pipeline and published on the <a href="https://github.com/octaboomai/Rovant/releases">Releases page</a>.</p>
 
 <div class="note">
 <strong>Windows builds are not code-signed.</strong> We applied to the SignPath Foundation open-source signing programme but were not accepted, so the Windows installer ships unsigned. That is what triggers the browser and SmartScreen warnings below — it does <em>not</em> mean the file is unsafe.
@@ -51,7 +51,7 @@ footer a{color:var(--fg2)}
 <h2>Download with PowerShell (recommended if the browser blocks it)</h2>
 <p>Open a <strong>Windows PowerShell</strong> window and paste these two lines:</p>
 <pre>[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.1.0/rovant-0.1.0-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\rovant-0.1.0-windows-x64.exe"</pre>
+Invoke-WebRequest -Uri "https://github.com/octaboomai/Rovant/releases/download/v0.1.0/rovant-0.1.0-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\rovant-0.1.0-windows-x64.exe"</pre>
 <p>The file lands in your <code>Downloads</code> folder. Then double-click it to install.</p>
 
 <h2>If SmartScreen warns when you run it</h2>
@@ -64,17 +64,17 @@ Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v
 <h2>Verify what you downloaded</h2>
 <p>Every release lists a SHA-256 digest next to each file. To check yours matches:</p>
 <pre>Get-FileHash "$env:USERPROFILE\Downloads\rovant-0.1.0-windows-x64.exe" -Algorithm SHA256</pre>
-<p>Compare the output with the digest shown on the <a href="https://github.com/octaboomai/O1-IDE/releases">Releases page</a>. If they match, the file is exactly what our build produced.</p>
+<p>Compare the output with the digest shown on the <a href="https://github.com/octaboomai/Rovant/releases">Releases page</a>. If they match, the file is exactly what our build produced.</p>
 
 <div class="ok">
-<strong>Builds come from this repository.</strong> Every installer is produced by our public CI from the tagged commit — see <a href="https://github.com/octaboomai/O1-IDE/actions">Actions</a>.
+<strong>Builds come from this repository.</strong> Every installer is produced by our public CI from the tagged commit — see <a href="https://github.com/octaboomai/Rovant/actions">Actions</a>.
 </div>
 
 <h2>Linux</h2>
 <p>Linux installers are not affected by these warnings. Download the <code>.deb</code> or <code>.AppImage</code> from the Releases page and follow the instructions there.</p>
 
 <h2>Still stuck?</h2>
-<p>Open an issue: <a href="https://github.com/octaboomai/O1-IDE/issues">github.com/octaboomai/O1-IDE/issues</a></p>
+<p>Open an issue: <a href="https://github.com/octaboomai/Rovant/issues">github.com/octaboomai/Rovant/issues</a></p>
 </div>
 
 <footer>
@@ -83,7 +83,7 @@ Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v
     <a href="index.html">Home</a>
     <a href="terms.html">Terms of Service</a>
     <a href="privacy.html">Privacy Policy</a>
-    <a href="https://github.com/octaboomai/O1-IDE" target="_blank">GitHub</a>
+    <a href="https://github.com/octaboomai/Rovant" target="_blank">GitHub</a>
   </div>
 </footer>
 </body>

@@ -21,6 +21,6 @@ Technical documentation, reviews and audit reports for **Rovant** — the ROS 2 
 ## Related links
 
 - [Project README](../README.md) — overview, features and downloads
-- [Latest release](https://github.com/octaboomai/O1-IDE/releases/latest)
-- [Website](https://octaboomai.github.io/O1-IDE/)
-- [Code signing policy](https://octaboomai.github.io/O1-IDE/code-signing.html)
+- [Latest release](https://github.com/octaboomai/Rovant/releases/latest)
+- [Website](https://octaboomai.github.io/Rovant/)
+- [Code signing policy](https://octaboomai.github.io/Rovant/code-signing.html)

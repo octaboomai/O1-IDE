@@ -6,7 +6,7 @@ import { FrontendApplicationContribution } from '@theia/core/lib/browser/fronten
 import { LanguageGrammarDefinitionContribution } from '@theia/monaco/lib/browser/textmate/textmate-contribution';
 import { WidgetFactory } from '@theia/core/lib/browser/widget-manager';
 
-import { O1CommandContribution, O1MenuContribution } from './o1-commands';
+import { O1CommandContribution, O1MenuContribution } from './rovant-commands';
 import { RosLangGrammarContribution } from './ros-lang-grammar';
 import { PythonLangGrammarContribution } from './python-lang-grammar';
 import { RoboticsLanguagesContribution } from './robotics-languages';
@@ -16,7 +16,7 @@ import { RosTopicsWidget } from './ros-topics/ros-topics-widget';
 import { ToolchainInstallerWidget } from './toolchain/toolchain-installer';
 import { TemplatesContribution } from './templates/templates-contribution';
 import { RosDebugConfigContribution } from './ros-debug-config';
-import { O1BrandingContribution } from './o1-branding';
+import { O1BrandingContribution } from './rovant-branding';
 
 export default new ContainerModule(bind => {
     // Commands & menus — also FrontendApplicationContribution for onStart() auto-preview
