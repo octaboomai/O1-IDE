@@ -2,7 +2,7 @@
 
 // FIX #3: your-org → octaboomai  |  FIX #4: added pyright bundle + icon paths
 module.exports = {
-    appId:       "dev.o1ide.app",
+    appId:       "dev.rovant.app",
     productName: "Rovant",
     copyright:   `Copyright © ${new Date().getFullYear()} octaboomai`,
     asar:        true,
