@@ -53,7 +53,7 @@ function packageXml(pkg: string, desc: string): string {
 }
 
 const ATTITUDE_CONTROLLER_PY = `#!/usr/bin/env python3
-"""PX4 attitude controller node — o1 IDE template"""
+"""PX4 attitude controller node — Rovant template"""
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped, Twist
@@ -84,7 +84,7 @@ const PX4_PARAMS_YAML = `attitude_controller:\n  ros__parameters:\n    kp_roll: 
 const DRONE_LAUNCH_PY = `from launch import LaunchDescription\nfrom launch_ros.actions import Node\ndef generate_launch_description():\n    return LaunchDescription([Node(package='drone_controller', executable='attitude_controller', output='screen')])\n`;
 
 const MISSION_PLANNER_PY = `#!/usr/bin/env python3
-"""ArduPilot mission planner — o1 IDE template"""
+"""ArduPilot mission planner — Rovant template"""
 import rclpy
 from rclpy.node import Node
 
@@ -103,7 +103,7 @@ const ARDUPILOT_PARAMS_YAML = `mission_planner:\n  ros__parameters:\n    connect
 const FW_LAUNCH_PY = `from launch import LaunchDescription\nfrom launch_ros.actions import Node\ndef generate_launch_description():\n    return LaunchDescription([Node(package='fw_controller', executable='mission_planner', output='screen')])\n`;
 
 const GROUND_ROBOT_PY = `#!/usr/bin/env python3
-"""Differential-drive ground robot — o1 IDE template"""
+"""Differential-drive ground robot — Rovant template"""
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
@@ -144,7 +144,7 @@ const ROBOT_URDF = `<?xml version="1.0"?>
 </robot>`;
 
 const DETECTOR_PY = `#!/usr/bin/env python3
-"""Jetson vision node — o1 IDE template"""
+"""Jetson vision node — Rovant template"""
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
@@ -165,7 +165,7 @@ const CAMERA_PARAMS_YAML = `detector:\n  ros__parameters:\n    camera_topic: /ca
 const VISION_LAUNCH_PY  = `from launch import LaunchDescription\nfrom launch_ros.actions import Node\ndef generate_launch_description():\n    return LaunchDescription([Node(package='vision_node', executable='detector', output='screen')])\n`;
 
 const MAVLINK_BRIDGE_PY = `#!/usr/bin/env python3
-"""Raspberry Pi MAVLink bridge — o1 IDE template"""
+"""Raspberry Pi MAVLink bridge — Rovant template"""
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
@@ -300,7 +300,7 @@ export class TemplatesContribution {
 
         const selected = await this.quickInput.showQuickPick(
             items,
-            { placeholder: 'Select a ROS 2 project template…', title: 'o1 IDE — New ROS 2 Project' }
+            { placeholder: 'Select a ROS 2 project template…', title: 'Rovant — New ROS 2 Project' }
         );
         if (!selected) return;
 

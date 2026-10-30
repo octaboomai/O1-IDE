@@ -1,4 +1,4 @@
-# Code Quality Report — o1 IDE
+# Code Quality Report — Rovant
 **Generated:** 2026-10-16 | **Auditor:** AI Engineering Team
 
 ---

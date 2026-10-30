@@ -1,4 +1,4 @@
-# Security Report — o1 IDE
+# Security Report — Rovant
 **Generated:** 2026-10-16 | **Auditor:** AI Security Team | **Severity scale:** Critical > High > Medium > Low
 
 ---
@@ -99,13 +99,13 @@ Scanned all source files for:
 ---
 
 ### SEC-008 — Auto-Updater Trust [INFO]
-**Finding:** Auto-updates pull from `github.com/octaboomai/o1-ide/releases`. GitHub Releases are signed by GitHub's CDN. `electron-updater` verifies SHA512 checksums. No additional signing needed for Linux.
+**Finding:** Auto-updates pull from `github.com/octaboomai/rovant/releases`. GitHub Releases are signed by GitHub's CDN. `electron-updater` verifies SHA512 checksums. No additional signing needed for Linux.
 **Windows:** Code signing recommended for Windows Defender bypass. `WIN_SIGN_CERT` already plumbed in CI.
 
 ---
 
 ### SEC-009 — IPC Surface [INFO]
-**Finding:** Three IPC handlers exposed (`o1:detect-toolchain`, `o1:open-folder`, `o1:get-platform`). All are read-only or use `dialog.showOpenDialog` which is sandboxed by Electron. No arbitrary code execution possible via IPC.
+**Finding:** Three IPC handlers exposed (`Rovant:detect-toolchain`, `Rovant:open-folder`, `Rovant:get-platform`). All are read-only or use `dialog.showOpenDialog` which is sandboxed by Electron. No arbitrary code execution possible via IPC.
 **Verdict:** Acceptable surface.
 
 ---

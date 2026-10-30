@@ -1,4 +1,4 @@
-# Missing Components Report — o1 IDE
+# Missing Components Report — Rovant
 **Generated:** 2026-10-16 | **Auditor:** AI Engineering Team
 
 ---

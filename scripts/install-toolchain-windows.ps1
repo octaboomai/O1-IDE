@@ -1,8 +1,8 @@
-# o1 IDE — Windows Toolchain Setup
+# Rovant — Windows Toolchain Setup
 # Runs on first install and from Tools > Setup Toolchain
 param([switch]$Silent)
 
-function Log  { Write-Host "[o1] $args" -ForegroundColor Cyan }
+function Log  { Write-Host "[Rovant] $args" -ForegroundColor Cyan }
 function Ok   { Write-Host " [OK] $args" -ForegroundColor Green }
 function Warn { Write-Host " [!]  $args" -ForegroundColor Yellow }
 function Err  { Write-Host " [X]  $args" -ForegroundColor Red }
@@ -16,7 +16,7 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
 $wingetVersion = (winget --version) 2>$null
 Log "winget found: $wingetVersion"
 
-Log "o1 IDE Toolchain Setup for Windows"
+Log "Rovant Toolchain Setup for Windows"
 Log "This sets up all tools needed for ROS 2 development."
 
 # ── Git ──────────────────────────────────────────────────────────────────────
@@ -89,5 +89,5 @@ echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc
     }
 }
 
-Log "Setup complete. Launch o1 IDE from the Start Menu."
+Log "Setup complete. Launch Rovant from the Start Menu."
 if (-not $Silent) { Read-Host "Press Enter to close" }

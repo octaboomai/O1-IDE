@@ -10,7 +10,7 @@ import { MessageService } from '@theia/core/lib/common/message-service';
  */
 @injectable()
 export class UrdfViewerWidget extends BaseWidget implements StatefulWidget {
-    static readonly ID    = 'o1:urdf-viewer';
+    static readonly ID    = 'Rovant:urdf-viewer';
     static readonly LABEL = 'URDF Preview';
 
     @inject(MessageService) protected readonly messageService: MessageService;
@@ -154,7 +154,7 @@ button:hover{background:rgba(15,223,255,.22)}
 </style></head><body>
 <canvas id="c"></canvas>
 <div id="tb">
-  <span class="ti">o1</span>
+  <span class="ti">Rovant</span>
   <span class="sub" id="file-label">URDF Preview</span>
   <button onclick="resetCam()">Reset</button>
   <button onclick="toggleWire()">Wireframe</button>

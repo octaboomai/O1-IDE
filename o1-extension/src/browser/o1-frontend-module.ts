@@ -27,7 +27,7 @@ export default new ContainerModule(bind => {
 
     bind(MenuContribution).to(O1MenuContribution).inSingletonScope();
 
-    // o1 branding
+    // Rovant branding
     bind(O1BrandingContribution).toSelf().inSingletonScope();
     bind(FrontendApplicationContribution).toService(O1BrandingContribution);
 

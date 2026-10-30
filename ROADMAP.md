@@ -1,4 +1,4 @@
-# o1 IDE — Product Roadmap
+# Rovant — Product Roadmap
 **Last updated:** 2026-10-16 | **Maintainer:** octaboomai
 
 ---

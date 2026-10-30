@@ -1,4 +1,4 @@
-# Deployment Guide — o1 IDE
+# Deployment Guide — Rovant
 **Version:** 0.1.0 | **Last updated:** 2026-10-16
 
 ---
@@ -12,16 +12,16 @@ Automated via `.github/workflows/release.yml` on tag push.
 git tag v0.1.0
 git push origin v0.1.0
 # → CI builds .deb + .AppImage + .exe + .msi
-# → Published to https://github.com/octaboomai/o1-ide/releases/tag/v0.1.0
+# → Published to https://github.com/octaboomai/rovant/releases/tag/v0.1.0
 ```
 
 Artifacts generated:
-- `o1-ide-0.1.0-linux-x64.deb`
-- `o1-ide-0.1.0-linux-x64.AppImage`
-- `o1-ide-0.1.0-linux-arm64.deb`
-- `o1-ide-0.1.0-linux-arm64.AppImage`
-- `o1-ide-0.1.0-windows-x64.exe`
-- `o1-ide-0.1.0-windows-x64.msi`
+- `rovant-0.1.0-linux-x64.deb`
+- `rovant-0.1.0-linux-x64.AppImage`
+- `rovant-0.1.0-linux-arm64.deb`
+- `rovant-0.1.0-linux-arm64.AppImage`
+- `rovant-0.1.0-windows-x64.exe`
+- `rovant-0.1.0-windows-x64.msi`
 
 ---
 
@@ -30,10 +30,10 @@ Artifacts generated:
 ### Linux — .deb (Ubuntu 22.04+)
 ```bash
 # Download
-wget https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-linux-x64.deb
+wget https://github.com/octaboomai/rovant/releases/latest/download/rovant-linux-x64.deb
 
 # Install
-sudo apt install ./o1-ide-linux-x64.deb
+sudo apt install ./rovant-linux-x64.deb
 
 # Launch
 o1ide
@@ -41,15 +41,15 @@ o1ide
 
 ### Linux — AppImage (any distro)
 ```bash
-wget https://github.com/octaboomai/o1-ide/releases/latest/download/o1-ide-linux-x64.AppImage
-chmod +x o1-ide-linux-x64.AppImage
-./o1-ide-linux-x64.AppImage
+wget https://github.com/octaboomai/rovant/releases/latest/download/rovant-linux-x64.AppImage
+chmod +x rovant-linux-x64.AppImage
+./rovant-linux-x64.AppImage
 ```
 
 ### Windows 10/11
-1. Download `o1-ide-windows-x64.exe` from GitHub Releases
+1. Download `rovant-windows-x64.exe` from GitHub Releases
 2. Run the installer (click through prompts)
-3. Launch from Start Menu → "o1 IDE"
+3. Launch from Start Menu → "Rovant"
 4. First run: WSL2 + ROS 2 setup runs automatically
 
 ---
@@ -66,8 +66,8 @@ yarn --version  # need 1.22+
 
 ### Local Development Build
 ```bash
-git clone https://github.com/octaboomai/o1-ide
-cd o1-ide
+git clone https://github.com/octaboomai/rovant
+cd rovant
 yarn install
 yarn workspace o1-extension build
 yarn workspace o1-app build      # dev build (with source maps)
@@ -89,7 +89,7 @@ npx electron-builder --win nsis msi
 
 ## 4. Cheapest Production-Ready Hosting
 
-o1 IDE is a desktop app — no server hosting required. The only ongoing costs are:
+Rovant is a desktop app — no server hosting required. The only ongoing costs are:
 
 | Service | Cost | Purpose |
 |---|---|---|
@@ -138,9 +138,9 @@ git push && git push --tags
 ## 6. Auto-Update Flow
 
 ```
-User has o1 IDE v0.1.0 installed
+User has Rovant v0.1.0 installed
 → App starts → autoUpdater.checkForUpdates()
-→ GitHub API: GET /repos/octaboomai/o1-ide/releases/latest
+→ GitHub API: GET /repos/octaboomai/rovant/releases/latest
 → Compares version
 → If newer: downloads update in background
 → Shows dialog: "Update ready — restart now?"
@@ -156,17 +156,17 @@ Update check frequency: on startup + every 4 hours.
 
 ```yaml
 # snapcraft.yaml — to be created in v0.1.1
-name: o1-ide
+name: rovant
 version: '0.1.1'
 grade: stable
 confinement: classic  # needed for filesystem access
 apps:
-  o1-ide:
+  rovant:
     command: o1ide
     plugs: [home, network, removable-media]
 ```
 
-Submit: `snapcraft push --release=stable o1-ide_0.1.1_amd64.snap`
+Submit: `snapcraft push --release=stable rovant_0.1.1_amd64.snap`
 
 ---
 
@@ -176,9 +176,9 @@ Submit a PR to `microsoft/winget-pkgs`:
 ```yaml
 PackageIdentifier: octaboomai.o1ide
 PackageVersion: 0.1.1
-PackageName: o1 IDE
+PackageName: Rovant
 Publisher: octaboomai
-InstallerUrl: https://github.com/octaboomai/o1-ide/releases/download/v0.1.1/o1-ide-0.1.1-windows-x64.exe
+InstallerUrl: https://github.com/octaboomai/rovant/releases/download/v0.1.1/rovant-0.1.1-windows-x64.exe
 InstallerSha256: <sha256 of exe>
 InstallerType: nullsoft
 ```

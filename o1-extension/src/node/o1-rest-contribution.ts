@@ -1,5 +1,5 @@
 /**
- * o1 IDE — REST API backend contribution
+ * Rovant — REST API backend contribution
  *
  * Endpoints:
  *   GET /o1/health              — liveness check
@@ -133,7 +133,7 @@ export class O1RestContribution implements BackendApplicationContribution {
                 ? path.join((process as any).resourcesPath, 'scripts', scriptName)
                 : path.resolve(__dirname, '..', '..', '..', 'scripts', scriptName);
 
-            send('Starting o1 toolchain installer…', 'info');
+            send('Starting Rovant toolchain installer…', 'info');
             send(`Script: ${scriptPath}`, 'cmd');
 
             // Windows: run the PowerShell script. Linux: run the shell script directly.

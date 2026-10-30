@@ -1,9 +1,9 @@
 /**
- * o1 IDE — Electron main process
+ * Rovant — Electron main process
  * Fixes applied:
  *  1. Spawns Theia backend before opening window (was missing entirely)
  *  2. Uses electron-updater (works Linux/Win/Mac — electron built-in crashes on Linux)
- *  3. org placeholder replaced with octaboomai/o1-ide
+ *  3. org placeholder replaced with octaboomai/rovant
  *  4. First-run Python package setup (pymavlink/pyulog/numpy)
  *  5. WSL2 ROS 2 detection on Windows
  *  6. Port conflict auto-resolution
@@ -21,7 +21,7 @@ import * as http from 'http';
 import { spawn, ChildProcess } from 'child_process';
 import { waitForPort, findFreePort } from './utils';
 const isDev  = process.env['NODE_ENV'] === 'development';
-const APP_NAME    = 'o1 IDE';
+const APP_NAME    = 'Rovant';
 const APP_VERSION = app.getVersion();
 const THEIA_PORT  = 3001;   // internal port — user never sees this
 const SETUP_FLAG  = path.join(app.getPath('userData'), 'setup-v1.json');
@@ -55,7 +55,7 @@ app.whenReady().then(async () => {
         await firstRunSetup();   // Python packages, workspace dir
         await createWindow();
     } catch (err: any) {
-        dialog.showErrorBox('o1 IDE failed to start', err.message || String(err));
+        dialog.showErrorBox('Rovant failed to start', err.message || String(err));
         app.quit();
         return;
     }
@@ -111,8 +111,8 @@ async function startTheiaBackend(): Promise<void> {
         `--root-dir=${defaultWorkspace()}`,
     ], { env, stdio: 'pipe' });
 
-    theiaProcess.on('error', err => console.error('[o1 backend]', err));
-    theiaProcess.stderr?.on('data', d => console.error('[o1 backend]', d.toString().trim()));
+    theiaProcess.on('error', err => console.error('[Rovant backend]', err));
+    theiaProcess.stderr?.on('data', d => console.error('[Rovant backend]', d.toString().trim()));
 
     // Wait up to 45 s for the backend to accept connections
     await waitForPort(port, 45_000);
@@ -141,7 +141,7 @@ async function firstRunSetup(): Promise<void> {
         try {
             await exec(`${pip} install ${pkgs} -q 2>&1`, { timeout: 90_000 });
         } catch {
-            console.warn('[o1] pip install failed — user will see manual instructions in toolchain tab');
+            console.warn('[Rovant] pip install failed — user will see manual instructions in toolchain tab');
         }
     }
 
@@ -209,7 +209,7 @@ function setupTray(): void {
     tray = new Tray(img.resize({ width: 16, height: 16 }));
     tray.setToolTip(APP_NAME);
     const menu = Menu.buildFromTemplate([
-        { label: `o1 IDE  v${APP_VERSION}`, enabled: false },
+        { label: `Rovant  v${APP_VERSION}`, enabled: false },
         { type: 'separator' },
         { label: 'Open IDE',    click: () => { mainWindow?.show(); mainWindow?.focus(); } },
         { label: 'New Window',  click: createWindow },
@@ -226,12 +226,12 @@ function setupMenu(): void {
         {
             label: APP_NAME,
             submenu: [
-                { label: 'About o1 IDE',          click: showAbout },
+                { label: 'About Rovant',          click: showAbout },
                 { label: 'Check for Updates…',    click: () => autoUpdater.checkForUpdates() },
                 { type: 'separator' },
                 { label: 'Preferences',           accelerator: 'CmdOrCtrl+,', click: openPreferences },
                 { type: 'separator' },
-                { label: 'Quit o1 IDE',           accelerator: 'CmdOrCtrl+Q', click: () => { isQuitting = true; app.quit(); } },
+                { label: 'Quit Rovant',           accelerator: 'CmdOrCtrl+Q', click: () => { isQuitting = true; app.quit(); } },
             ],
         },
         {
@@ -248,15 +248,15 @@ function setupMenu(): void {
         {
             label: 'Help',
             submenu: [
-                { label: 'o1 IDE Website',  click: () => shell.openExternal('https://o1ide.dev') },
+                { label: 'Rovant Website',  click: () => shell.openExternal('https://o1ide.dev') },
                 { label: 'Documentation',   click: () => shell.openExternal('https://o1ide.dev/docs') },
                 { label: 'ROS Discourse',   click: () => shell.openExternal('https://discourse.ros.org') },
                 { type: 'separator' },
                 { label: 'Terms of Service', click: () => shell.openExternal('https://o1ide.dev/terms') },
                 { label: 'Privacy Policy',   click: () => shell.openExternal('https://o1ide.dev/privacy') },
                 { type: 'separator' },
-                { label: 'Report Issue',    click: () => shell.openExternal('https://github.com/octaboomai/o1-ide/issues') },
-                { label: 'About o1 IDE',    click: showAbout },
+                { label: 'Report Issue',    click: () => shell.openExternal('https://github.com/octaboomai/rovant/issues') },
+                { label: 'About Rovant',    click: showAbout },
             ],
         },
     ];
@@ -265,12 +265,12 @@ function setupMenu(): void {
 
 // ── IPC ───────────────────────────────────────────────────────────────────────
 function setupIPC(): void {
-    ipcMain.handle('o1:detect-toolchain', async () => detectToolchain());
-    ipcMain.handle('o1:open-folder', async () => {
+    ipcMain.handle('Rovant:detect-toolchain', async () => detectToolchain());
+    ipcMain.handle('Rovant:open-folder', async () => {
         const r = await dialog.showOpenDialog(mainWindow!, { properties: ['openDirectory'], title: 'Open ROS 2 workspace' });
         return r.canceled ? null : r.filePaths[0];
     });
-    ipcMain.handle('o1:get-platform', () => ({ os: process.platform, arch: process.arch, version: APP_VERSION, home: os.homedir() }));
+    ipcMain.handle('Rovant:get-platform', () => ({ os: process.platform, arch: process.arch, version: APP_VERSION, home: os.homedir() }));
 }
 
 // ── FIX #2: Auto-updater via electron-updater (works on all platforms) ────────
@@ -281,7 +281,7 @@ function setupAutoUpdater(): void {
         autoUpdater.setFeedURL({
             provider: 'github',
             owner:    'octaboomai',
-            repo:     'o1-ide',
+            repo:     'rovant',
         } as any);
 
         autoUpdater.logger = null;
@@ -291,14 +291,14 @@ function setupAutoUpdater(): void {
         autoUpdater.on('update-downloaded', (_info) => {
             const choice = dialog.showMessageBoxSync(mainWindow!, {
                 type: 'info', title: 'Update ready',
-                message: `A new version of o1 IDE is ready.`,
+                message: `A new version of Rovant is ready.`,
                 detail:  'Restart to apply the update.',
                 buttons: ['Restart now', 'Later'],
             });
             if (choice === 0) { isQuitting = true; autoUpdater.quitAndInstall(); }
         });
     } catch (err) {
-        console.warn('[o1] Auto-updater unavailable:', (err as Error).message);
+        console.warn('[Rovant] Auto-updater unavailable:', (err as Error).message);
     }
 }
 
@@ -364,7 +364,7 @@ function saveWindowBounds(): void {
 function showAbout(): void {
     dialog.showMessageBox(mainWindow!, {
         type: 'none', title: `About ${APP_NAME}`,
-        message: `o1 IDE  v${APP_VERSION}`,
+        message: `Rovant  v${APP_VERSION}`,
         detail:  "The IDE that reads your drone's mind.\n\nBuilt on Eclipse Theia.\nLicensed under Apache 2.0.\n\nhttps://o1ide.dev",
         buttons: ['OK'],
     });

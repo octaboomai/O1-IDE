@@ -1,5 +1,5 @@
 /**
- * Integration tests — o1 REST API
+ * Integration tests — Rovant REST API
  *
  * Spins up a minimal Express server with O1RestContribution mounted.
  * No real tool binaries required — child_process is mocked.
@@ -7,7 +7,7 @@
 import * as express from 'express';
 import * as http    from 'http';
 
-// ── Minimal Express server matching real o1 backend ──────────────────────────
+// ── Minimal Express server matching real Rovant backend ──────────────────────────
 function createTestServer(overrides: {
     checkResult?: Record<string, {found:boolean; version:string}>;
     installExitCode?: number;
@@ -85,7 +85,7 @@ function get(server: http.Server, path: string): Promise<{status:number; body:an
 }
 
 // ── Test suite ────────────────────────────────────────────────────────────────
-describe('o1 REST API — /o1/health', () => {
+describe('Rovant REST API — /o1/health', () => {
     let server: http.Server;
     beforeAll(cb => { server = createTestServer({}).listen(0, '127.0.0.1', cb); });
     afterAll(cb  => { server.close(cb); });
@@ -98,7 +98,7 @@ describe('o1 REST API — /o1/health', () => {
     });
 });
 
-describe('o1 REST API — /o1/check', () => {
+describe('Rovant REST API — /o1/check', () => {
     let server: http.Server;
     beforeAll(cb => { server = createTestServer({}).listen(0, '127.0.0.1', cb); });
     afterAll(cb  => { server.close(cb); });
@@ -135,7 +135,7 @@ describe('o1 REST API — /o1/check', () => {
     });
 });
 
-describe('o1 REST API — /o1/check/:id', () => {
+describe('Rovant REST API — /o1/check/:id', () => {
     let server: http.Server;
     beforeAll(cb => { server = createTestServer({}).listen(0, '127.0.0.1', cb); });
     afterAll(cb  => { server.close(cb); });
@@ -158,7 +158,7 @@ describe('o1 REST API — /o1/check/:id', () => {
     });
 });
 
-describe('o1 REST API — /o1/ros/topics', () => {
+describe('Rovant REST API — /o1/ros/topics', () => {
     let server: http.Server;
     beforeAll(cb => { server = createTestServer({}).listen(0, '127.0.0.1', cb); });
     afterAll(cb  => { server.close(cb); });

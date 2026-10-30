@@ -1,5 +1,5 @@
 /**
- * Shared utilities for o1 IDE electron main process
+ * Shared utilities for Rovant electron main process
  */
 import * as http from 'http';
 import * as net  from 'net';

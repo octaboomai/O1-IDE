@@ -4,10 +4,10 @@ import { contextBridge, ipcRenderer } from 'electron';
  * Secure IPC bridge — exposes only specific channels to the renderer.
  * The frontend can call window.o1.detectToolchain() etc.
  */
-contextBridge.exposeInMainWorld('o1', {
-    detectToolchain: () => ipcRenderer.invoke('o1:detect-toolchain'),
-    openFolder:      () => ipcRenderer.invoke('o1:open-folder'),
-    getPlatform:     () => ipcRenderer.invoke('o1:get-platform'),
+contextBridge.exposeInMainWorld('Rovant', {
+    detectToolchain: () => ipcRenderer.invoke('Rovant:detect-toolchain'),
+    openFolder:      () => ipcRenderer.invoke('Rovant:open-folder'),
+    getPlatform:     () => ipcRenderer.invoke('Rovant:get-platform'),
 
     // Listen for commands from main process
     onCommand: (cb: (cmd: string) => void) =>

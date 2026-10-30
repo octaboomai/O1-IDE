@@ -11,7 +11,7 @@ interface CheckResult {
 
 @injectable()
 export class ToolchainInstallerWidget extends BaseWidget {
-    static readonly ID    = 'o1:toolchain-installer';
+    static readonly ID    = 'Rovant:toolchain-installer';
     static readonly LABEL = 'ROS 2 Toolchain Setup';
 
     @inject(MessageService) protected readonly messageService: MessageService;
@@ -38,7 +38,7 @@ export class ToolchainInstallerWidget extends BaseWidget {
   <!-- Header -->
   <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;">
     <div style="background:#07090d;border:1px solid rgba(15,223,255,0.25);border-radius:10px;
-                padding:8px 14px;font-size:20px;font-weight:700;color:#0fdfff;font-family:monospace;">o1</div>
+                padding:8px 14px;font-size:20px;font-weight:700;color:#0fdfff;font-family:monospace;">Rovant</div>
     <div>
       <h2 style="font-size:20px;color:#fff;margin:0 0 4px;">ROS 2 Toolchain</h2>
       <p style="font-size:13px;color:#7a94a4;margin:0;">

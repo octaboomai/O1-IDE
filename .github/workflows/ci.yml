@@ -1,4 +1,4 @@
-name: o1 IDE — PR Checks
+name: Rovant — PR Checks
 
 on:
   pull_request:

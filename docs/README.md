@@ -1,12 +1,12 @@
-# o1 IDE — Documentation
+# Rovant — Documentation
 
-Technical documentation, reviews and audit reports for **o1 IDE** — the ROS 2 robotics IDE.
+Technical documentation, reviews and audit reports for **Rovant** — the ROS 2 robotics IDE.
 
 ## Guides
 
 | Document | What it covers |
 |----------|----------------|
-| [Deployment guide](deployment-guide.md) | Building, packaging and shipping o1 IDE on Ubuntu and Windows |
+| [Deployment guide](deployment-guide.md) | Building, packaging and shipping Rovant on Ubuntu and Windows |
 | [Product review](product-review.md) | Feature inventory and product assessment |
 
 ## Reports

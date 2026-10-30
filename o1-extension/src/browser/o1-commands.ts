@@ -99,7 +99,7 @@ export class O1CommandContribution
         // A missing tool otherwise fails with a bare shell error, or nothing at all.
         const notFound = (tool: string): string => cLike
             ? `${tool} was not found. Windows needs WSL 2 with g++ installed. Linux: sudo apt install build-essential.`
-            : `${tool} was not found on PATH. Install Python 3 from python.org and restart o1 IDE.`;
+            : `${tool} was not found on PATH. Install Python 3 from python.org and restart Rovant.`;
 
         let command: string;
         if (cLike) {
@@ -149,7 +149,7 @@ export class O1CommandContribution
             await this.taskService.runTask({
                 type: 'shell',
                 _scope: TaskScope.Workspace,
-                label: `o1: run ${uri.path.base}`,
+                label: `Rovant: run ${uri.path.base}`,
                 command,
                 options: { cwd: uri.path.dir.fsPath() },
                 // Keep the terminal open after exit. Without this a fast script

@@ -1,4 +1,4 @@
-# Changelog — o1 IDE
+# Changelog — Rovant
 
 ## v0.1.0 — Initial Release
 
@@ -10,7 +10,7 @@
 - ROS 2 + Python attach-to-process debug configs (auto-written)
 - Project templates: PX4 Quadcopter, ArduPilot Fixed-Wing, ROS2 Ground Robot, Jetson Vision Node, RPi MAVLink Bridge
 - Toolchain installer with real environment checks (/o1/check REST API)
-- o1 brand theme (dark, cyan accent) + animated splash screen
+- Rovant brand theme (dark, cyan accent) + animated splash screen
 - System tray: minimize to tray, reopen from tray
 - Auto-updater via GitHub Releases (electron-updater)
 - First-run Python package setup (pymavlink, pyulog, numpy)

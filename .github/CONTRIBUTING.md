@@ -1,12 +1,12 @@
-# Contributing to o1 IDE
+# Contributing to Rovant
 
-Thank you for contributing! o1 IDE is built by the community for robotics engineers.
+Thank you for contributing! Rovant is built by the community for robotics engineers.
 
 ## Getting Started
 
 ```bash
-git clone https://github.com/octaboomai/o1-ide
-cd o1-ide && yarn install
+git clone https://github.com/octaboomai/rovant
+cd rovant && yarn install
 yarn workspace o1-extension build
 yarn workspace o1-app start
 ```
@@ -53,4 +53,4 @@ Be respectful. Follow [Contributor Covenant](https://www.contributor-covenant.or
 
 ## Questions?
 
-Open a [Discussion](https://github.com/octaboomai/o1-ide/discussions) or join the [Discord](https://discord.gg/o1ide).
+Open a [Discussion](https://github.com/octaboomai/rovant/discussions) or join the [Discord](https://discord.gg/o1ide).

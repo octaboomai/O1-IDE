@@ -3,7 +3,7 @@ import { DebugAdapterContribution, DebugAdapterExecutable } from '@theia/debug/l
 import { DebugConfiguration } from '@theia/debug/lib/common/debug-configuration';
 
 /**
- * Provides the `python` debug type for o1 IDE.
+ * Provides the `python` debug type for Rovant.
  *
  * Theia ships no Python debug adapter, so without this a `"type": "python"`
  * launch/attach configuration has nothing to execute and Run / F5 silently

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# o1 IDE — ROS 2 Humble toolchain installer (Ubuntu 22.04)
+# Rovant — ROS 2 Humble toolchain installer (Ubuntu 22.04)
 #
 # Invoked by the IDE's "Install / repair" button (GET /o1/install-stream).
 # Non-interactive, idempotent, and safe to re-run.
@@ -79,7 +79,7 @@ fi
 BASHRC="$HOME/.bashrc"
 if [ -f "$BASHRC" ] && ! grep -q 'ros/humble/setup.bash' "$BASHRC"; then
     log "Adding the ROS 2 setup line to ~/.bashrc…"
-    printf '\n# Added by the o1 IDE toolchain installer\nsource /opt/ros/humble/setup.bash\n' >> "$BASHRC"
+    printf '\n# Added by the Rovant toolchain installer\nsource /opt/ros/humble/setup.bash\n' >> "$BASHRC"
 fi
 
 log "Done. Open a new terminal, or run: source /opt/ros/humble/setup.bash"

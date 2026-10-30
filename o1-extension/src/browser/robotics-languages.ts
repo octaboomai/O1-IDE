@@ -17,7 +17,7 @@ function applyModelLanguages(map: Record<string, string>): void {
             }
         }
     } catch (err) {
-        console.error('[o1] could not apply model languages', err);
+        console.error('[Rovant] could not apply model languages', err);
     }
 }
 
@@ -51,7 +51,7 @@ export class RoboticsLanguagesContribution implements LanguageGrammarDefinitionC
         try {
             this.registerAll();
         } catch (err) {
-            console.error('[o1] language registration failed', err);
+            console.error('[Rovant] language registration failed', err);
         }
     }
 
@@ -75,7 +75,7 @@ export class RoboticsLanguagesContribution implements LanguageGrammarDefinitionC
                 }
             } catch (err) {
                 // Skip just this language; keep the rest of the IDE working.
-                console.error('[o1] could not register language', spec.id, err);
+                console.error('[Rovant] could not register language', spec.id, err);
             }
         }
     }

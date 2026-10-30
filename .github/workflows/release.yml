@@ -1,4 +1,4 @@
-name: o1 IDE — Release Build
+name: Rovant — Release Build
 
 on:
   push:
@@ -95,7 +95,7 @@ jobs:
             "name": "o1-languages",
             "publisher": "octaboomai",
             "version": "0.1.0",
-            "description": "Language ids for o1 IDE",
+            "description": "Language ids for Rovant",
             "engines": { "vscode": "*" },
             "contributes": {
               "languages": [
@@ -235,13 +235,13 @@ jobs:
         run: |
           if [ ! -f CHANGELOG.md ]; then
             VERSION=${GITHUB_REF_NAME#v}
-            echo "## o1 IDE ${VERSION}" > release-notes.md
+            echo "## Rovant ${VERSION}" > release-notes.md
             echo "" >> release-notes.md
             echo "### Downloads" >> release-notes.md
             echo "| Platform | Format | Notes |" >> release-notes.md
             echo "|---|---|---|" >> release-notes.md
-            echo "| Ubuntu / Debian | \`.deb\` | \`sudo apt install ./o1-ide-*.deb\` |" >> release-notes.md
-            echo "| Any Linux | \`.AppImage\` | \`chmod +x o1-ide-*.AppImage && ./o1-ide-*.AppImage\` |" >> release-notes.md
+            echo "| Ubuntu / Debian | \`.deb\` | \`sudo apt install ./rovant-*.deb\` |" >> release-notes.md
+            echo "| Any Linux | \`.AppImage\` | \`chmod +x rovant-*.AppImage && ./rovant-*.AppImage\` |" >> release-notes.md
             echo "| Windows 10/11 | \`.exe\` | Run installer, follow prompts |" >> release-notes.md
           else
             cp CHANGELOG.md release-notes.md
@@ -249,7 +249,7 @@ jobs:
 
       - uses: softprops/action-gh-release@v2
         with:
-          name: "o1 IDE ${{ github.ref_name }}"
+          name: "Rovant ${{ github.ref_name }}"
           body_path: release-notes.md
           draft: false
           prerelease: ${{ contains(github.ref, '-beta') || contains(github.ref, '-alpha') }}

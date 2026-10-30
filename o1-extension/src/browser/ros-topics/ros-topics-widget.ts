@@ -9,7 +9,7 @@ import { MessageService } from '@theia/core/lib/common/message-service';
  */
 @injectable()
 export class RosTopicsWidget extends BaseWidget implements StatefulWidget {
-    static readonly ID    = 'o1:ros-topics';
+    static readonly ID    = 'Rovant:ros-topics';
     static readonly LABEL = 'ROS Topics';
 
     @inject(MessageService) protected readonly messageService: MessageService;

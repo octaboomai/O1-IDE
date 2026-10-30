@@ -53,9 +53,9 @@ export class LanguageActivationContribution implements FrontendApplicationContri
     private report(): void {
         const result = this.sweep(false);
         const text = result.detail
-            ? `o1 languages: ${result.detail}`
-            : `o1 languages: ${result.checked} open file(s), ${result.applied} set to a language.`;
-        console.info('[o1] ' + text);
+            ? `Rovant languages: ${result.detail}`
+            : `Rovant languages: ${result.checked} open file(s), ${result.applied} set to a language.`;
+        console.info('[Rovant] ' + text);
         // Visible in the UI so the user can report it without opening DevTools.
         this.messages.info(text, { timeout: 15000 });
     }
@@ -79,7 +79,7 @@ export class LanguageActivationContribution implements FrontendApplicationContri
                     applied++;
                 }
             }
-            if (verbose) console.info('[o1] languages known to monaco:', known.join(','));
+            if (verbose) console.info('[Rovant] languages known to monaco:', known.join(','));
             // If a language we want is NOT registered, say so — that is the real bug.
             const wanted = ['python', 'cpp', 'cmake'];
             const missing = wanted.filter(w => !known.includes(w));

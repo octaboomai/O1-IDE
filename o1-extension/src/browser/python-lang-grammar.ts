@@ -17,7 +17,7 @@ function applyModelLanguages(map: Record<string, string>): void {
             }
         }
     } catch (err) {
-        console.error('[o1] could not apply model languages', err);
+        console.error('[Rovant] could not apply model languages', err);
     }
 }
 
@@ -41,7 +41,7 @@ export class PythonLangGrammarContribution implements LanguageGrammarDefinitionC
         try {
             this.register();
         } catch (err) {
-            console.error('[o1] python language registration failed', err);
+            console.error('[Rovant] python language registration failed', err);
         }
     }
 

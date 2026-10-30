@@ -1,11 +1,11 @@
-# Product Review — o1 IDE
+# Product Review — Rovant
 **Generated:** 2026-10-16 | **Analyst:** AI Product Team
 
 ---
 
 ## 1. Product Definition
 
-**o1 IDE** is a native desktop IDE for drone and robotics engineers, built on Eclipse Theia (Electron), targeting Ubuntu Linux and Windows. Core value: the only IDE that correlates live robot telemetry with source code in real time.
+**Rovant** is a native desktop IDE for drone and robotics engineers, built on Eclipse Theia (Electron), targeting Ubuntu Linux and Windows. Core value: the only IDE that correlates live robot telemetry with source code in real time.
 
 **Target user:** Drone hobbyists, indie robotics engineers, university research labs, Indian drone operators.
 
@@ -15,7 +15,7 @@
 
 | Product | Platform | ROS IntelliSense | Live Telemetry | AI Diagnostics | URDF Viewer | India Pricing | Deploy Pipeline |
 |---|---|---|---|---|---|---|---|
-| **o1 IDE** | Desktop (Linux + Win) | Via clangd | ✅ Yes | 🔜 v0.2.0 | ✅ Yes | ✅ ₹499/mo | 🔜 v0.3.0 |
+| **Rovant** | Desktop (Linux + Win) | Via clangd | ✅ Yes | 🔜 v0.2.0 | ✅ Yes | ✅ ₹499/mo | 🔜 v0.3.0 |
 | VS Code + ROS ext | Desktop | ✅ Yes | ❌ No | ❌ No | Partial | ❌ No | ❌ No |
 | Ranch Hand ROS Ext | VS Code | ✅ Yes | MCP preview | ❌ No | ❌ No | ❌ No | ❌ No |
 | OLO Robotics | Browser | Custom | ✅ Yes | Code gen | ❌ No | ❌ No | Edge appliance |
@@ -24,7 +24,7 @@
 | UAV Insight Toolkit | Desktop | ❌ No | Offline logs | Partial | ❌ No | ✅ Free | ❌ No |
 | WendyOS | CLI | ❌ No | ❌ No | ❌ No | ❌ No | ✅ Free | ✅ Yes |
 
-**o1's unique position:** Only product combining code editing + live telemetry + planned AI diagnostics in one native desktop tool.
+**Rovant's unique position:** Only product combining code editing + live telemetry + planned AI diagnostics in one native desktop tool.
 
 ---
 
@@ -59,7 +59,7 @@
 - **Small team** — solo founder means all priorities compete
 
 ### 4.2 Market
-- **VS Code extension market is crowded** — o1 needs Electron differentiation to justify install
+- **VS Code extension market is crowded** — Rovant needs Electron differentiation to justify install
 - **ROS developers are skeptical of new tools** — community trust takes time
 - **Enterprise sales cycle long** — drone companies have 3–6 month procurement
 
@@ -117,11 +117,11 @@
 ### Month 1
 6. Reach out to **3 Indian drone companies** (IdeaForge, Garuda Aerospace, throttleaerospace) for enterprise pilot
 7. Submit to **Snap Store** and **winget**
-8. Write a "How I built o1 IDE" post on LinkedIn (build-in-public)
+8. Write a "How I built Rovant" post on LinkedIn (build-in-public)
 9. Set up **Discord server** linked from Help menu
 
 ### Month 2 (v0.2.0 — AI features launch)
-10. **Product Hunt second launch** — "o1 IDE 2.0: The IDE that reads your drone's mind"
+10. **Product Hunt second launch** — "Rovant 2.0: The IDE that reads your drone's mind"
 11. Turn on **paid subscriptions** (Lemonsqueezy)
 12. Target **YouTube robotics channels** for demo videos
 

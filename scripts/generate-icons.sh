@@ -1,5 +1,5 @@
 #!/bin/bash
-# Generates resources/icon.png and resources/icon.ico for o1 IDE.
+# Generates resources/icon.png and resources/icon.ico for Rovant.
 # Requires: imagemagick (available on the ubuntu-22.04 CI runner)
 set -e
 
@@ -8,8 +8,8 @@ mkdir -p resources
 ICON_OUT="resources/icon.png"
 ICO_OUT="resources/icon.ico"
 
-# ── o1 logo ───────────────────────────────────────────────────────────────────
-# Bright cyan tile with the dark o1 orbit mark. The previous design was a
+# ── Rovant logo ───────────────────────────────────────────────────────────────────
+# Bright cyan tile with the dark Rovant orbit mark. The previous design was a
 # near-black (#07090d) tile, which read as a black blob against a dark taskbar.
 # A light tile keeps the mark legible on BOTH dark and light taskbars.
 cat > /tmp/o1-icon.svg << 'SVGEOF'

@@ -1,7 +1,7 @@
 import { injectable } from '@theia/core/shared/inversify';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser/frontend-application-contribution';
 
-/* ────────────────────────── o1 SVG Logo ──────────────────────────────────── */
+/* ────────────────────────── Rovant SVG Logo ──────────────────────────────────── */
 const O1_LOGO_SVG = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
   <defs>
@@ -15,12 +15,12 @@ const O1_LOGO_SVG = `
         stroke="#0fdfff" stroke-width="0.6" stroke-opacity="0.35"/>
   <text x="20" y="26" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace"
         font-size="16" font-weight="700" text-anchor="middle"
-        fill="#0fdfff" filter="url(#glow)">o1</text>
+        fill="#0fdfff" filter="url(#glow)">Rovant</text>
 </svg>`.trim();
 
-/* ────────────────────────── o1 Brand CSS ─────────────────────────────────── */
+/* ────────────────────────── Rovant Brand CSS ─────────────────────────────────── */
 const O1_CSS = `
-/* ═══════════════════ o1 IDE — Brand Theme ═══════════════════ */
+/* ═══════════════════ Rovant — Brand Theme ═══════════════════ */
 
 /* ── Color tokens ──────────────────────────────────────────── */
 body {
@@ -117,7 +117,7 @@ input:focus, select:focus, textarea:focus {
 ::-webkit-scrollbar-thumb { background: rgba(15,223,255,0.2); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(15,223,255,0.4); }
 
-/* ── o1 logo in activity bar (top slot) ───────────────────── */
+/* ── Rovant logo in activity bar (top slot) ───────────────────── */
 #o1-logo-slot {
   display: flex;
   align-items: center;
@@ -140,7 +140,7 @@ export class O1BrandingContribution implements FrontendApplicationContribution {
         this.injectCSS();
         this.injectLogo();
         this.setFavicon();
-        document.title = 'o1 IDE';
+        document.title = 'Rovant';
     }
 
     private injectCSS(): void {
@@ -163,7 +163,7 @@ export class O1BrandingContribution implements FrontendApplicationContribution {
             if (bar && !document.getElementById('o1-logo-slot')) {
                 const slot = document.createElement('div');
                 slot.id = 'o1-logo-slot';
-                slot.title = 'o1 IDE';
+                slot.title = 'Rovant';
                 slot.innerHTML = O1_LOGO_SVG;
                 bar.parentElement?.prepend(slot);
                 return;

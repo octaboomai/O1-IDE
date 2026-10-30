@@ -1,7 +1,7 @@
 {
   "name": "o1-extension",
   "version": "0.1.0",
-  "description": "o1 IDE — ROS 2 robotics extension",
+  "description": "Rovant — ROS 2 robotics extension",
   "keywords": ["theia-extension"],
   "license": "Apache-2.0",
   "files": ["lib", "src"],

@@ -1,15 +1,15 @@
-# Architecture Report — o1 IDE
-**Generated:** 2026-10-16 | **Auditor:** AI Engineering Team | **Repo:** octaboomai/o1-ide
+# Architecture Report — Rovant
+**Generated:** 2026-10-16 | **Auditor:** AI Engineering Team | **Repo:** octaboomai/rovant
 
 ---
 
 ## 1. System Overview
 
-o1 IDE is a **native desktop IDE** for drone and robotics engineers, built on Eclipse Theia wrapped in Electron. It targets Ubuntu Linux (x64, arm64) and Windows 10/11 (x64).
+Rovant is a **native desktop IDE** for drone and robotics engineers, built on Eclipse Theia wrapped in Electron. It targets Ubuntu Linux (x64, arm64) and Windows 10/11 (x64).
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     o1 IDE Desktop App                       │
+│                     Rovant Desktop App                       │
 │                                                             │
 │  ┌─────────────────┐      ┌──────────────────────────────┐  │
 │  │  Electron Shell │      │     Theia IDE (Browser UI)   │  │
@@ -20,7 +20,7 @@ o1 IDE is a **native desktop IDE** for drone and robotics engineers, built on Ec
 │           │ spawns                                           │
 │           ▼                                                  │
 │  ┌─────────────────┐      ┌──────────────────────────────┐  │
-│  │  Theia Backend  │      │     o1 Extension Layer       │  │
+│  │  Theia Backend  │      │     Rovant Extension Layer       │  │
 │  │  (Node.js HTTP  │◀────▶│  - ROS Topics Widget         │  │
 │  │   port 3001)    │      │  - URDF 3D Viewer            │  │
 │  │  REST + WS      │      │  - Toolchain Installer       │  │
@@ -119,7 +119,7 @@ Electron main spawns → Theia backend (port 3001)
     → BrowserWindow loads http://127.0.0.1:3001
     → Theia frontend loads in Chromium renderer
     → IPC via contextBridge (preload.ts)
-    → ipcMain.handle("o1:detect-toolchain") → exec checks
+    → ipcMain.handle("Rovant:detect-toolchain") → exec checks
 ```
 
 ---
