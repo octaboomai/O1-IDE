@@ -3,8 +3,8 @@
 > **The IDE that reads your drone's mind.**
 > Zero-setup ROS 2 robotics IDE for Ubuntu and Windows.
 
-[![Release](https://img.shields.io/github/v/release/octaboomai/O1-IDE)](https://github.com/octaboomai/o1-ide/releases/latest)
-[![Version](https://img.shields.io/badge/version-0.1.0-0fdfff)](https://github.com/octaboomai/o1-ide/releases/tag/v0.1.1)
+[![Release](https://img.shields.io/github/v/release/octaboomai/O1-IDE)](https://github.com/octaboomai/O1-IDE/releases/latest)
+[![Version](https://img.shields.io/badge/version-0.1.1-0fdfff)](https://github.com/octaboomai/O1-IDE/releases/tag/v0.1.1)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 
 ---
@@ -19,7 +19,7 @@
 | **Any Linux** | `.AppImage` | `chmod +x o1-ide-*.AppImage && ./o1-ide-*.AppImage` |
 | **Windows 10/11** | `.exe` | Run the installer |
 
-→ **[⬇ Download o1 IDE v0.1.1 — latest release](https://github.com/octaboomai/o1-ide/releases/latest)**
+→ **[⬇ Download o1 IDE v0.1.1 — latest release](https://github.com/octaboomai/O1-IDE/releases/latest)**
 
 ### Windows: browser blocked the download?
 
@@ -60,7 +60,7 @@ Then run the file from your Downloads folder. Windows may still show a SmartScre
 ## Development
 
 ```bash
-git clone https://github.com/octaboomai/o1-ide
+git clone https://github.com/octaboomai/O1-IDE
 cd o1-ide
 yarn install
 yarn workspace o1-extension build
