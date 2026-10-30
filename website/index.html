@@ -113,6 +113,9 @@ h1{
   margin:16px auto 0;
 }
 .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.platform-links{font-size:13.5px;color:var(--muted);margin:14px 0 0;display:flex;gap:9px;justify-content:center;flex-wrap:wrap;align-items:center}
+.platform-links a{color:var(--text);border-bottom:1px solid var(--border);transition:color .15s,border-color .15s}
+.platform-links a:hover{color:var(--strong);border-bottom-color:var(--border-hover)}
 .meta-strip{
   font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;color:var(--muted);
   text-transform:uppercase;margin-top:22px;
@@ -339,7 +342,7 @@ footer{
       <p class="tagline">Zero-setup robotics tooling</p>
       <p class="sub">Build, preview and debug robot software without fighting your environment. Public beta — honest about what works and what doesn't yet.</p>
       <div class="ctas">
-        <a class="btn btn-primary btn-lg" href="#install">
+        <a class="btn btn-primary btn-lg" href="https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/rovant-0.2.0-windows-x64.exe" download>
           Download for Windows
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"/></svg>
         </a>
@@ -348,6 +351,13 @@ footer{
           View on GitHub
         </a>
       </div>
+      <p class="platform-links">
+        <a href="https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/rovant-0.2.0-windows-x64.exe" download>Windows .exe</a>
+        <span>·</span>
+        <a href="https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/rovant-desktop_0.2.0_amd64.deb" download>Ubuntu .deb</a>
+        <span>·</span>
+        <a href="https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/Rovant-0.2.0.AppImage" download>AppImage</a>
+      </p>
       <p class="meta-strip">Version: 0.2.0-beta · Apache 2.0 · octaboomai</p>
     </div>
 
