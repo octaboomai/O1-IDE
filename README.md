@@ -1,4 +1,4 @@
-# o1 IDE
+# Rovant
 
 > **The IDE that reads your drone's mind.**
 > Zero-setup ROS 2 robotics IDE for Ubuntu and Windows.
@@ -11,15 +11,15 @@
 
 ## Download
 
-**Latest release: o1 IDE v0.1.2**
+**Latest release: Rovant v0.1.2**
 
 | Platform | Format | Install |
 |---|---|---|
-| **Ubuntu / Debian** | `.deb` | `sudo apt install ./o1-ide-*.deb` |
-| **Any Linux** | `.AppImage` | `chmod +x o1-ide-*.AppImage && ./o1-ide-*.AppImage` |
+| **Ubuntu / Debian** | `.deb` | `sudo apt install ./rovant-*.deb` |
+| **Any Linux** | `.AppImage` | `chmod +x rovant-*.AppImage && ./rovant-*.AppImage` |
 | **Windows 10/11** | `.exe` | Run the installer |
 
-→ **[⬇ Download o1 IDE v0.1.2 — latest release](https://github.com/octaboomai/O1-IDE/releases/latest)**
+→ **[⬇ Download Rovant v0.1.2 — latest release](https://github.com/octaboomai/O1-IDE/releases/latest)**
 
 ### Windows: browser blocked the download?
 
@@ -27,7 +27,7 @@ The Windows installer is **not code-signed**, so Chrome / Edge and Windows Smart
 
 ```powershell
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/o1-ide-0.1.2-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\o1-ide-0.1.2-windows-x64.exe"
+Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/rovant-0.1.2-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\rovant-0.1.2-windows-x64.exe"
 ```
 
 Then run the file from your Downloads folder. Windows may still show a SmartScreen prompt for an unsigned app — choose **More info → Run anyway**.
@@ -61,7 +61,7 @@ Then run the file from your Downloads folder. Windows may still show a SmartScre
 
 ```bash
 git clone https://github.com/octaboomai/O1-IDE
-cd o1-ide
+cd rovant
 yarn install
 yarn workspace o1-extension build
 yarn workspace o1-app build       # dev build

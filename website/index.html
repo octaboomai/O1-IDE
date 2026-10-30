@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>o1 IDE — ROS 2 development that works on Windows</title>
+<title>Rovant — ROS 2 development that works on Windows</title>
 <meta name="description" content="A ROS 2 and drone development IDE. Write, run and inspect robot code in one place. Public beta for Windows and Linux by octaboomai." />
 <meta name="theme-color" content="#070709" />
-<meta property="og:title" content="o1 IDE — ROS 2 that actually works on Windows" />
+<meta property="og:title" content="Rovant — ROS 2 that actually works on Windows" />
 <meta property="og:description" content="Zero-setup robotics tooling. Public beta for Windows and Linux." />
 <meta property="og:type" content="website" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23070709'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23F1F5F9'/%3E%3Cellipse cx='16' cy='16' rx='10' ry='4.5' fill='none' stroke='%239E9EA8' stroke-width='1.4'/%3E%3Cellipse cx='16' cy='16' rx='10' ry='4.5' fill='none' stroke='%239E9EA8' stroke-width='1.4' transform='rotate(60 16 16)'/%3E%3C/svg%3E" />
@@ -305,14 +305,14 @@ footer{
 
 <header>
   <nav class="nav" aria-label="Primary">
-    <a class="brand" href="#top" aria-label="o1 IDE home">
+    <a class="brand" href="#top" aria-label="Rovant home">
       <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true">
         <rect width="32" height="32" rx="7" fill="#0F0F13" stroke="rgba(255,255,255,.09)"/>
         <circle cx="16" cy="16" r="3" fill="#F1F5F9"/>
         <ellipse cx="16" cy="16" rx="10" ry="4.5" fill="none" stroke="#9E9EA8" stroke-width="1.3"/>
         <ellipse cx="16" cy="16" rx="10" ry="4.5" fill="none" stroke="#9E9EA8" stroke-width="1.3" transform="rotate(60 16 16)"/>
       </svg>
-      o1 IDE
+      Rovant
     </a>
     <span class="pill"><span class="dot"></span>Public Beta</span>
     <div class="navlinks">
@@ -352,14 +352,14 @@ footer{
           View on GitHub
         </a>
       </div>
-      <p class="meta-strip">Version: 0.1.2-beta · Apache 2.0 · octaboomai</p>
+      <p class="meta-strip">Version: 0.2.0-beta · Apache 2.0 · octaboomai</p>
     </div>
 
     <!-- PRODUCT WINDOW -->
-    <div class="window" role="img" aria-label="o1 IDE workspace showing a ROS 2 Python node, a URDF preview and a build terminal">
+    <div class="window" role="img" aria-label="Rovant workspace showing a ROS 2 Python node, a URDF preview and a build terminal">
       <div class="titlebar">
         <span class="dots"><i></i><i></i><i></i></span>
-        <span class="crumb"><b>o1_drone_ws</b> › src › drone_teleop.py</span>
+        <span class="crumb"><b>rovant_ws</b> › src › drone_teleop.py</span>
         <span class="chip">WSL2 · ROS 2 Humble</span>
       </div>
       <div class="workspace">
@@ -521,21 +521,21 @@ footer{
     <div class="tabpanel" role="tabpanel" id="panel-win" aria-labelledby="tab-win">
       <div class="snippet">
         <button class="copy" data-copy="#cmd-win">Copy</button>
-        <div id="cmd-win"><span class="p"># download and run the installer</span><br>Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/o1-ide-0.1.2-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\o1-ide-setup.exe"; &amp; "$env:USERPROFILE\Downloads\o1-ide-setup.exe"</div>
+        <div id="cmd-win"><span class="p"># download and run the installer</span><br>Invoke-WebRequest -Uri "https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/rovant-0.2.0-windows-x64.exe" -OutFile "$env:USERPROFILE\Downloads\rovant-setup.exe"; &amp; "$env:USERPROFILE\Downloads\rovant-setup.exe"</div>
       </div>
     </div>
 
     <div class="tabpanel" role="tabpanel" id="panel-deb" aria-labelledby="tab-deb" hidden>
       <div class="snippet">
         <button class="copy" data-copy="#cmd-deb">Copy</button>
-        <div id="cmd-deb"><span class="p"># download and install the Debian package</span><br>wget https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/o1-ide-desktop_0.1.2_amd64.deb &amp;&amp; sudo apt install ./o1-ide-desktop_0.1.2_amd64.deb</div>
+        <div id="cmd-deb"><span class="p"># download and install the Debian package</span><br>wget https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/rovant-desktop_0.2.0_amd64.deb &amp;&amp; sudo apt install ./rovant-desktop_0.2.0_amd64.deb</div>
       </div>
     </div>
 
     <div class="tabpanel" role="tabpanel" id="panel-app" aria-labelledby="tab-app" hidden>
       <div class="snippet">
         <button class="copy" data-copy="#cmd-app">Copy</button>
-        <div id="cmd-app"><span class="p"># download, make executable, run</span><br>wget https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/o1.IDE-0.1.2.AppImage &amp;&amp; chmod +x o1.IDE-0.1.2.AppImage &amp;&amp; ./o1.IDE-0.1.2.AppImage</div>
+        <div id="cmd-app"><span class="p"># download, make executable, run</span><br>wget https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/Rovant-0.2.0.AppImage &amp;&amp; chmod +x Rovant-0.2.0.AppImage &amp;&amp; ./Rovant-0.2.0.AppImage</div>
       </div>
     </div>
 
@@ -552,7 +552,7 @@ footer{
       <h2>Apache 2.0, no lock-in.</h2>
     </div>
     <div class="oss">
-      <p>o1 IDE is released under the <a href="https://github.com/octaboomai/O1-IDE/blob/main/LICENSE" target="_blank" rel="noopener">Apache 2.0 licence</a> and built on <a href="https://theia-ide.org" target="_blank" rel="noopener">Eclipse Theia</a>. Read it, fork it, ship your own build — there is no commercial tier gating the editor. Source, issues and roadmap live on <a href="https://github.com/octaboomai/O1-IDE" target="_blank" rel="noopener">GitHub</a>.</p>
+      <p>Rovant is released under the <a href="https://github.com/octaboomai/O1-IDE/blob/main/LICENSE" target="_blank" rel="noopener">Apache 2.0 licence</a> and built on <a href="https://theia-ide.org" target="_blank" rel="noopener">Eclipse Theia</a>. Read it, fork it, ship your own build — there is no commercial tier gating the editor. Source, issues and roadmap live on <a href="https://github.com/octaboomai/O1-IDE" target="_blank" rel="noopener">GitHub</a>.</p>
       <details>
         <summary>Public beta limitations</summary>
         <div class="details-body">
@@ -578,7 +578,7 @@ footer{
           <circle cx="16" cy="16" r="3" fill="#F1F5F9"/>
           <ellipse cx="16" cy="16" rx="10" ry="4.5" fill="none" stroke="#9E9EA8" stroke-width="1.3"/>
         </svg>
-        <span>o1 IDE 0.1 is a public beta — <a href="#limits" style="color:var(--text);border-bottom:1px solid var(--border)">see Limitations</a></span>
+        <span>Rovant 0.1 is a public beta — <a href="#limits" style="color:var(--text);border-bottom:1px solid var(--border)">see Limitations</a></span>
       </div>
       <div class="flinks">
         <span>© <span id="yr">2026</span> octaboomai</span>
@@ -666,9 +666,9 @@ footer{
 
   /* ── download links: resolve from the releases API, fall back to pinned URLs ── */
   var PINNED = {
-    win: 'https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/o1-ide-0.1.2-windows-x64.exe',
-    deb: 'https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/o1-ide-desktop_0.1.2_amd64.deb',
-    app: 'https://github.com/octaboomai/O1-IDE/releases/download/v0.1.2/o1.IDE-0.1.2.AppImage'
+    win: 'https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/rovant-0.2.0-windows-x64.exe',
+    deb: 'https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/rovant-desktop_0.2.0_amd64.deb',
+    app: 'https://github.com/octaboomai/O1-IDE/releases/download/v0.2.0/Rovant-0.2.0.AppImage'
   };
   fetch('https://api.github.com/repos/octaboomai/O1-IDE/releases/latest', {headers:{'Accept':'application/vnd.github+json'}})
     .then(function(r){ return r.ok ? r.json() : null; })

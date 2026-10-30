@@ -1,13 +1,13 @@
-; o1 IDE — custom NSIS installer pages
+; Rovant — custom NSIS installer pages
 ; Sets installer colors and adds Python check page
 
 !macro customHeader
-  !system "echo 'Building o1 IDE installer'"
+  !system "echo 'Building Rovant installer'"
 !macroend
 
 !macro customInstall
-  ; Desktop shortcut so users can launch o1 IDE after install
-  CreateShortcut "$DESKTOP\o1 IDE.lnk" "$INSTDIR\o1 IDE.exe"
+  ; Desktop shortcut so users can launch Rovant after install
+  CreateShortcut "$DESKTOP\Rovant.lnk" "$INSTDIR\Rovant.exe"
   ; Run Python packages setup after install
   ; Invoke PowerShell explicitly: a bare .ps1 runs under the default
   ; execution policy (Restricted on a fresh Windows), which silently blocks it.
@@ -16,6 +16,6 @@
 
 !macro customUnInstall
   ; Remove shortcuts
-  Delete "$DESKTOP\o1 IDE.lnk"
+  Delete "$DESKTOP\Rovant.lnk"
   Delete "$DESKTOP\o1-workspace.lnk"
 !macroend

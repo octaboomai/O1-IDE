@@ -3,7 +3,7 @@
 // FIX #3: your-org → octaboomai  |  FIX #4: added pyright bundle + icon paths
 module.exports = {
     appId:       "dev.o1ide.app",
-    productName: "o1 IDE",
+    productName: "Rovant",
     copyright:   `Copyright © ${new Date().getFullYear()} octaboomai`,
     asar:        true,
 
@@ -51,10 +51,10 @@ module.exports = {
         description: "ROS 2 robotics IDE — zero-setup for drone and robot developers",
         maintainer:  "octaboomai <hello@o1ide.dev>",
         desktop: {
-            Name:       "o1 IDE",
+            Name:       "Rovant",
             Comment:    "ROS 2 robotics IDE",
             Categories: "Development;IDE;",
-            StartupWMClass: "o1-ide",
+            StartupWMClass: "rovant",
         },
     },
 
@@ -71,7 +71,7 @@ module.exports = {
             { target: "nsis", arch: ["x64"] },
         ],
         icon:         "resources/icon.ico",
-        artifactName: "o1-ide-${version}-windows-${arch}.${ext}",
+        artifactName: "rovant-${version}-windows-${arch}.${ext}",
         // Code signing is performed by SignPath as a post-build CI step, not by electron-builder.
         signingHashAlgorithms: ["sha256"],
     },
@@ -84,7 +84,7 @@ module.exports = {
         installerHeaderIcon:    "resources/icon.ico",
         createDesktopShortcut:  true,
         createStartMenuShortcut: true,
-        shortcutName:           "o1 IDE",
+        shortcutName:           "Rovant",
         license:                "resources/LICENSE.txt",
         include:                "resources/installer.nsh",
         displayLanguageSelector: false,
@@ -95,11 +95,11 @@ module.exports = {
         createStartMenuShortcut:  true,
     },
 
-    // ── Auto-updater → GitHub Releases (octaboomai/o1-ide) ────────────────
+    // ── Auto-updater → GitHub Releases (octaboomai/rovant) ────────────────
     publish: {
         provider:    "github",
         owner:       "octaboomai",   // FIX #3
-        repo:        "o1-ide",
+        repo:        "rovant",
         releaseType: "release",
     },
 };
