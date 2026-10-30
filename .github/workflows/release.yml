@@ -36,17 +36,6 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
-      - name: Generate icons from SVG
-        run: bash scripts/generate-icons.sh
-
-      - name: Upload app icons
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-icons
-          path: |
-            resources/icon.png
-            resources/icon.ico
-          if-no-files-found: warn
 
       - name: Bundle clangd (Linux x64)
         run: |
@@ -151,26 +140,6 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
-      - name: Download app icons (generated in the Linux build)
-        uses: actions/download-artifact@v4
-        with:
-          name: app-icons
-          path: resources
-        continue-on-error: true
-
-      - name: Generate icons (PowerShell)
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force -Path resources
-          # Best-effort: electron-builder falls back to its built-in default icon if these are absent.
-          if (!(Test-Path "resources/icon.ico")) {
-            try { Invoke-WebRequest "https://raw.githubusercontent.com/electron/electron/main/default_app/icon.ico" -OutFile resources/icon.ico -UseBasicParsing }
-            catch { Write-Host "icon.ico unavailable - electron-builder will use its default icon" }
-          }
-          if (!(Test-Path "resources/icon.png")) {
-            try { Invoke-WebRequest "https://raw.githubusercontent.com/electron/electron/main/default_app/icon.png" -OutFile resources/icon.png -UseBasicParsing }
-            catch { Write-Host "icon.png unavailable - electron-builder will use its default icon" }
-          }
 
       - name: Bundle clangd (Windows x64)
         shell: pwsh
