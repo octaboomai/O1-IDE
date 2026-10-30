@@ -7,8 +7,8 @@ Thank you for contributing! Rovant is built by the community for robotics engine
 ```bash
 git clone https://github.com/octaboomai/rovant
 cd rovant && yarn install
-yarn workspace o1-extension build
-yarn workspace o1-app start
+yarn workspace rovant-extension build
+yarn workspace rovant-app start
 ```
 
 ## Pull Request Guidelines
@@ -22,8 +22,8 @@ yarn workspace o1-app start
 ## Project Structure
 
 ```
-o1-app/src/          Electron main process
-o1-extension/src/
+rovant-app/src/          Electron main process
+rovant-extension/src/
   browser/           Theia browser-side widgets
   node/              Theia backend REST API
   common/            Shared types and utilities

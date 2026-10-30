@@ -1,5 +1,5 @@
 {
-  "name": "o1-extension",
+  "name": "rovant-extension",
   "version": "0.1.0",
   "description": "Rovant — ROS 2 robotics extension",
   "keywords": ["theia-extension"],
